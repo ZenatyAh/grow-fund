@@ -1,2 +1,3 @@
 # GrowFund
-Final Project for  GazaSkyGeeks Code2Career Training
+# Final Project For GSG C2C Training
+## Grow Fund Project
