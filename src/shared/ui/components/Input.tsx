@@ -55,6 +55,16 @@ const Input = ({
     otherClassName
   );
 
+  const ariaLabel = label || placeholder || inputName;
+
+  const handleKeyboardClick =
+    (callback?: () => void) => (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        callback?.();
+      }
+    };
+
   return (
     <div>
       {label && (
@@ -69,6 +79,7 @@ const Input = ({
         <textarea
           placeholder={placeholder}
           className={`${StyledInput} ${textareaClassName} py-2 resize-none`}
+          aria-label={ariaLabel}
           {...(typeof register === 'function' ? register(inputName) : {})}
         />
       ) : type === 'file' ? (
@@ -120,6 +131,7 @@ const Input = ({
                   data-slot="input"
                   autoComplete="off"
                   placeholder={placeholder}
+                  aria-label={ariaLabel}
                   className={inputClasses}
                   {...props}
                   {...field}
@@ -132,6 +144,7 @@ const Input = ({
               data-slot="input"
               autoComplete="off"
               placeholder={placeholder}
+              aria-label={ariaLabel}
               className={inputClasses}
               {...(typeof register === 'function' ? register(inputName) : {})}
               onChange={onChange}
@@ -139,20 +152,29 @@ const Input = ({
               {...props}
             />
           )}
-          {type === 'search' && (
+          {type === 'search' ? (
             <div
+              role="button"
+              tabIndex={0}
+              aria-label="Search"
               className="flex items-center justify-center gap-2 text-sm bg-(--brand-primary) h-13 px-6 text-white rounded-full cursor-pointer"
               onClick={onIconClick}
+              onKeyDown={handleKeyboardClick(onIconClick)}
             >
               <IconSearch size={15} />
               <p>search</p>
             </div>
-          )}
-          {Icon && (
-            <Icon
-              className={`${iconClassName} text-xl cursor-pointer`}
-              onClick={onIconClick}
-            />
+          ) : (
+            Icon && (
+              <Icon
+                role="button"
+                tabIndex={0}
+                aria-label="Input action"
+                className={`${iconClassName} text-xl cursor-pointer`}
+                onClick={onIconClick}
+                onKeyDown={handleKeyboardClick(onIconClick)}
+              />
+            )
           )}
         </div>
       )}
