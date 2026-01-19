@@ -24,7 +24,7 @@ const FileInput = ({
     >
       <div
         className={cn(
-          'flex items-center justify-center gap-3 لال-ق',
+          'flex items-center justify-center gap-3',
           isStacked && 'flex-col text-center'
         )}
       >
