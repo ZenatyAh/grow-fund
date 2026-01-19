@@ -26,7 +26,7 @@ export default function StepCard({
     >
       <Image
         src={image}
-        alt=""
+        alt={title}
         width={200}
         height={200}
         className="mb-8"
