@@ -7,15 +7,15 @@ interface RadioCardProps {
   inputName: string;
   control: Control<any>;
   RadioIcon?: React.ElementType;
-  radioValue?: string;
-  radioLabel?: string;
+  radioValue: string;
+  radioLabel: string;
 }
 
 export function RadioCard({
   inputName,
   control,
-  radioValue = '',
-  radioLabel = '',
+  radioValue,
+  radioLabel,
   RadioIcon,
 }: RadioCardProps) {
   return (
