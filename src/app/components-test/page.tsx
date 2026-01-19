@@ -1,11 +1,81 @@
-import { Card } from "@/components/shared/Card";
+"use client";
+
 import { Share2, Star, ArrowLeft } from "lucide-react";
+import { VerticalStepper } from "@/components/shared/VerticalStepper";
+import { useState } from "react";
+import { mergeClasses as cn } from "@/lib/utils";
+import { Card } from "@/components/shared/Card";
+
+const STEPS = [
+    { label: "نوع المنشئ", },
+    { label: "نوع الحملات", },
+    { label: "الخبرة والنية", },
+    { label: "معلومات أساسية للثقة", },
+];
 
 export default function ComponentsTestPage() {
+    const [currentStep, setCurrentStep] = useState(0);
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
     return (
-        <div className="flex min-h-screen items-center justify-center bg-[#09090b] font-sans p-8" >
+        <div className="flex min-h-screen flex-col items-center bg-[#09090b] font-sans p-8" dir="rtl">
             <main className="flex w-full max-w-7xl flex-col gap-10">
-                <h1 className="text-3xl font-bold text-white mb-6">components examples</h1>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-3xl font-bold text-white">components examples</h1>
+                    <button
+                        onClick={() => setIsDarkMode(!isDarkMode)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 transition"
+                    >
+                        <span>{isDarkMode ? "Light Mode" : "Dark Mode"}</span>
+                    </button>
+                </div>
+
+                <div className="flex flex-col lg:flex-row gap-8 min-h-[600px] items-stretch">
+                    <div className={cn(
+                        "w-full lg:w-[300px] rounded-xl shadow-sm p-8 flex flex-col justify-center transition-colors duration-300",
+                        isDarkMode ? "dark bg-[#1c1c1e]" : "bg-white"
+                    )}>
+                        <VerticalStepper
+                            steps={STEPS}
+                            currentStep={currentStep}
+                            onStepClick={setCurrentStep}
+                        />
+                    </div>
+
+                    <div className="flex-1 bg-white rounded-xl shadow-sm p-12 flex flex-col items-start justify-center transition-all duration-300">
+                        <div className="max-w-lg w-full space-y-6">
+                            <h2 className="text-3xl font-bold text-slate-800">
+                                {currentStep < STEPS.length ? STEPS[currentStep].label : "تمت العملية بنجاح"}
+                            </h2>
+
+
+                            <div className="space-y-4">
+                                <div
+                                    className="w-full bg-slate-100 rounded-lg transition-all duration-500 ease-in-out"
+                                    style={{ height: `${(currentStep + 1) * 120 + 100}px` }}
+                                >
+                                    <div className="p-4 text-slate-400 text-sm">
+                                        Dynamic Content Height: {(currentStep + 1) * 120 + 100}px
+                                    </div>
+                                </div>
+                            </div>
+                            {currentStep < STEPS.length && (
+                                <div className="flex gap-3 pt-6">
+                                    <button className="px-6 py-2.5 rounded-full border border-gray-300 text-slate-600 hover:bg-gray-50 transition-colors">
+                                        إلغاء
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentStep(prev => Math.min(prev + 1, STEPS.length))}
+                                        className="px-6 py-2.5 rounded-full bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-lg shadow-amber-500/20"
+                                    >
+                                        {currentStep === STEPS.length - 1 ? "إنهاء" : "متابعة"}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {[1, 2, 3, 4].map((item) => (
@@ -32,7 +102,7 @@ export default function ComponentsTestPage() {
                                     </p>
                                 </div>
 
-                                
+
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center text-xs font-medium text-zinc-400">
                                         <span>الهدف : 5000 نجمة</span>
@@ -46,7 +116,7 @@ export default function ComponentsTestPage() {
                                     </div>
                                 </div>
 
-                                
+
                                 <div className="pt-2 flex items-center justify-between gap-3">
                                     <span className="text-xs font-medium text-zinc-500">منذ أسبوع</span>
 
