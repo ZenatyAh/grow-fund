@@ -16,13 +16,20 @@ const steps = [
 ];
 
 export default function HowItWorks() {
+  const handleStepClick = (title: string) => {
+    const event = new CustomEvent("howItWorksStepClick", {
+      detail: { title },
+    });
+    window.dispatchEvent(event);
+  };
+
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {steps.map((step, index) => (
         <StepCard
           key={index}
           {...step}
-          onClick={() => console.log(step.title)}
+          onClick={() => handleStepClick(step.title)}
         />
       ))}
     </section>
