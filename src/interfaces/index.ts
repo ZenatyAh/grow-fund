@@ -18,6 +18,8 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   value?: string;
   label?: string;
   SelectValuePlaceholder?: string;
+  accept?: string | any;
+  maxSize?: number;
   disabled?: boolean;
   labelClassName?: string;
   uploadVariant?: 'inline' | 'stacked';
@@ -30,8 +32,8 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   uploadTitle?: string;
   uploadSubTitle?: string;
   RadioIcon?: React.ElementType;
-  radioValue?: string;
-  radioLabel?: string;
+  radioValue: string;
+  radioLabel: string;
   isRequired?: boolean;
   textareaClassName?: string;
   onChange?: (e: React.ChangeEvent<any>) => void;
@@ -65,4 +67,7 @@ export interface FileInputProps {
   uploadTitle?: string;
   uploadSubTitle?: string;
   onFileChange?: (files: File[]) => void;
+  accept?: string | any;
+  maxSize?: number;
+  disabled?: boolean;
 }

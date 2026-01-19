@@ -26,6 +26,8 @@ const Input = ({
   options = [],
   iconClassName = 'ml-2',
   SelectValuePlaceholder = 'select...',
+  accept,
+  maxSize,
   disabled,
   onIconClick,
   label,
@@ -94,6 +96,9 @@ const Input = ({
           uploadTitle={uploadTitle}
           uploadSubTitle={uploadSubTitle}
           onFileChange={onFileChange}
+          accept={accept}
+          maxSize={maxSize}
+          disabled={disabled}
         />
       ) : type === 'radio' && control ? (
         <RadioCard
@@ -111,7 +116,7 @@ const Input = ({
           placeholder={placeholder}
           className={StyledInput}
         />
-      ) : isMulti && control ? (
+      ) : type === 'multi-select' && isMulti && control ? (
         <MultiSelect
           name={inputName}
           control={control}

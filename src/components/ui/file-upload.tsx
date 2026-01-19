@@ -30,11 +30,17 @@ export const FileUpload = ({
   children,
   uploadClassName,
   emptyStateClassName,
+  accept,
+  maxSize,
+  disabled,
 }: {
   onChange?: (files: File[]) => void;
   children: React.ReactNode;
   uploadClassName: string;
   emptyStateClassName: string;
+  accept?: string | any;
+  maxSize?: number;
+  disabled?: boolean;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -43,11 +49,13 @@ export const FileUpload = ({
     const selectedFile = newFiles[0];
     if (!selectedFile) return;
 
+    if (maxSize && selectedFile.size > maxSize) return;
     setFile(selectedFile);
     onChange && onChange([selectedFile]);
   };
 
   const handleClick = () => {
+    if (disabled) return;
     fileInputRef.current?.click();
   };
 
@@ -55,9 +63,9 @@ export const FileUpload = ({
     multiple: false,
     noClick: true,
     onDrop: handleFileChange,
-    // onDropRejected: (error) => {
-    //   console.log(error);
-    // },
+    accept, // Uses accept with drag & drop
+    maxSize, // Rejects files larger than maxSize
+    disabled, // Drop is prohibited if true
   });
 
   return (
@@ -70,6 +78,8 @@ export const FileUpload = ({
           ref={fileInputRef}
           id="file-upload-handle"
           type="file"
+          accept={accept} // Restricts file type
+          disabled={disabled} // Uploading files is prohibited if true
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
         />

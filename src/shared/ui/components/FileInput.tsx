@@ -13,6 +13,9 @@ const FileInput = ({
   uploadTitle,
   uploadSubTitle,
   onFileChange,
+  accept,
+  maxSize,
+  disabled,
 }: FileInputProps) => {
   const isStacked = uploadVariant === 'stacked';
 
@@ -21,6 +24,9 @@ const FileInput = ({
       onChange={onFileChange}
       uploadClassName={uploadClassName}
       emptyStateClassName={emptyStateClassName}
+      accept={accept}
+      maxSize={maxSize}
+      disabled={disabled}
     >
       <div
         className={cn(
