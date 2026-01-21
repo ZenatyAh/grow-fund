@@ -1,5 +1,6 @@
 import { InputTypes } from '@/utils/types';
-import { FieldError, UseFormRegister } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
+import * as ProgressPrimitive from '@radix-ui/react-progress';
 
 export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   type?: InputTypes | string;
@@ -32,10 +33,13 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   uploadTitle?: string;
   uploadSubTitle?: string;
   RadioIcon?: React.ElementType;
-  radioValue: string;
-  radioLabel: string;
+  radioValue?: string;
+  radioLabel?: string;
   isRequired?: boolean;
   textareaClassName?: string;
+  showPassStrength?: boolean;
+  passwordStrengthLevel: number;
+  bars?: number;
   onChange?: (e: React.ChangeEvent<any>) => void;
   onFileChange?: (files: File[]) => void;
 }
@@ -70,4 +74,67 @@ export interface FileInputProps {
   accept?: string | any;
   maxSize?: number;
   disabled?: boolean;
+}
+
+export interface ProgressTopInfoProps {
+  value?: number | string;
+  displayValue?: string;
+  showValue?: boolean;
+  valueLabelClassName?: string;
+  label?: string;
+  LabelIcon?: React.ElementType;
+  labelIconSize?: number;
+  labelClassName?: string;
+  labelIconClassName?: string;
+  showValueOutside?: boolean;
+}
+
+export interface ProgressBottomInfoProps {
+  value?: number | string;
+  displayValue?: string;
+  showValue?: boolean;
+  valueLabelClassName?: string;
+  subLabel?: string;
+  SubLabelIcon?: React.ElementType;
+  subLabelClassName?: string;
+}
+
+export interface ProgressValueInsideProp {
+  value?: number | string;
+  showValueInside?: boolean;
+  progressVariant?: 'percentage' | 'custom';
+  customDisplay?: React.ReactNode;
+}
+
+export interface PasswordStrengthProps {
+  level: number;
+  bars?: number;
+}
+
+export interface ProgressProps extends React.ComponentPropsWithoutRef<
+  typeof ProgressPrimitive.Root
+> {
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  trackColor?: string;
+  indicatorColor?: string;
+  topDisplayValue?: string; // Value displayed at the top
+  bottomDisplayValue?: string; // Value displayed at the bottom
+  showInfo?: boolean;
+  label?: string; // Text under the number (e.g., "Progress Completed")
+  showValueOutside?: boolean;
+  showValueInside?: boolean;
+  valueLabelClassName?: string;
+  labelClassName?: string;
+  LabelIcon?: React.ElementType;
+  labelIconSize?: number;
+  labelIconClassName?: string;
+  showSubInfo?: boolean;
+  subLabel?: string; // ← The small text under the bar
+  showSubValue?: boolean;
+  subLabelClassName?: string;
+  SubLabelIcon?: React.ElementType;
+  subLabelIconSize?: number;
+  subLabelIconClassName?: string;
+  progressVariant?: 'percentage' | 'custom';
+  customDisplay?: React.ReactNode;
 }
