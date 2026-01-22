@@ -1,16 +1,17 @@
 "use client";
 
 import { Share2, Star, ArrowLeft } from "lucide-react";
+import Image from "next/image";
 import { VerticalStepper } from "@/components/shared/VerticalStepper";
 import { useState } from "react";
 import { mergeClasses as cn } from "@/lib/utils";
 import { Card } from "@/components/shared/Card";
 
 const STEPS = [
-    { label: "نوع المنشئ", },
-    { label: "نوع الحملات", },
-    { label: "الخبرة والنية", },
-    { label: "معلومات أساسية للثقة", },
+    { id: "step-1", label: "نوع المنشئ", },
+    { id: "step-2", label: "نوع الحملات", },
+    { id: "step-3", label: "الخبرة والنية", },
+    { id: "step-4", label: "معلومات أساسية للثقة", },
 ];
 
 export default function ComponentsTestPage() {
@@ -78,14 +79,16 @@ export default function ComponentsTestPage() {
 
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {[1, 2, 3, 4].map((item) => (
+                    {['card-1', 'card-2', 'card-3', 'card-4'].map((item) => (
                         <Card key={item} className="p-0 overflow-hidden bg-[#1c1c1e] border-0 text-zinc-100 shadow-2xl rounded-3xl group transition-transform duration-300 hover:-translate-y-1">
 
                             <div className="relative h-56 w-full">
-                                <img
+                                <Image
                                     src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1000&auto=format&fit=crop"
                                     alt="Campaign"
-                                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
+                                    fill
+                                    className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#1c1c1e] via-transparent to-transparent opacity-60"></div>
 
@@ -121,10 +124,22 @@ export default function ComponentsTestPage() {
                                     <span className="text-xs font-medium text-zinc-500">منذ أسبوع</span>
 
                                     <div className="flex items-center gap-2 flex-1 justify-end">
-                                        <button className="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors flex items-center justify-center border border-zinc-700/50 cursor-pointer">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                console.log("Share clicked");
+                                            }}
+                                            className="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors flex items-center justify-center border border-zinc-700/50 cursor-pointer"
+                                        >
                                             <Share2 className="w-4 h-4" />
                                         </button>
-                                        <button className="flex-1 max-w-[140px] bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 px-4 rounded-full transition-colors flex items-center justify-center gap-2 text-sm shadow-lg shadow-amber-900/20 cursor-pointer">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                console.log("View campaign clicked");
+                                            }}
+                                            className="flex-1 max-w-[140px] bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 px-4 rounded-full transition-colors flex items-center justify-center gap-2 text-sm shadow-lg shadow-amber-900/20 cursor-pointer"
+                                        >
                                             <span>عرض الحملة</span>
                                             <ArrowLeft className="w-4 h-4" />
                                         </button>
