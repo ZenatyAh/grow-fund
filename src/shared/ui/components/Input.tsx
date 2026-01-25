@@ -9,6 +9,8 @@ import FileInput from './FileInput';
 import { RadioCard } from './RadioCard';
 import MultiSelect from './MultiSelect';
 import SingleSelect from './SingleSelect';
+import PasswordStrength from './PasswordStrength';
+import { handleKeyboardClick } from '@/utils/handleKeyboardClick';
 
 const Input = ({
   type = 'text',
@@ -46,6 +48,9 @@ const Input = ({
   radioValue,
   radioLabel,
   textareaClassName,
+  showPassStrength,
+  passwordStrengthLevel,
+  bars,
   onFileChange,
   ...props
 }: React.PropsWithChildren<InputProps>) => {
@@ -58,14 +63,6 @@ const Input = ({
   );
 
   const ariaLabel = label || placeholder || inputName;
-
-  const handleKeyboardClick =
-    (callback?: () => void) => (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        callback?.();
-      }
-    };
 
   return (
     <div>
@@ -104,8 +101,8 @@ const Input = ({
         <RadioCard
           inputName={inputName}
           control={control}
-          radioValue={radioValue}
-          radioLabel={radioLabel}
+          radioValue={radioValue ?? ''}
+          radioLabel={radioLabel ?? ''}
           RadioIcon={RadioIcon}
         />
       ) : type === 'select' && control ? (
@@ -125,61 +122,66 @@ const Input = ({
           disabled={disabled}
         />
       ) : (
-        <div className={`flex items-center gap-1 px-3 ${StyledInput}`}>
-          {control ? (
-            <Controller
-              name={inputName}
-              control={control}
-              render={({ field }) => (
-                <input
-                  type={type}
-                  data-slot="input"
-                  autoComplete="off"
-                  placeholder={placeholder}
-                  aria-label={ariaLabel}
-                  className={inputClasses}
-                  {...props}
-                  {...field}
-                />
-              )}
-            />
-          ) : (
-            <input
-              type={type}
-              data-slot="input"
-              autoComplete="off"
-              placeholder={placeholder}
-              aria-label={ariaLabel}
-              className={inputClasses}
-              {...(typeof register === 'function' ? register(inputName) : {})}
-              onChange={onChange}
-              value={value}
-              {...props}
-            />
-          )}
-          {type === 'search' ? (
-            <div
-              role="button"
-              tabIndex={0}
-              aria-label="Search"
-              className="flex items-center justify-center gap-2 text-sm bg-(--brand-primary) h-13 px-6 text-white rounded-full cursor-pointer"
-              onClick={onIconClick}
-              onKeyDown={handleKeyboardClick(onIconClick)}
-            >
-              <IconSearch size={15} />
-              <p>search</p>
-            </div>
-          ) : (
-            Icon && (
-              <Icon
+        <div>
+          <div className={`flex items-center gap-1 px-3 ${StyledInput}`}>
+            {control ? (
+              <Controller
+                name={inputName}
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type={type}
+                    data-slot="input"
+                    autoComplete="off"
+                    placeholder={placeholder}
+                    aria-label={ariaLabel}
+                    className={inputClasses}
+                    {...props}
+                    {...field}
+                  />
+                )}
+              />
+            ) : (
+              <input
+                type={type}
+                data-slot="input"
+                autoComplete="off"
+                placeholder={placeholder}
+                aria-label={ariaLabel}
+                className={inputClasses}
+                {...(typeof register === 'function' ? register(inputName) : {})}
+                onChange={onChange}
+                value={value}
+                {...props}
+              />
+            )}
+            {type === 'search' ? (
+              <div
                 role="button"
                 tabIndex={0}
-                aria-label="Input action"
-                className={`${iconClassName} text-xl cursor-pointer`}
+                aria-label="Search"
+                className="flex items-center justify-center gap-2 text-sm bg-(--brand-primary) h-13 px-6 text-white rounded-full cursor-pointer"
                 onClick={onIconClick}
                 onKeyDown={handleKeyboardClick(onIconClick)}
-              />
-            )
+              >
+                <IconSearch size={15} />
+                <p>search</p>
+              </div>
+            ) : (
+              Icon && (
+                <Icon
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Input action"
+                  className={`${iconClassName} text-xl cursor-pointer`}
+                  onClick={onIconClick}
+                  onKeyDown={handleKeyboardClick(onIconClick)}
+                />
+              )
+            )}
+          </div>
+          {type === 'password' && showPassStrength && (
+            <PasswordStrength level={passwordStrengthLevel} bars={bars} />
           )}
         </div>
       )}

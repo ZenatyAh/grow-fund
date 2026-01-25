@@ -3,7 +3,11 @@
 
 :root {
   --bg-soft-blue: #eef2f7;
+  --bg-bold-blue: #2563eb;
+  --bg-slate-100: #e2e8f0;
   --bg-section: #252525;
+  --bg-green-light: #34c759;
+  --bg-green-dark: #007229;
   --neutral-dark: #333333;
   --brand-primary: #2f5a8c;
   --text-primary: #0f264d;
