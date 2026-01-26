@@ -13,3 +13,5 @@ export type InputTypes =
   | 'file'
   | 'textarea'
   | 'checkbox';
+
+export type ViewMode = 'normal' | 'grid'; 

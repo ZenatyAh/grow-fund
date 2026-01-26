@@ -138,3 +138,25 @@ export interface ProgressProps extends React.ComponentPropsWithoutRef<
   progressVariant?: 'percentage' | 'custom';
   customDisplay?: React.ReactNode;
 }
+
+export interface FooterLinksProps {
+  title: string;
+  links: string[];
+}
+
+export interface ContactItem {
+  Icon?: React.ElementType;
+  text: string;
+}
+
+export interface FooterContactProps {
+  title: string;
+  contacts: ContactItem[];
+}
+
+export interface NotificationItemProps {
+  Icon?: React.ElementType;
+  title: string;
+  time: string;
+  description: string;
+}
