@@ -36,7 +36,7 @@ const FileInput = ({
       >
         <div
           className={cn(
-            'flex items-center justify-center rounded-full bg-(--border-default) dark:bg-(--neutral-dark)',
+            'flex items-center justify-center rounded-full bg-(--bg-slate-100) dark:bg-(--neutral-dark)',
             uploadIconWrapperClassName
           )}
           style={{
@@ -47,7 +47,7 @@ const FileInput = ({
           {UploadIcon && (
             <UploadIcon
               size={uploadIconSize}
-              className="text-(--text-primary) dark:text-(--border-default)"
+              className="text-(--text-primary) dark:text-(--bg-slate-100)"
             />
           )}
         </div>

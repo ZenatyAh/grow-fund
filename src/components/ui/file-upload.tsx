@@ -105,7 +105,7 @@ export const FileUpload = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   layout
-                  className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-(--text-primary) dark:text-white bg-(--border-default) dark:bg-neutral-800 shadow-input"
+                  className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-(--text-primary) dark:text-white bg-(--bg-slate-100) dark:bg-neutral-800 shadow-input"
                 >
                   {(file.size / (1024 * 1024)).toFixed(2)} MB
                 </motion.p>
@@ -116,7 +116,7 @@ export const FileUpload = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   layout
-                  className="px-2 py-1 rounded-md bg-(--border-default) dark:bg-neutral-800"
+                  className="px-2 py-1 rounded-md bg-(--bg-slate-100) dark:bg-neutral-800"
                 >
                   {file.type}
                 </motion.p>
