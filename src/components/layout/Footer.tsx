@@ -6,6 +6,11 @@ import FooterLinks from '../ui/FooterLinks';
 import FooterContact from '../ui/FooterContact';
 
 const Footer = () => {
+  const quickLinks = [
+    { href: '#', text: 'الصفحة الرئيسية' },
+    { href: '#', text: 'استكشاف الحملات' },
+    { href: '#', text: 'نبذة عنا' },
+  ];
   return (
     <footer className="bg-white py-8 gap-5">
       <Container otherClassName="grid grid-cols-2 md:grid-cols-4 justify-items-center gap-5 max-sm:text-center">
@@ -13,14 +18,11 @@ const Footer = () => {
           <FooterBrand />
         </div>
 
-        <FooterLinks
-          title="روابط سريعة"
-          links={['الصفحة الرئيسية', 'استكشاف الحملات', 'نبذة عنا']}
-        />
+        <FooterLinks title="روابط سريعة" links={quickLinks} />
 
         <FooterLinks
           title="روابط سريعة"
-          links={['الصفحة الرئيسية', 'استكشاف الحملات', 'نبذة عنا']}
+          links={quickLinks}
         />
 
         <FooterContact

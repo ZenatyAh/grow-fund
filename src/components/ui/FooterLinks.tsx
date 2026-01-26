@@ -1,4 +1,5 @@
 import { FooterLinksProps } from '@/interfaces';
+import Link from 'next/link';
 
 const FooterLinks = ({ title, links }: FooterLinksProps) => {
   return (
@@ -7,7 +8,7 @@ const FooterLinks = ({ title, links }: FooterLinksProps) => {
       <ul className="space-y-4">
         {links.map((link, i) => (
           <li key={i} className="text-(--slate-700) text-base">
-            {link}
+            <Link href={link.href}>{link.text}</Link>
           </li>
         ))}
       </ul>

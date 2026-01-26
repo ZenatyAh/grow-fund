@@ -141,7 +141,7 @@ export interface ProgressProps extends React.ComponentPropsWithoutRef<
 
 export interface FooterLinksProps {
   title: string;
-  links: string[];
+  links: { href: string; text: string }[];
 }
 
 export interface ContactItem {
