@@ -11,30 +11,22 @@ const STEPS = [
     { id: "step-1", label: "نوع المنشئ", },
     { id: "step-2", label: "نوع الحملات", },
     { id: "step-3", label: "الخبرة والنية", },
-    { id: "step-4", label: "معلومات أساسية للثقة", },
+    { id: "step-4", label: "معلومات أساسة", },
 ];
 
 export default function ComponentsTestPage() {
     const [currentStep, setCurrentStep] = useState(0);
-    const [isDarkMode, setIsDarkMode] = useState(false);
 
     return (
-        <div className="flex min-h-screen flex-col items-center bg-[#09090b] font-sans p-8" dir="rtl">
+        <div className="flex min-h-screen flex-col items-center bg-slate-50 font-sans p-8" dir="rtl">
             <main className="flex w-full max-w-7xl flex-col gap-10">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold text-white">components examples</h1>
-                    <button
-                        onClick={() => setIsDarkMode(!isDarkMode)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 transition"
-                    >
-                        <span>{isDarkMode ? "Light Mode" : "Dark Mode"}</span>
-                    </button>
+                    <h1 className="text-3xl font-bold text-slate-800">components examples</h1>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-8 min-h-[600px] items-stretch">
                     <div className={cn(
-                        "w-full lg:w-[300px] rounded-xl shadow-sm p-8 flex flex-col justify-center transition-colors duration-300",
-                        isDarkMode ? "dark bg-[#1c1c1e]" : "bg-white"
+                        "w-full lg:w-[380px] rounded-xl shadow-sm p-8 flex flex-col justify-center transition-colors duration-300 bg-white"
                     )}>
                         <VerticalStepper
                             steps={STEPS}
@@ -80,7 +72,7 @@ export default function ComponentsTestPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {['card-1', 'card-2', 'card-3', 'card-4'].map((item) => (
-                        <Card key={item} className="p-0 overflow-hidden bg-[#1c1c1e] border-0 text-zinc-100 shadow-2xl rounded-3xl group transition-transform duration-300 hover:-translate-y-1">
+                        <Card key={item} className="p-0 overflow-hidden bg-white border border-slate-200 text-slate-800 shadow-xl rounded-3xl group transition-transform duration-300 hover:-translate-y-1">
 
                             <div className="relative h-56 w-full">
                                 <Image
@@ -90,31 +82,31 @@ export default function ComponentsTestPage() {
                                     className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#1c1c1e] via-transparent to-transparent opacity-60"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60"></div>
 
-                                <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-medium text-white border border-white/10">
+                                <div className="absolute top-4 right-4 bg-white/40 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-medium text-slate-800 border border-slate-200">
                                     التعليم
                                 </div>
                             </div>
 
                             <div className="px-5 pb-6 pt-2 space-y-5">
                                 <div className="space-y-3">
-                                    <h3 className="text-xl font-bold text-white leading-tight">لوازم مدرسية للأطفال</h3>
-                                    <p className="text-sm text-zinc-400 leading-relaxed max-w-[95%]">
+                                    <h3 className="text-xl font-bold text-slate-800 leading-tight">لوازم مدرسية للأطفال</h3>
+                                    <p className="text-sm text-slate-600 leading-relaxed max-w-[95%]">
                                         حملة تهدف لتوفير لوازم مدرسية أساسية للأطفال، لدعم تعليمهم ومنحهم بداية دراسية أفضل.
                                     </p>
                                 </div>
 
 
                                 <div className="space-y-3">
-                                    <div className="flex justify-between items-center text-xs font-medium text-zinc-400">
+                                    <div className="flex justify-between items-center text-xs font-medium text-slate-500">
                                         <span>الهدف : 5000 نجمة</span>
                                         <div className="flex items-center gap-1.5 text-amber-500">
                                             <span className="text-base font-bold text-amber-500">50</span>
                                             <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
                                         </div>
                                     </div>
-                                    <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                                         <div className="h-full bg-amber-500 w-[50%] rounded-full shadow-[0_0_12px_-2px_rgba(245,158,11,0.6)]"></div>
                                     </div>
                                 </div>
@@ -129,7 +121,7 @@ export default function ComponentsTestPage() {
                                                 e.stopPropagation();
                                                 console.log("Share clicked");
                                             }}
-                                            className="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors flex items-center justify-center border border-zinc-700/50 cursor-pointer"
+                                            className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors flex items-center justify-center border border-slate-200 cursor-pointer"
                                         >
                                             <Share2 className="w-4 h-4" />
                                         </button>
