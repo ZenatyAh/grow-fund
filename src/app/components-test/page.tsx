@@ -3,6 +3,7 @@
 import { Share2, Star, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { VerticalStepper } from "@/components/shared/VerticalStepper";
+import { Button } from "@/components/shared/Button";
 import { useState } from "react";
 import { mergeClasses as cn } from "@/lib/utils";
 import { Card } from "@/components/shared/Card";
@@ -70,6 +71,61 @@ export default function ComponentsTestPage() {
                 </div>
 
 
+                {/* Button Showcase */}
+                <div className="bg-white rounded-xl shadow-sm p-12 space-y-12">
+                    <div>
+                        <h2 className="text-2xl font-bold text-slate-800 mb-8">Button Variations & Sizes</h2>
+                        
+                        <div className="space-y-12">
+                            {/* Primary Buttons */}
+                            <div className="space-y-6">
+                                <h3 className="text-lg font-semibold text-slate-500">Primary (Blue)</h3>
+                                <div className="space-y-8">
+                                    <div className="flex flex-wrap gap-8 items-end">
+                                        <div className="flex flex-col gap-3 items-center">
+                                            <span className="text-xs text-slate-400">Small (h-48)</span>
+                                            <Button variant="primary" size="sm">تسجيل</Button>
+                                        </div>
+                                        <div className="flex flex-col gap-3 items-center">
+                                            <span className="text-xs text-slate-400">Medium (117x48)</span>
+                                            <Button variant="primary" size="md">تسجيل الدخول</Button>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-3 items-start w-full max-w-[780px]">
+                                        <span className="text-xs text-slate-400">Large (780x48)</span>
+                                        <Button variant="primary" size="lg">إنشاء حساب جديد تماماً</Button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr className="border-slate-100" />
+
+                            {/* Subtle Buttons */}
+                            <div className="space-y-6">
+                                <h3 className="text-lg font-semibold text-slate-500">Subtle (Grey)</h3>
+                                <div className="space-y-8">
+                                    <div className="flex flex-wrap gap-8 items-end">
+                                        <div className="flex flex-col gap-3 items-center">
+                                            <span className="text-xs text-slate-400">Small (h-48)</span>
+                                            <Button variant="subtle" size="sm">تخطي</Button>
+                                        </div>
+                                        <div className="flex flex-col gap-3 items-center">
+                                            <span className="text-xs text-slate-400">Medium (117x48)</span>
+                                            <Button variant="subtle" size="md">إلغاء الأمر</Button>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-3 items-start w-full max-w-[780px]">
+                                        <span className="text-xs text-slate-400">Large (780x48)</span>
+                                        <Button variant="subtle" size="lg">العودة إلى الصفحة السابقة</Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Card Showcase */}
+ 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {['card-1', 'card-2', 'card-3', 'card-4'].map((item) => (
                         <Card key={item} className="p-0 overflow-hidden bg-white border border-slate-200 text-slate-800 shadow-xl rounded-3xl group transition-transform duration-300 hover:-translate-y-1">
