@@ -25,7 +25,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         )}
 
         <main className="flex-1 overflow-y-auto p-4 pt-16 md:p-6 md:pt-6">
-          {children}
+          <Container>{children}</Container>
         </main>
       </div>
 
