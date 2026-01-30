@@ -19,6 +19,7 @@ const NavbarLinks = () => {
               'hover:text-(--bg-bold-blue) transition-all duration-300',
               pathname === link.href && 'text-(--bg-bold-blue)'
             )}
+            aria-label={link.name}
           >
             {link.name}
           </Link>
