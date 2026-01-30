@@ -19,7 +19,7 @@ const NotificationItem = ({
               {time}
             </span>
           </div>
-          <p className="text-sm font-normal text-(--text-secondary)">
+          <p className="text-sm font-bold text-(--text-secondary)">
             {description}
           </p>
         </div>
