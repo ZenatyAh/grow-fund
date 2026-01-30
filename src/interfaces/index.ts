@@ -168,3 +168,13 @@ export interface EmptyStateProps {
   iconClassName?: string;
   textOtherClassName?: string;
 }
+
+export interface CampaignStatisticsCardProps {
+  otherClassName?: string;
+  Icon: React.ElementType;
+  iconSize?: number;
+  iconClassName?: string;
+  title: string;
+  count?: number;
+  label: string;
+}
