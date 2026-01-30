@@ -38,3 +38,25 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
   fullWidth?: boolean;
 }
+
+export interface MenuItemProps {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  isActive?: boolean;
+  onClick?: (id: string, label: string) => void;
+}
+
+export type ProfileType = 'individual' | 'institution';
+
+export interface ProfileCardProps {
+  type?: ProfileType;
+  name?: string;
+  location?: string;
+  typeLabel?: string;
+  profileStrength?: number;
+  imageUrl?: string;
+  activeItemId?: string;
+  onMenuItemClick?: (id: string, label: string) => void;
+  className?: string;
+}

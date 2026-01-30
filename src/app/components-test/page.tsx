@@ -7,6 +7,7 @@ import { Button } from "@/components/shared/Button";
 import { useState } from "react";
 import { mergeClasses as cn } from "@/lib/utils";
 import { Card } from "@/components/shared/Card";
+import ProfileCard from "@/components/shared/ProfileCard";
 
 const STEPS = [
     { id: "step-1", label: "نوع المنشئ", },
@@ -17,6 +18,8 @@ const STEPS = [
 
 export default function ComponentsTestPage() {
     const [currentStep, setCurrentStep] = useState(0);
+const [activeSection, setActiveSection] = useState({ id: 'edit-data', label: 'تعديل بياناتي' });
+
 
     return (
         <div className="flex min-h-screen flex-col items-center bg-slate-50 font-sans p-8" dir="rtl">
@@ -123,6 +126,47 @@ export default function ComponentsTestPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Profile Card */}
+                <div className="bg-white rounded-xl shadow-sm p-12">
+                    <h2 className="text-2xl font-bold text-slate-800 mb-8">Profile Card</h2>
+                         <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
+            <ProfileCard 
+                name="محمد شاهين"
+                type='individual'
+                location="فلسطين ، خانيونس"
+                typeLabel="فرد"
+                profileStrength={85}
+                activeItemId={activeSection.id}
+                onMenuItemClick={(id, label) => setActiveSection({ id, label })}
+            />
+            <div className="flex-1 min-h-[838px] w-full max-w-2xl bg-[#F8FAFC] border border-[#E2E8F0] rounded-[24px] p-10 flex flex-col gap-6">
+                <div className="flex items-center justify-between border-b pb-6 border-[#E2E8F0]">
+                    <h3 className="text-2xl font-bold text-[#0F172A]">{activeSection.label}</h3>
+                </div>
+            </div>
+        </div>
+
+<div className="flex flex-col lg:flex-row gap-8 items-start justify-center mt-8">
+            <ProfileCard 
+                name="الجمعية الفلسطينة"
+                location="فلسطين ، خانيونس"
+                type="institution"
+                typeLabel="مؤسسة"
+                profileStrength={85}
+                activeItemId={activeSection.id}
+                onMenuItemClick={(id, label) => setActiveSection({ id, label })}
+            />
+            <div className="flex-1 min-h-[838px] w-full max-w-2xl bg-[#F8FAFC] border border-[#E2E8F0] rounded-[24px] p-10 flex flex-col gap-6">
+                <div className="flex items-center justify-between border-b pb-6 border-[#E2E8F0]">
+                    <h3 className="text-2xl font-bold text-[#0F172A]">{activeSection.label}</h3>
+                </div>
+            </div>
+        </div>
+
+                </div>
+
+                
 
                 {/* Card Showcase */}
  
