@@ -7,7 +7,7 @@ const NotificationItem = ({
   description,
 }: NotificationItemProps) => {
   return (
-    <li className="bg-white border-2 border-(--bg-slate-100) rounded-3xl p-4">
+    <li className="bg-white border-2 border-(--bg-slate-100) rounded-3xl p-4 hover:shadow-lg transition-all duration-300">
       <div className="flex items-center gap-2">
         <div className="flex items-center justify-center bg-(--bg-light-blue) rounded-full w-10 h-10">
           {Icon && <Icon size={20} className="text-(--bg-bold-blue)" />}
