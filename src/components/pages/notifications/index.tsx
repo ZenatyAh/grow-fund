@@ -77,22 +77,22 @@ const NotificationsPage = () => {
         </div>
       </div>
 
-      <div
-        className={cn(
-          viewMode === 'grid'
-            ? 'grid grid-cols-1 md:grid-cols-2 gap-4'
-            : 'space-y-2'
-        )}
-      >
-        {notificationsData.length === 0 ? (
-          <EmptyState
-            Icon={FaRegBell}
-            iconSize={70}
-            text="لا توجد إشعارات بعد"
-            iconClassName="text-(--bg-bold-blue)"
-          />
-        ) : (
-          <>
+      {notificationsData.length === 0 ? (
+        <EmptyState
+          Icon={FaRegBell}
+          iconSize={70}
+          text="لا توجد إشعارات بعد"
+          iconClassName="text-(--bg-bold-blue)"
+        />
+      ) : (
+        <>
+          <div
+            className={cn(
+              viewMode === 'grid'
+                ? 'grid grid-cols-1 md:grid-cols-2 gap-4'
+                : 'space-y-2'
+            )}
+          >
             {notificationsData.map((section) => (
               <div key={section.id} className="mt-5">
                 <span className="block text-(--text-primary) text-base font-bold px-3 mb-3">
@@ -106,12 +106,12 @@ const NotificationsPage = () => {
                 </ul>
               </div>
             ))}
-            <button className="bg-(--bg-bold-blue) w-full text-white font-bold py-3 rounded-lg mt-6 cursor-pointer hover:bg-(--text-primary) transition-all duration-300">
-              عرض الاشعارات السابقة
-            </button>
-          </>
-        )}
-      </div>
+          </div>
+          <button className="bg-(--bg-bold-blue) w-full text-white font-bold py-3 rounded-lg mt-6 cursor-pointer hover:bg-(--text-primary) transition-all duration-300">
+            عرض الاشعارات السابقة
+          </button>
+        </>
+      )}
     </div>
   );
 };
