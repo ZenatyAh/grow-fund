@@ -160,3 +160,11 @@ export interface NotificationItemProps {
   time: string;
   description: string;
 }
+
+export interface EmptyStateProps {
+  Icon: React.ElementType;
+  iconSize: number;
+  text: string;
+  iconClassName?: string;
+  textOtherClassName?: string;
+}
