@@ -1,6 +1,6 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import React from "react";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import React from 'react';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -58,5 +58,11 @@ export interface ProfileCardProps {
   imageUrl?: string;
   activeItemId?: string;
   onMenuItemClick?: (id: string, label: string) => void;
+  className?: string;
+}
+export interface InfoWarCardProps {
+  variant?: 'info' | 'warning';
+  title?: string;
+  message: string;
   className?: string;
 }
