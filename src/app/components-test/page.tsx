@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Star, ArrowLeft, Rocket, User, Building2, Droplets, Heart, Home, GraduationCap, Utensils, PawPrint, Sprout } from 'lucide-react';
+import { Share2, Star, ArrowLeft, Rocket, User, Building2, Droplets, Heart, Home, GraduationCap, Utensils, PawPrint, Sprout, Edit, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
 import { Button } from '@/components/shared/Button';
@@ -16,6 +16,7 @@ import { RadioSelect } from '@/components/shared/RadioSelect';
 import { Steps } from '@/components/shared/Steps';
 import { CategoryButton } from '@/components/shared/CategoryButton';
 import { SuccessState } from '@/components/shared/SuccessFailMessage';
+import { StartingStep } from '@/components/shared/StartingStep';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -508,6 +509,30 @@ export default function ComponentsTestPage() {
               image={<span className="text-8xl">👍</span>}
               title="تم إعداد ملفك بنجاح"
               description="يمكنك الآن إنشاء حملتك الأولى. سيتم مراجعتها قبل النشر لضمان الجودة والشفافية."
+            />
+          </div>
+        </div>
+
+        {/* Starting Steps Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Starting Steps Info Cards
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-6">
+            <StartingStep
+              title="أنشئ حملتك"
+              description="اكتب قصة حملتك، حدّد الهدف، وأضف التفاصيل التي تهم الداعمين."
+              icon={<Edit className="w-8 h-8" />}
+            />
+            <StartingStep
+              title="توثيق ومراجعة"
+              description="نقوم بمراجعة حملتك لضمان الشفافية وحماية الجميع."
+              icon={<ShieldCheck className="w-8 h-8" />}
+            />
+            <StartingStep
+              title="اجمع النجوم"
+              description="بعد الموافقة، تبدأ النجوم بالوصول وتتابع تقدم حملتك لحظة بلحظة."
+              icon={<Sparkles className="w-8 h-8" />}
             />
           </div>
         </div>
