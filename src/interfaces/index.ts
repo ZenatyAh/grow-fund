@@ -178,3 +178,15 @@ export interface CampaignStatisticsCardProps {
   count?: number;
   label: string;
 }
+
+
+export interface TitleWithIconProps {
+  otherClassName?: string;
+  title: string;
+  description: string;
+  Icon?: React.ElementType;
+  iconWrapperClassName?: string;
+  iconSize?: number;
+  iconClassName?: string;
+  handleClick?: () => void;
+}
