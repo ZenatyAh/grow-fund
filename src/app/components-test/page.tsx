@@ -13,6 +13,7 @@ import { ImageSlider } from '@/components/shared/ImageSlider';
 import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
 import { ChoiceCard } from '@/components/shared/ChoiceCard';
 import { RadioSelect } from '@/components/shared/RadioSelect';
+import { Steps } from '@/components/shared/Steps';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -450,6 +451,20 @@ export default function ComponentsTestPage() {
               icon={<Building2 className="w-5 h-5" />}
               checked={selectedRadio === 'organization'}
               onChange={setSelectedRadio}
+            />
+          </div>
+        </div>
+
+        {/* Steps Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Steps 
+          </h2>
+          <div className="flex justify-center">
+            <Steps
+              steps={STEPS}
+              currentStep={currentStep}
+              onStepClick={setCurrentStep}
             />
           </div>
         </div>
