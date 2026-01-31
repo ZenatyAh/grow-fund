@@ -9,6 +9,7 @@ import { mergeClasses as cn } from '@/lib/utils';
 import { Card } from '@/components/shared/Card';
 import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
+import { ImageSlider } from '@/components/shared/ImageSlider';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -341,6 +342,41 @@ export default function ComponentsTestPage() {
                 message="المصادقة الثنائية غير مفعلة، ننصح بتفعيلها في أقرب وقت لحماية حسابك من الاختراق"
               />
             </div>
+          </div>
+        </div>
+
+        {/* Image Slider Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Image Slider 
+          </h2>
+          <div className="flex flex-col lg:flex-row gap-8 items-center justify-center">
+            <div className="w-[400px] h-[700px] rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
+              <ImageSlider
+                images={[
+                  {
+                    src: '/images/sliderImage1.png',
+                    alt: 'Slider image 1',
+                  },
+                  {
+                    src: '/images/sliderImage2.png',
+                    alt: 'Slider image 2',
+                  },
+                  {
+                    src: '/images/sliderImage3.png',
+                    alt: 'Slider image 3',
+                  },
+                  {
+                    src: '/images/sliderImage4.png',
+                    alt: 'Slider image 4',
+                  },
+                ]}
+                autoPlay
+                autoPlayInterval={4000}
+              />
+            </div>
+
+            
           </div>
         </div>
       </main>
