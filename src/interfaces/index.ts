@@ -179,11 +179,10 @@ export interface CampaignStatisticsCardProps {
   label: string;
 }
 
-
 export interface TitleWithIconProps {
   otherClassName?: string;
   title: string;
-  description: string;
+  description?: React.ReactNode;
   Icon?: React.ElementType;
   iconWrapperClassName?: string;
   iconSize?: number;
