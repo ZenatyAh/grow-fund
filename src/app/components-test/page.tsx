@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Star, ArrowLeft } from 'lucide-react';
+import { Share2, Star, ArrowLeft, Rocket } from 'lucide-react';
 import Image from 'next/image';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
 import { Button } from '@/components/shared/Button';
@@ -11,6 +11,7 @@ import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
 import { ImageSlider } from '@/components/shared/ImageSlider';
 import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
+import { ChoiceCard } from '@/components/shared/ChoiceCard';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -397,6 +398,29 @@ export default function ComponentsTestPage() {
               title="مرحبًا بك في نجومي"
               subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
               showStars={false}
+            />
+          </div>
+        </div>
+
+        {/* Choice Card Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Choice Card
+          </h2>
+          <div className="flex flex-wrap gap-6 items-stretch justify-center">
+            <ChoiceCard
+              icon={<Star className="w-6 h-6" />}
+              title="متبرع"
+              description="دعم الحملات، التبرع بالنجوم، ومتابعة الأثر"
+              buttonLabel="متابعة كمتبرع"
+              onSelect={() => console.log('Donor selected')}
+            />
+            <ChoiceCard
+              icon={<Rocket className="w-6 h-6" />}
+              title="منشئ حملة"
+              description="إنشاء حملات، جمع التبرعات، وإدارة الأرباح"
+              buttonLabel="متابعة كمنشئ حملة"
+              onSelect={() => console.log('Creator selected')}
             />
           </div>
         </div>
