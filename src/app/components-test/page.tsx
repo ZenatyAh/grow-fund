@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Star, ArrowLeft, Rocket, User, Building2 } from 'lucide-react';
+import { Share2, Star, ArrowLeft, Rocket, User, Building2, Droplets, Heart, Home, GraduationCap, Utensils, PawPrint, Sprout } from 'lucide-react';
 import Image from 'next/image';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
 import { Button } from '@/components/shared/Button';
@@ -14,6 +14,7 @@ import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
 import { ChoiceCard } from '@/components/shared/ChoiceCard';
 import { RadioSelect } from '@/components/shared/RadioSelect';
 import { Steps } from '@/components/shared/Steps';
+import { CategoryButton } from '@/components/shared/CategoryButton';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -29,6 +30,7 @@ export default function ComponentsTestPage() {
     label: 'تعديل بياناتي',
   });
   const [selectedRadio, setSelectedRadio] = useState('individual');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('water');
 
   return (
     <div
@@ -466,6 +468,32 @@ export default function ComponentsTestPage() {
               currentStep={currentStep}
               onStepClick={setCurrentStep}
             />
+          </div>
+        </div>
+
+        {/* Category Button Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Category Selection
+          </h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            {[
+              { id: 'water', label: 'مياه', icon: <Droplets className="w-5 h-5" /> },
+              { id: 'health', label: 'صحة', icon: <Heart className="w-5 h-5" /> },
+              { id: 'shelter', label: 'إيواء', icon: <Home className="w-5 h-5" /> },
+              { id: 'education', label: 'تعليم', icon: <GraduationCap className="w-5 h-5" /> },
+              { id: 'food', label: 'إغاثة غذائية', icon: <Utensils className="w-5 h-5" /> },
+              { id: 'animals', label: 'حيوانات', icon: <PawPrint className="w-5 h-5" /> },
+              { id: 'environment', label: 'بيئة', icon: <Sprout className="w-5 h-5" /> },
+            ].map((cat) => (
+              <CategoryButton
+                key={cat.id}
+                label={cat.label}
+                icon={cat.icon}
+                selected={selectedCategory === cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+              />
+            ))}
           </div>
         </div>
       </main>
