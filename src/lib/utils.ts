@@ -1,6 +1,6 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import React from "react";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import React from 'react';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -37,4 +37,32 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;
+}
+
+export interface MenuItemProps {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  isActive?: boolean;
+  onClick?: (id: string, label: string) => void;
+}
+
+export type ProfileType = 'individual' | 'institution';
+
+export interface ProfileCardProps {
+  type?: ProfileType;
+  name?: string;
+  location?: string;
+  typeLabel?: string;
+  profileStrength?: number;
+  imageUrl?: string;
+  activeItemId?: string;
+  onMenuItemClick?: (id: string, label: string) => void;
+  className?: string;
+}
+export interface InfoWarCardProps {
+  variant?: 'info' | 'warning';
+  title?: string;
+  message: string;
+  className?: string;
 }
