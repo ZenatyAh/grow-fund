@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Star, ArrowLeft, Rocket } from 'lucide-react';
+import { Share2, Star, ArrowLeft, Rocket, User, Building2 } from 'lucide-react';
 import Image from 'next/image';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
 import { Button } from '@/components/shared/Button';
@@ -12,6 +12,7 @@ import InfoWarCard from '@/components/shared/InfoWarCard';
 import { ImageSlider } from '@/components/shared/ImageSlider';
 import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
 import { ChoiceCard } from '@/components/shared/ChoiceCard';
+import { RadioSelect } from '@/components/shared/RadioSelect';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -26,6 +27,7 @@ export default function ComponentsTestPage() {
     id: 'edit-data',
     label: 'تعديل بياناتي',
   });
+  const [selectedRadio, setSelectedRadio] = useState('individual');
 
   return (
     <div
@@ -421,6 +423,33 @@ export default function ComponentsTestPage() {
               description="إنشاء حملات، جمع التبرعات، وإدارة الأرباح"
               buttonLabel="متابعة كمنشئ حملة"
               onSelect={() => console.log('Creator selected')}
+            />
+          </div>
+        </div>
+
+        {/* Radio Select Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Radio Select
+          </h2>
+          <div className="max-w-xl mx-auto space-y-4">
+            <RadioSelect
+              id="individual"
+              name="account-type"
+              value="individual"
+              label="فردي"
+              icon={<User className="w-5 h-5" />}
+              checked={selectedRadio === 'individual'}
+              onChange={setSelectedRadio}
+            />
+            <RadioSelect
+              id="organization"
+              name="account-type"
+              value="organization"
+              label="مؤسسة / جمعية"
+              icon={<Building2 className="w-5 h-5" />}
+              checked={selectedRadio === 'organization'}
+              onChange={setSelectedRadio}
             />
           </div>
         </div>
