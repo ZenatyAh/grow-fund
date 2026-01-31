@@ -1,28 +1,5 @@
-import React from 'react';
-import { mergeClasses as cn } from '@/lib/utils';
+import { mergeClasses as cn, type Step, type VerticalStepperProps, type StepCardProps } from '@/lib/utils';
 import { Check } from 'lucide-react';
-
-export interface Step {
-    id: string | number;
-    label: string;
-    subLabel?: string;
-}
-
-interface VerticalStepperProps {
-    steps: Step[];
-    currentStep: number;
-    onStepClick?: (stepIndex: number) => void;
-    className?: string;
-}
-
-interface StepCardProps {
-    step: Step;
-    index: number;
-    isActive: boolean;
-    isCompleted: boolean;
-    isClickable: boolean;
-    onStepClick?: (stepIndex: number) => void;
-}
 
 function StepCard({ step, index, isActive, isCompleted, isClickable, onStepClick }: StepCardProps) {
     const stepNumber = index + 1;
@@ -53,10 +30,10 @@ function StepCard({ step, index, isActive, isCompleted, isClickable, onStepClick
                     className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-full text-base font-bold border-2 transition-all duration-300",
                         isActive
-                            ? "bg-amber-500 border-amber-500 text-white"
+                            ? "bg-[var(--default,#2563EB)] border-[var(--default,#2563EB)] text-white"
                             : isCompleted
-                                ? "bg-amber-500 border-amber-500 text-white"
-                                : "bg-[var(--text-muted,#8A97A8)] border-transparent text-white [.dark_&]:shadow-[0px_0px_4px_0px_#00000040]"
+                                ? "bg-[var(--default,#2563EB)] border-[var(--default,#2563EB)] text-white"
+                                : "bg-[var(--caption-hint,#64748B)] border-transparent text-white"
                     )}
                 >
                     {isCompleted ? <Check className="w-6 h-6 text-white" /> : stepNumber}
@@ -66,13 +43,14 @@ function StepCard({ step, index, isActive, isCompleted, isClickable, onStepClick
             <div className="flex flex-col flex-1">
                 <span
                     className={cn(
-                        "transition-colors duration-300 text-black [.dark_&]:text-[#EDEDED]"
+                        "transition-colors duration-300",
+                        (isActive || isCompleted) ? "text-[var(--default,#2563EB)]" : "text-[var(--caption-hint,#64748B)]"
                     )}
                     style={{
-                        fontFamily: 'Almarai, sans-serif',
-                        fontWeight: 400,
-                        fontSize: '16px',
-                        lineHeight: '32px',
+                        fontFamily: 'Tajawal, sans-serif',
+                        fontWeight: 700,
+                        fontSize: '20px',
+                        lineHeight: '150%',
                         letterSpacing: '0%'
                     }}
                 >
@@ -84,9 +62,9 @@ function StepCard({ step, index, isActive, isCompleted, isClickable, onStepClick
     );
 }
 
-export function VerticalStepper({ steps, currentStep, onStepClick, className }: VerticalStepperProps) {
+export function VerticalStepper({ steps, currentStep, onStepClick }: VerticalStepperProps) {
     return (
-        <div className={cn("flex flex-col justify-center h-full w-full", className)}>
+        <div className={cn("flex flex-col justify-center h-full ")}>
             {steps.map((step, index) => (
                 <StepCard
                     key={step.id}
