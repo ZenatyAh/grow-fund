@@ -16,9 +16,9 @@ const TitleWithIcon = ({
     >
       <div>
         <h2 className="text-lg text-(--text-secondary) font-normal">{title}</h2>
-        <p className="text-2xl text-(--text-primary) font-bold mt-1.5">
+        <div className="text-2xl text-(--text-primary) font-bold mt-1.5">
           {description}
-        </p>
+        </div>
       </div>
       {Icon && (
         <div

@@ -4,7 +4,11 @@
 :root {
   --bg-soft-blue: #eef2f7;
   --bg-bold-blue: #2563eb;
+<<<<<<< HEAD
   --bg-light-blue: #eff6ff;
+=======
+  --bg-light-blue: #EFF6FF;
+>>>>>>> 15569ea45959650f1fbea3c67fa2bde2ffc7515c
   --bg-slate-100: #e2e8f0;
   --bg-slate-200: #cbd5e1;
   --slate-700: #334155;
@@ -105,6 +109,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-white text-foreground;
+    @apply bg-(--Light-grayish-blue) dark:bg-black text-foreground;
   }
 }
