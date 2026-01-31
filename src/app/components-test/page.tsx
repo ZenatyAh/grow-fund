@@ -10,6 +10,7 @@ import { Card } from '@/components/shared/Card';
 import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
 import { ImageSlider } from '@/components/shared/ImageSlider';
+import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -377,6 +378,26 @@ export default function ComponentsTestPage() {
             </div>
 
             
+          </div>
+        </div>
+
+        {/* Header Subtitle Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Header Subtitle
+          </h2>
+          <div className="flex flex-col gap-8 items-center">
+            <HeaderSubtitle
+              title="مرحبًا بك في نجومي"
+              subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
+            />
+            
+            {/* Without stars */}
+            <HeaderSubtitle
+              title="مرحبًا بك في نجومي"
+              subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
+              showStars={false}
+            />
           </div>
         </div>
       </main>
