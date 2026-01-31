@@ -15,6 +15,7 @@ import { ChoiceCard } from '@/components/shared/ChoiceCard';
 import { RadioSelect } from '@/components/shared/RadioSelect';
 import { Steps } from '@/components/shared/Steps';
 import { CategoryButton } from '@/components/shared/CategoryButton';
+import { SuccessState } from '@/components/shared/SuccessFailMessage';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -494,6 +495,20 @@ export default function ComponentsTestPage() {
                 onClick={() => setSelectedCategory(cat.id)}
               />
             ))}
+          </div>
+        </div>
+
+        {/* Success State Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Success State
+          </h2>
+          <div className="flex justify-center border-2 border-dashed border-slate-200 rounded-3xl p-8">
+            <SuccessState
+              image={<span className="text-8xl">👍</span>}
+              title="تم إعداد ملفك بنجاح"
+              description="يمكنك الآن إنشاء حملتك الأولى. سيتم مراجعتها قبل النشر لضمان الجودة والشفافية."
+            />
           </div>
         </div>
       </main>
