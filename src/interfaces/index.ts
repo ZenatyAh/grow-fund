@@ -189,3 +189,19 @@ export interface TitleWithIconProps {
   iconClassName?: string;
   handleClick?: () => void;
 }
+
+export interface DataTableBodyProps {
+  columns: any[];
+  data: any[];
+  onEdit?: (id: string | number) => void;
+  onDelete?: (id: string | number) => void;
+  searchTerm?: string;
+  showEdit?: boolean;
+  showActionsColumn?: boolean;
+  onRowPatched?: (id: string | number, patch: Partial<any>) => void;
+  deleteLocation?: string;
+}
+
+export interface TableProps extends DataTableBodyProps {
+  title: string;
+}
