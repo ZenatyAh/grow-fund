@@ -138,3 +138,54 @@ export interface ProgressProps extends React.ComponentPropsWithoutRef<
   progressVariant?: 'percentage' | 'custom';
   customDisplay?: React.ReactNode;
 }
+
+export interface FooterLinksProps {
+  title: string;
+  links: { href: string; text: string }[];
+}
+
+export interface ContactItem {
+  Icon?: React.ElementType;
+  text: string;
+}
+
+export interface FooterContactProps {
+  title: string;
+  contacts: ContactItem[];
+}
+
+export interface NotificationItemProps {
+  Icon?: React.ElementType;
+  title: string;
+  time: string;
+  description: string;
+}
+
+export interface EmptyStateProps {
+  Icon: React.ElementType;
+  iconSize: number;
+  text: string;
+  iconClassName?: string;
+  textOtherClassName?: string;
+}
+
+export interface CampaignStatisticsCardProps {
+  otherClassName?: string;
+  Icon: React.ElementType;
+  iconSize?: number;
+  iconClassName?: string;
+  title: string;
+  count?: number;
+  label: string;
+}
+
+export interface TitleWithIconProps {
+  otherClassName?: string;
+  title: string;
+  description?: React.ReactNode;
+  Icon?: React.ElementType;
+  iconWrapperClassName?: string;
+  iconSize?: number;
+  iconClassName?: string;
+  handleClick?: () => void;
+}
