@@ -17,6 +17,8 @@ import { Steps } from '@/components/shared/Steps';
 import { CategoryButton } from '@/components/shared/CategoryButton';
 import { SuccessState } from '@/components/shared/SuccessFailMessage';
 import { StartingStep } from '@/components/shared/StartingStep';
+import { CampaignCard } from '@/components/shared/CampaignCard';
+import { ChevronLeft, CircleDollarSign } from 'lucide-react';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -534,6 +536,65 @@ export default function ComponentsTestPage() {
               description="بعد الموافقة، تبدأ النجوم بالوصول وتتابع تقدم حملتك لحظة بلحظة."
               icon={<Sparkles className="w-8 h-8" />}
             />
+          </div>
+        </div>
+
+        {/* Campaign Summary Card Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12 space-y-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Campaign Summary Card
+          </h2>
+          
+          <div className="flex flex-col gap-12 items-center">
+            {/* 1. In Progress State */}
+            <div className="space-y-4 w-full flex flex-col items-center">
+              <h3 className="text-lg font-semibold text-slate-500 w-full max-w-[899px]">حالة قيد التنفيذ (In Progress)</h3>
+              <CampaignCard
+                amount="100"
+                title="حملة تعليمية - حملة خيرية لبناء مدرسة اساسية"
+                date="15 مارس 2025"
+                imageUrl="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000&auto=format&fit=crop"
+                progressValue={35}
+                indicatorValue="50"
+                goalLabel="الهدف : 5000 نجمة"
+                buttons={[
+                  {
+                    label: 'تبرع مرة اخرى',
+                    variant: 'primary',
+                    icon: <CircleDollarSign size={20} />,
+                    onClick: () => console.log('Donate again clicked'),
+                  },
+                  {
+                    label: 'مشاهدة التفاصيل',
+                    variant: 'subtle',
+                    icon: <ChevronLeft size={14} />,
+                    onClick: () => console.log('View details clicked'),
+                  },
+                ]}
+              />
+            </div>
+
+            {/* 2. Completed State */}
+            <div className="space-y-4 w-full flex flex-col items-center">
+              <h3 className="text-lg font-semibold text-slate-500 w-full max-w-[899px]">حالة مكتملة (Completed)</h3>
+              <CampaignCard
+                isCompleted={true}
+                amount="100"
+                title="حملة تعليمية - حملة خيرية لبناء مدرسة اساسية"
+                date="15 مارس 2025"
+                imageUrl="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000&auto=format&fit=crop"
+                completedMessage="اكتمل الهدف"
+                goalLabel="5000 نجمة"
+                buttons={[
+                  {
+                    label: 'مشاهدة التحديثات',
+                    variant: 'primary',
+                    icon: <ChevronLeft size={14} />,
+                    onClick: () => console.log('View updates clicked'),
+                  },
+                ]}
+              />
+            </div>
           </div>
         </div>
       </main>
