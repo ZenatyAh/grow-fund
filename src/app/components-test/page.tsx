@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Star, ArrowLeft } from 'lucide-react';
+import { Share2, Star, ArrowLeft, Rocket, User, Building2, Droplets, Heart, Home, GraduationCap, Utensils, PawPrint, Sprout, Edit, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
 import { Button } from '@/components/shared/Button';
@@ -10,6 +10,13 @@ import { Card } from '@/components/shared/Card';
 import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
 import { ImageSlider } from '@/components/shared/ImageSlider';
+import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
+import { ChoiceCard } from '@/components/shared/ChoiceCard';
+import { RadioSelect } from '@/components/shared/RadioSelect';
+import { Steps } from '@/components/shared/Steps';
+import { CategoryButton } from '@/components/shared/CategoryButton';
+import { SuccessState } from '@/components/shared/SuccessFailMessage';
+import { StartingStep } from '@/components/shared/StartingStep';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -24,6 +31,8 @@ export default function ComponentsTestPage() {
     id: 'edit-data',
     label: 'تعديل بياناتي',
   });
+  const [selectedRadio, setSelectedRadio] = useState('individual');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('water');
 
   return (
     <div
@@ -377,6 +386,154 @@ export default function ComponentsTestPage() {
             </div>
 
             
+          </div>
+        </div>
+
+        {/* Header Subtitle Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Header Subtitle
+          </h2>
+          <div className="flex flex-col gap-8 items-center">
+            <HeaderSubtitle
+              title="مرحبًا بك في نجومي"
+              subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
+            />
+            
+            {/* Without stars */}
+            <HeaderSubtitle
+              title="مرحبًا بك في نجومي"
+              subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
+              showStars={false}
+            />
+          </div>
+        </div>
+
+        {/* Choice Card Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Choice Card
+          </h2>
+          <div className="flex flex-wrap gap-6 items-stretch justify-center">
+            <ChoiceCard
+              icon={<Star className="w-6 h-6" />}
+              title="متبرع"
+              description="دعم الحملات، التبرع بالنجوم، ومتابعة الأثر"
+              buttonLabel="متابعة كمتبرع"
+              onSelect={() => console.log('Donor selected')}
+            />
+            <ChoiceCard
+              icon={<Rocket className="w-6 h-6" />}
+              title="منشئ حملة"
+              description="إنشاء حملات، جمع التبرعات، وإدارة الأرباح"
+              buttonLabel="متابعة كمنشئ حملة"
+              onSelect={() => console.log('Creator selected')}
+            />
+          </div>
+        </div>
+
+        {/* Radio Select Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Radio Select
+          </h2>
+          <div className="max-w-xl mx-auto space-y-4">
+            <RadioSelect
+              id="individual"
+              name="account-type"
+              value="individual"
+              label="فردي"
+              icon={<User className="w-5 h-5" />}
+              checked={selectedRadio === 'individual'}
+              onChange={setSelectedRadio}
+            />
+            <RadioSelect
+              id="organization"
+              name="account-type"
+              value="organization"
+              label="مؤسسة / جمعية"
+              icon={<Building2 className="w-5 h-5" />}
+              checked={selectedRadio === 'organization'}
+              onChange={setSelectedRadio}
+            />
+          </div>
+        </div>
+
+        {/* Steps Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Steps 
+          </h2>
+          <div className="flex justify-center">
+            <Steps
+              steps={STEPS}
+              currentStep={currentStep}
+              onStepClick={setCurrentStep}
+            />
+          </div>
+        </div>
+
+        {/* Category Button Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Category Selection
+          </h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            {[
+              { id: 'water', label: 'مياه', icon: <Droplets className="w-5 h-5" /> },
+              { id: 'health', label: 'صحة', icon: <Heart className="w-5 h-5" /> },
+              { id: 'shelter', label: 'إيواء', icon: <Home className="w-5 h-5" /> },
+              { id: 'education', label: 'تعليم', icon: <GraduationCap className="w-5 h-5" /> },
+              { id: 'food', label: 'إغاثة غذائية', icon: <Utensils className="w-5 h-5" /> },
+              { id: 'animals', label: 'حيوانات', icon: <PawPrint className="w-5 h-5" /> },
+              { id: 'environment', label: 'بيئة', icon: <Sprout className="w-5 h-5" /> },
+            ].map((cat) => (
+              <CategoryButton
+                key={cat.id}
+                label={cat.label}
+                icon={cat.icon}
+                selected={selectedCategory === cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Success State Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Success State
+          </h2>
+          <div className="flex justify-center border-2 border-dashed border-slate-200 rounded-3xl p-8">
+            <SuccessState
+              image={<span className="text-8xl">👍</span>}
+              title="تم إعداد ملفك بنجاح"
+              description="يمكنك الآن إنشاء حملتك الأولى. سيتم مراجعتها قبل النشر لضمان الجودة والشفافية."
+            />
+          </div>
+        </div>
+
+        {/* Starting Steps Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Starting Steps Info Cards
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-6">
+            <StartingStep
+              title="أنشئ حملتك"
+              description="اكتب قصة حملتك، حدّد الهدف، وأضف التفاصيل التي تهم الداعمين."
+              icon={<Edit className="w-8 h-8" />}
+            />
+            <StartingStep
+              title="توثيق ومراجعة"
+              description="نقوم بمراجعة حملتك لضمان الشفافية وحماية الجميع."
+              icon={<ShieldCheck className="w-8 h-8" />}
+            />
+            <StartingStep
+              title="اجمع النجوم"
+              description="بعد الموافقة، تبدأ النجوم بالوصول وتتابع تقدم حملتك لحظة بلحظة."
+              icon={<Sparkles className="w-8 h-8" />}
+            />
           </div>
         </div>
       </main>
