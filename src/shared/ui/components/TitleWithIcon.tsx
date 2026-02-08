@@ -12,7 +12,7 @@ const TitleWithIcon = ({
 }: TitleWithIconProps) => {
   return (
     <div
-      className={`w-full flex items-start justify-between gap-4 border-2 border-slate-200 p-4 rounded-lg shadow-lg ${otherClassName}`}
+      className={`w-full flex items-start justify-between gap-4 border-2 border-slate-200 p-4 rounded-lg ${otherClassName}`}
     >
       <div>
         <h2 className="text-lg text-(--text-secondary) font-normal">{title}</h2>
