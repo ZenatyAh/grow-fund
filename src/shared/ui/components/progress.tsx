@@ -19,8 +19,8 @@ const Progress = React.forwardRef<
       className,
       size = 'md',
       value,
-      trackColor = 'var(--neutral-dark)',
-      indicatorColor = 'var(--primary-cta)',
+      trackColor = 'var(--bg-bold-blue)',
+      indicatorColor = 'var(--bg-blue-gray)',
       topDisplayValue,
       bottomDisplayValue,
       showInfo,
@@ -65,8 +65,9 @@ const Progress = React.forwardRef<
           'relative w-full! overflow-hidden rounded-full',
           size === 'xs' && 'h-1.5',
           size === 'sm' && 'h-2',
-          size === 'md' && 'h-4',
-          size === 'lg' && 'h-6',
+          size === 'md' && 'h-3',
+          size === 'lg' && 'h-4',
+          size === 'xl' && 'h-6',
           className
         )}
         style={{ backgroundColor: trackColor }}
