@@ -4,6 +4,7 @@ import { Button } from '@/components/shared/Button';
 import ImageSlider from '@/components/shared/ImageSlider';
 import HeaderSubtitle from '@/components/shared/HeaderSubtitle';
 import Logo from '@/shared/ui/components/Logo';
+import Link from 'next/link';
 
 const sliderImages = [
   {
@@ -94,14 +95,16 @@ const AuthLandingPage = () => {
                   تسجيل الدخول
                 </Button>
 
-                <Button
-                  variant="subtle"
-                  size="lg"
-                  fullWidth
-                  className="!bg-white border border-[#CBD5E1] text-[#0F172A]"
-                >
-                  إنشاء حساب جديد
-                </Button>
+                <Link href="/auth/register" className="w-full">
+                  <Button
+                    variant="subtle"
+                    size="lg"
+                    fullWidth
+                    className="!bg-white border border-[#CBD5E1] text-[#0F172A]"
+                  >
+                    إنشاء حساب جديد
+                  </Button>
+                </Link>
 
                 <div className="flex items-center gap-3 my-2 text-xs text-[#9CA3AF]">
                   <span className="flex-1 h-px bg-[#E5E7EB]" />
