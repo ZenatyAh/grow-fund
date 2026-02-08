@@ -87,7 +87,7 @@ export const FileUpload = ({
           {file && (
             <motion.div
               className={cn(
-                'relative overflow-hidden z-40 bg-(--bg-soft-blue) dark:bg-neutral-900 flex flex-col items-start justify-start md:h-24 p-4 w-full mx-auto rounded-md',
+                'relative overflow-hidden z-40 bg-(--bg-soft-blue) flex flex-col items-start justify-start md:h-24 p-4 w-full mx-auto rounded-md',
                 'shadow-sm'
               )}
             >
@@ -97,7 +97,7 @@ export const FileUpload = ({
                   animate={{ opacity: 1 }}
                   layout
                   title={file.name}
-                  className="text-base text-(--text-primary) dark:text-neutral-300 truncate max-w-xs"
+                  className="text-base text-(--text-primary)truncate max-w-xs"
                 >
                   {file.name}
                 </motion.p>
@@ -105,18 +105,18 @@ export const FileUpload = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   layout
-                  className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-(--text-primary) dark:text-white bg-(--bg-slate-100) dark:bg-neutral-800 shadow-input"
+                  className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-(--text-primary) bg-(--bg-slate-100) shadow-input"
                 >
                   {(file.size / (1024 * 1024)).toFixed(2)} MB
                 </motion.p>
               </div>
 
-              <div className="flex gap-5 text-sm md:flex-row flex-col items-start md:items-center w-full mt-2 justify-between text-(--text-primary) dark:text-neutral-400">
+              <div className="flex gap-5 text-sm md:flex-row flex-col items-start md:items-center w-full mt-2 justify-between text-(--text-primary)">
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   layout
-                  className="px-2 py-1 rounded-md bg-(--bg-slate-100) dark:bg-neutral-800"
+                  className="px-2 py-1 rounded-md bg-(--bg-slate-100)"
                 >
                   {file.type}
                 </motion.p>
@@ -141,7 +141,7 @@ export const FileUpload = ({
                 damping: 20,
               }}
               className={cn(
-                'relative z-40 bg-(--bg-soft-blue) dark:bg-neutral-800 border-4 border-dotted border-(--brand-primary) flex items-center justify-center w-full mx-auto rounded-md px-6 py-7',
+                'relative z-40 bg-(--bg-soft-blue) border-4 border-dotted border-(--brand-primary) flex items-center justify-center w-full mx-auto rounded-md px-6 py-7',
                 emptyStateClassName
               )}
             >
@@ -152,7 +152,7 @@ export const FileUpload = ({
                   className="text-neutral-600 flex flex-col items-center"
                 >
                   Drop it
-                  <IconUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+                  <IconUpload className="h-4 w-4 text-neutral-600" />
                 </motion.p>
               ) : (
                 <div

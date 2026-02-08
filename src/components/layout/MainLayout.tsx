@@ -4,14 +4,18 @@ import Container from './Container';
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
+import { usePathname } from 'next/navigation';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   // Temporary to determine if the user is the campaign creator
   const [isCampaignCreator] = useState(false);
+  const pathname = usePathname();
+
+  const noHeaderFooter = pathname.startsWith('/campaigns/create');
 
   return (
     <div>
-      {!isCampaignCreator && (
+      {!isCampaignCreator && !noHeaderFooter && (
         <Container>
           <Header />
         </Container>
@@ -25,11 +29,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         )}
 
         <main className="flex-1 overflow-y-auto p-4 pt-16 md:p-6 md:pt-6">
-          <Container>{children}</Container>
+          {!noHeaderFooter ? <Container>{children}</Container> : children}
         </main>
       </div>
 
-      <Footer />
+      {!noHeaderFooter && <Footer />}
     </div>
   );
 };
