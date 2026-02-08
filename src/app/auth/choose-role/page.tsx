@@ -38,13 +38,14 @@ const RoleSelectionPage = () => {
 
 const RoleSelectionPageContent = () => {
   const [selectedRole, setSelectedRole] = React.useState<'donor' | 'creator' | null>(null);
+  const [step, setStep] = React.useState<'welcome' | 'choice'>('welcome');
   const searchParams = useSearchParams();
   const userName = searchParams.get('name') || 'بك';
-  // ... rest of component logic (handleRoleSelect, renderWelcomeContent, return JSX) ...
 
 
   const handleRoleSelect = (role: 'donor' | 'creator') => {
     setSelectedRole(role);
+    setStep('welcome');
   };
 
   const renderWelcomeContent = () => {
@@ -78,21 +79,116 @@ const RoleSelectionPageContent = () => {
       );
     }
     
-    // Creator View (Keep generic for now or update if needed)
-    return (
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-lg text-center">
-        <h1 className="text-3xl md:text-[32px] font-bold text-[#0F172A] mb-4 flex items-center justify-center gap-2">
-           أهلاً بك كمنشئ حملة في نجومي 
-           <span className="text-2xl">✨</span>
-        </h1>
-        <p className="text-[#6B7280] mb-12 max-w-md mx-auto leading-relaxed">
-          هنا يمكنك إنشاء حملات، جمع التبرعات، وتتبع الأثر الحقيقي لكل نجمة تصل إليك.
-        </p>
-        <Link href="/" className="w-full max-w-xs block mx-auto">
-          <Button variant="primary" fullWidth size="lg">
-            إبدأ الاعداد
+    // Creator View flow
+    if (step === 'welcome') {
+      return (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-xl text-right">
+          <h1 className="text-2xl md:text-[28px] font-bold text-[#0F172A] mb-2 flex items-center justify-center gap-2">
+             <span className="text-2xl">✨</span>
+             كيف تعمل نجومي لمنشئ الحملات؟ 
+          </h1>
+          <p className="text-[#6B7280] mb-8 text-center text-sm md:text-base">
+            ثلاث خطوات بسيطة تفصلك عن إطلاق حملتك ومشاركة قصتك مع الداعمين.
+          </p>
+
+          <div className="flex flex-col gap-4 mb-8">
+            {/* Step 1 */}
+            <div className="flex items-center gap-4 p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+               <div className="flex-1">
+                 <h3 className="font-bold text-[#0F172A] mb-1">أنشئ حملتك</h3>
+                 <p className="text-sm text-[#6B7280]">
+                   اكتب قصة حملتك، حدد الهدف، وأضف التفاصيل التي تهم الداعمين.
+                 </p>
+               </div>
+               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-2xl border border-[#E2E8F0]">
+                 📝
+               </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex items-center gap-4 p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+               <div className="flex-1">
+                 <h3 className="font-bold text-[#0F172A] mb-1">توثيق ومراجعة</h3>
+                 <p className="text-sm text-[#6B7280]">
+                   نقوم بمراجعة حملتك لضمان الشفافية وحماية الجميع.
+                 </p>
+               </div>
+               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-2xl border border-[#E2E8F0]">
+                 🛡️
+               </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex items-center gap-4 p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+               <div className="flex-1">
+                 <h3 className="font-bold text-[#0F172A] mb-1">اجمع النجوم</h3>
+                 <p className="text-sm text-[#6B7280]">
+                   بعد الموافقة، تبدأ النجوم بالوصول وتتابع تقدم حملتك لحظة بلحظة.
+                 </p>
+               </div>
+               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-2xl border border-[#E2E8F0]">
+                 ⭐
+               </div>
+            </div>
+          </div>
+
+          <Button 
+            variant="primary" 
+            fullWidth 
+            size="lg"
+            onClick={() => setStep('choice')}
+          >
+            متابعة
           </Button>
-        </Link>
+        </div>
+      );
+    }
+
+    // Step === 'choice'
+    return (
+      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-2xl text-center">
+        <h1 className="text-2xl md:text-[28px] font-bold text-[#0F172A] mb-4">
+           ماذا تود أن تفعل الآن؟
+        </h1>
+        <p className="text-[#6B7280] mb-12">
+           اختر الخطوة التي تناسبك في هذه المرحلة، يمكنك دائماً العودة وتعديل اختيارك لاحقاً دون أي التزام.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-6 w-full text-right">
+           {/* Setup Profile */}
+           <div className="flex flex-col items-center p-8 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl hover:border-[#2563EB] transition-colors group">
+              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
+                 {/* Placeholder for illustration */}
+                 <span className="text-4xl">👤</span> 
+              </div>
+              <h3 className="text-lg font-bold text-[#0F172A] mb-2 text-center">إعداد الحساب الشخصي</h3>
+              <p className="text-sm text-[#6B7280] text-center mb-6">
+                أكمل بياناتك الأساسية.
+              </p>
+              <Link href="/profile/setup" className="w-full mt-auto">
+                <Button variant="primary" fullWidth>
+                  إعداد الحساب الان
+                </Button>
+              </Link>
+           </div>
+
+           {/* Create Campaign */}
+           <div className="flex flex-col items-center p-8 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl hover:border-[#2563EB] transition-colors group">
+              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
+                 {/* Placeholder for illustration */}
+                 <span className="text-4xl">🚀</span>
+              </div>
+              <h3 className="text-lg font-bold text-[#0F172A] mb-2 text-center"> أنشئ حملتك الأولى ✨</h3>
+              <p className="text-sm text-[#6B7280] text-center mb-6">
+                 أنشئ حملتك الأولى
+              </p>
+              <Link href="/campaigns/create" className="w-full mt-auto">
+                <Button variant="primary" fullWidth>
+                   إبدأ إنشاء الحملة
+                </Button>
+              </Link>
+           </div>
+        </div>
       </div>
     );
   };
