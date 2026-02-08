@@ -66,3 +66,29 @@ export interface InfoWarCardProps {
   message: string;
   className?: string;
 }
+
+export interface ActionButtonConfig {
+  label: string;
+  icon?: React.ReactNode;
+  variant?: ButtonVariant;
+  onClick?: () => void;
+}
+
+export interface CampaignSummaryCardProps {
+  amount: number | string;
+  amountIcon?: React.ReactNode;
+  title: string;
+  date: string;
+  imageUrl: string;
+  imageAlt?: string;
+  isCompleted?: boolean;
+  progressValue?: number;
+  goalLabel?: string;
+  indicatorValue?: string | number;
+  indicatorIcon?: React.ReactNode;
+  completedMessage?: string;
+  completedIcon?: React.ReactNode;
+  buttons?: ActionButtonConfig[];
+  className?: string;
+}
+

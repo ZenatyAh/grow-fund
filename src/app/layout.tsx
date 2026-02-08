@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Tajawal } from 'next/font/google';
 import './globals.css';
+import ReactQueryProvider from './providers/ReactQueryProvider';
+import ToastsProvider from './providers/ToastsProvider';
 
 const tajawal = Tajawal({
   variable: '--font-tajawal',
@@ -36,7 +38,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${tajawal.variable} antialiased`}
       >
-        {children}
+        <ReactQueryProvider>
+          {children}
+          <ToastsProvider />
+        </ReactQueryProvider>
       </body>
     </html>
   );
