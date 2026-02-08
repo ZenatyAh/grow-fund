@@ -1,42 +1,73 @@
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input'; // Assuming Input exists, if not I'll need to check/create.
-import { Mail } from 'lucide-react';
 
-const Newsletter = () => {
-    return (
-        <section className="bg-blue-50 py-16">
-            <div className="container mx-auto px-4 max-w-4xl text-center">
-                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg relative overflow-hidden">
-                    {/* Decorative Background Elements */}
-                    <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-100 rounded-full opacity-50 blur-2xl"></div>
-                    <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-yellow-100 rounded-full opacity-50 blur-2xl"></div>
+const NewsletterSection = () => {
+  return (
+    <section className="w-full py-20">
+      <div className="container mx-auto px-4">
+        <div
+          className="
+            w-full
+            bg-[#DBEAFE]
+            rounded-[32px]
+            px-8 md:px-16
+            py-12
+            flex flex-col lg:flex-row
+            items-center
+            gap-10
+          "
+        >
+          {/* Left Illustration */}
 
-                    <div className="relative z-10">
-                        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Mail className="h-8 w-8 text-blue-600" />
-                        </div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                            اشترك في نشرة النجوم
-                        </h2>
-                        <p className="text-gray-600 mb-8 max-w-xl mx-auto">
-                            كن أول من يعرف عن حملاتنا الجديدة وقصص النجاح التي نصنعها معاً. نعدك بمحتوى ملهم فقط.
-                        </p>
+          {/* Content */}
+          <div className="flex-1 text-right">
+            <h3 className="text-2xl md:text-3xl font-bold text-[#0F172A] mb-4">
+              اشترك في نشرتنا البريدية
+            </h3>
 
-                        <form className="flex flex-col md:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-                            <Input 
-                                type="email" 
-                                placeholder="أدخل بريدك الإلكتروني" 
-                                className="h-12 text-right bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                            />
-                            <Button type="submit" size="lg" className="h-12 bg-blue-600 hover:bg-blue-700 text-white min-w-[120px]">
-                                اشتراك
-                            </Button>
-                        </form>
-                    </div>
-                </div>
+            <p className="text-[#334155] text-sm md:text-base leading-relaxed max-w-2xl">
+              اشترك في نشرتنا البريدية لتبقى على اطلاع دائم بالحملات الجديدة،
+              وتتابع آخر التحديثات والنتائج التي تحققت بفضل التبرعات. نرسل لك
+              محتوى مختار يوضح الأثر الحقيقي على أرض الواقع، ويمنحك فرصة لدعم
+              الحملات التي تهمك في الوقت المناسب.
+            </p>
+
+            {/* Input + Button */}
+            <div className="mt-8 flex flex-col sm:flex-row items-stretch gap-4 max-w-xl">
+              <input
+                type="email"
+                placeholder="أدخل بريدك الإلكتروني"
+                className="
+                  flex-1
+                  h-[48px]
+                  rounded-xl
+                  border border-[#CBD5E1]
+                  px-4
+                  text-sm
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-500
+                "
+              />
+
+              <Button className="h-[48px] px-8 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl">
+                اشترك
+              </Button>
             </div>
-        </section>
-    );
+          </div>
+          <div className="flex-shrink-0">
+            <Image
+              src="/images/home/background.png"
+              alt="Newsletter"
+              width={180}
+              height={180}
+              priority
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
-export default Newsletter;
+export default NewsletterSection;
