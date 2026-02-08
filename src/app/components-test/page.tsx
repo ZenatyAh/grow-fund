@@ -18,6 +18,7 @@ import { CategoryButton } from '@/components/shared/CategoryButton';
 import { SuccessState } from '@/components/shared/SuccessFailMessage';
 import { StartingStep } from '@/components/shared/StartingStep';
 import { CampaignCard } from '@/components/shared/CampaignCard';
+import { IdentityVerificationForm } from '@/components/shared/IdentityVerificationForm';
 import { ChevronLeft, CircleDollarSign } from 'lucide-react';
 
 const STEPS = [
@@ -594,6 +595,25 @@ export default function ComponentsTestPage() {
                   },
                 ]}
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Identity Verification Form Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12 space-y-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Identity Verification Form
+          </h2>
+          
+          <div className="flex flex-col gap-12 items-center">
+            <div className="flex flex-col gap-4 items-center">
+              <span className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Individual Verification</span>
+              <IdentityVerificationForm type="individual" />
+            </div>
+
+            <div className="flex flex-col gap-4 items-center">
+              <span className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Institution Verification</span>
+              <IdentityVerificationForm type="institution" />
             </div>
           </div>
         </div>

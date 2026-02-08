@@ -92,3 +92,20 @@ export interface CampaignSummaryCardProps {
   className?: string;
 }
 
+export interface VerificationFormData {
+  fullName?: string;
+  identityNumber?: string;
+  identityType?: string;
+  institutionName?: string;
+  registrationNumber?: string;
+  foundationDate?: string;
+  files: {
+    [key: string]: File | null;
+  };
+}
+
+export interface IdentityVerificationFormProps {
+  type: ProfileType;
+  onSubmit?: (data: VerificationFormData) => void;
+  className?: string;
+}
