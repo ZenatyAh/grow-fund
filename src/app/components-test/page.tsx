@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Star, ArrowLeft } from 'lucide-react';
+import { Share2, Star, ArrowLeft, Rocket, User, Building2, Droplets, Heart, Home, GraduationCap, Utensils, PawPrint, Sprout, Edit, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
 import { Button } from '@/components/shared/Button';
@@ -9,6 +9,16 @@ import { mergeClasses as cn } from '@/lib/utils';
 import { Card } from '@/components/shared/Card';
 import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
+import { ImageSlider } from '@/components/shared/ImageSlider';
+import { HeaderSubtitle } from '@/components/shared/HeaderSubtitle';
+import { ChoiceCard } from '@/components/shared/ChoiceCard';
+import { RadioSelect } from '@/components/shared/RadioSelect';
+import { Steps } from '@/components/shared/Steps';
+import { CategoryButton } from '@/components/shared/CategoryButton';
+import { SuccessState } from '@/components/shared/SuccessFailMessage';
+import { StartingStep } from '@/components/shared/StartingStep';
+import { CampaignCard } from '@/components/shared/CampaignCard';
+import { ChevronLeft, CircleDollarSign } from 'lucide-react';
 
 const STEPS = [
   { id: 'step-1', label: 'نوع المنشئ' },
@@ -23,6 +33,8 @@ export default function ComponentsTestPage() {
     id: 'edit-data',
     label: 'تعديل بياناتي',
   });
+  const [selectedRadio, setSelectedRadio] = useState('individual');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('water');
 
   return (
     <div
@@ -339,6 +351,248 @@ export default function ComponentsTestPage() {
                 variant="warning"
                 title="تحذير أمني"
                 message="المصادقة الثنائية غير مفعلة، ننصح بتفعيلها في أقرب وقت لحماية حسابك من الاختراق"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Image Slider Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Image Slider 
+          </h2>
+          <div className="flex flex-col lg:flex-row gap-8 items-center justify-center">
+            <div className="w-[400px] h-[700px] rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
+              <ImageSlider
+                images={[
+                  {
+                    src: '/images/sliderImage1.png',
+                    alt: 'Slider image 1',
+                  },
+                  {
+                    src: '/images/sliderImage2.png',
+                    alt: 'Slider image 2',
+                  },
+                  {
+                    src: '/images/sliderImage3.png',
+                    alt: 'Slider image 3',
+                  },
+                  {
+                    src: '/images/sliderImage4.png',
+                    alt: 'Slider image 4',
+                  },
+                ]}
+                autoPlay
+                autoPlayInterval={4000}
+              />
+            </div>
+
+            
+          </div>
+        </div>
+
+        {/* Header Subtitle Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Header Subtitle
+          </h2>
+          <div className="flex flex-col gap-8 items-center">
+            <HeaderSubtitle
+              title="مرحبًا بك في نجومي"
+              subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
+            />
+            
+            {/* Without stars */}
+            <HeaderSubtitle
+              title="مرحبًا بك في نجومي"
+              subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
+              showStars={false}
+            />
+          </div>
+        </div>
+
+        {/* Choice Card Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Choice Card
+          </h2>
+          <div className="flex flex-wrap gap-6 items-stretch justify-center">
+            <ChoiceCard
+              icon={<Star className="w-6 h-6" />}
+              title="متبرع"
+              description="دعم الحملات، التبرع بالنجوم، ومتابعة الأثر"
+              buttonLabel="متابعة كمتبرع"
+              onSelect={() => console.log('Donor selected')}
+            />
+            <ChoiceCard
+              icon={<Rocket className="w-6 h-6" />}
+              title="منشئ حملة"
+              description="إنشاء حملات، جمع التبرعات، وإدارة الأرباح"
+              buttonLabel="متابعة كمنشئ حملة"
+              onSelect={() => console.log('Creator selected')}
+            />
+          </div>
+        </div>
+
+        {/* Radio Select Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Radio Select
+          </h2>
+          <div className="max-w-xl mx-auto space-y-4">
+            <RadioSelect
+              id="individual"
+              name="account-type"
+              value="individual"
+              label="فردي"
+              icon={<User className="w-5 h-5" />}
+              checked={selectedRadio === 'individual'}
+              onChange={setSelectedRadio}
+            />
+            <RadioSelect
+              id="organization"
+              name="account-type"
+              value="organization"
+              label="مؤسسة / جمعية"
+              icon={<Building2 className="w-5 h-5" />}
+              checked={selectedRadio === 'organization'}
+              onChange={setSelectedRadio}
+            />
+          </div>
+        </div>
+
+        {/* Steps Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Steps 
+          </h2>
+          <div className="flex justify-center">
+            <Steps
+              steps={STEPS}
+              currentStep={currentStep}
+              onStepClick={setCurrentStep}
+            />
+          </div>
+        </div>
+
+        {/* Category Button Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Category Selection
+          </h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            {[
+              { id: 'water', label: 'مياه', icon: <Droplets className="w-5 h-5" /> },
+              { id: 'health', label: 'صحة', icon: <Heart className="w-5 h-5" /> },
+              { id: 'shelter', label: 'إيواء', icon: <Home className="w-5 h-5" /> },
+              { id: 'education', label: 'تعليم', icon: <GraduationCap className="w-5 h-5" /> },
+              { id: 'food', label: 'إغاثة غذائية', icon: <Utensils className="w-5 h-5" /> },
+              { id: 'animals', label: 'حيوانات', icon: <PawPrint className="w-5 h-5" /> },
+              { id: 'environment', label: 'بيئة', icon: <Sprout className="w-5 h-5" /> },
+            ].map((cat) => (
+              <CategoryButton
+                key={cat.id}
+                label={cat.label}
+                icon={cat.icon}
+                selected={selectedCategory === cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Success State Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Success State
+          </h2>
+          <div className="flex justify-center border-2 border-dashed border-slate-200 rounded-3xl p-8">
+            <SuccessState
+              image={<span className="text-8xl">👍</span>}
+              title="تم إعداد ملفك بنجاح"
+              description="يمكنك الآن إنشاء حملتك الأولى. سيتم مراجعتها قبل النشر لضمان الجودة والشفافية."
+            />
+          </div>
+        </div>
+
+        {/* Starting Steps Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Starting Steps Info Cards
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-6">
+            <StartingStep
+              title="أنشئ حملتك"
+              description="اكتب قصة حملتك، حدّد الهدف، وأضف التفاصيل التي تهم الداعمين."
+              icon={<Edit className="w-8 h-8" />}
+            />
+            <StartingStep
+              title="توثيق ومراجعة"
+              description="نقوم بمراجعة حملتك لضمان الشفافية وحماية الجميع."
+              icon={<ShieldCheck className="w-8 h-8" />}
+            />
+            <StartingStep
+              title="اجمع النجوم"
+              description="بعد الموافقة، تبدأ النجوم بالوصول وتتابع تقدم حملتك لحظة بلحظة."
+              icon={<Sparkles className="w-8 h-8" />}
+            />
+          </div>
+        </div>
+
+        {/* Campaign Summary Card Showcase */}
+        <div className="bg-white rounded-xl shadow-sm p-12 space-y-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Campaign Summary Card
+          </h2>
+          
+          <div className="flex flex-col gap-12 items-center">
+            {/* 1. In Progress State */}
+            <div className="space-y-4 w-full flex flex-col items-center">
+              <h3 className="text-lg font-semibold text-slate-500 w-full max-w-[899px]">حالة قيد التنفيذ (In Progress)</h3>
+              <CampaignCard
+                amount="100"
+                title="حملة تعليمية - حملة خيرية لبناء مدرسة اساسية"
+                date="15 مارس 2025"
+                imageUrl="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000&auto=format&fit=crop"
+                progressValue={35}
+                indicatorValue="50"
+                goalLabel="الهدف : 5000 نجمة"
+                buttons={[
+                  {
+                    label: 'تبرع مرة اخرى',
+                    variant: 'primary',
+                    icon: <CircleDollarSign size={20} />,
+                    onClick: () => console.log('Donate again clicked'),
+                  },
+                  {
+                    label: 'مشاهدة التفاصيل',
+                    variant: 'subtle',
+                    icon: <ChevronLeft size={14} />,
+                    onClick: () => console.log('View details clicked'),
+                  },
+                ]}
+              />
+            </div>
+
+            {/* 2. Completed State */}
+            <div className="space-y-4 w-full flex flex-col items-center">
+              <h3 className="text-lg font-semibold text-slate-500 w-full max-w-[899px]">حالة مكتملة (Completed)</h3>
+              <CampaignCard
+                isCompleted={true}
+                amount="100"
+                title="حملة تعليمية - حملة خيرية لبناء مدرسة اساسية"
+                date="15 مارس 2025"
+                imageUrl="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000&auto=format&fit=crop"
+                completedMessage="اكتمل الهدف"
+                goalLabel="5000 نجمة"
+                buttons={[
+                  {
+                    label: 'مشاهدة التحديثات',
+                    variant: 'primary',
+                    icon: <ChevronLeft size={14} />,
+                    onClick: () => console.log('View updates clicked'),
+                  },
+                ]}
               />
             </div>
           </div>
