@@ -6,7 +6,7 @@ import NavbarLinks from '@/shared/ui/components/NavbarLinks';
 import { useState } from 'react';
 
 const Header = () => {
-  const [donor] = useState(true);
+  const [donor] = useState(false);
 
   // Hook to determine if the device is mobile
   const isMobile = useIsMobile();
