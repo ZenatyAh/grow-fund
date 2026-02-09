@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/shared/Button';
+import Logo from '@/shared/ui/components/Logo';
 
 import { FaUser, FaBuilding, FaCheck, FaTint, FaHome, FaHeart, FaLeaf, FaAppleAlt, FaPaw, FaGraduationCap, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
 import { CategoryButton } from '@/components/shared/CategoryButton';
@@ -29,6 +30,15 @@ interface OrganizationData {
   commercialLicenseFile: File | null;
 }
 
+interface IndividualData {
+  name: string;
+  country: string;
+  contact: string;
+  profileImage: File | null;
+}
+
+const WIZARD_STORAGE_KEY = 'grow-fund-wizard-state';
+
 const ProfileSetupPage = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
@@ -53,11 +63,26 @@ const ProfileSetupPage = () => {
     commercialLicenseFile: null,
   });
 
+  const [individualData, setIndividualData] = useState<IndividualData>({
+    name: '',
+    country: '',
+    contact: '',
+    profileImage: null,
+  });
+
   const handleFileChange = (field: 'registrationFile' | 'commercialLicenseFile', file: File | null) => {
     setOrganizationData(prev => ({ ...prev, [field]: file }));
   };
 
-  // Get userId from localStorage on mount
+  const handleIndividualFileChange = (file: File | null) => {
+    setIndividualData(prev => ({ ...prev, profileImage: file }));
+  };
+
+  const handleIndividualDataChange = (field: keyof IndividualData, value: string) => {
+    setIndividualData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Load saved state from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -68,7 +93,56 @@ const ProfileSetupPage = () => {
         console.error('Failed to parse user data');
       }
     }
+
+    const savedState = localStorage.getItem(WIZARD_STORAGE_KEY);
+    if (savedState) {
+      try {
+        const state = JSON.parse(savedState);
+        if (state.currentStep) setCurrentStep(state.currentStep);
+        if (state.creatorType) setCreatorType(state.creatorType);
+        if (state.campaignCategory) setCampaignCategory(state.campaignCategory);
+        if (state.experienceLevel) setExperienceLevel(state.experienceLevel);
+        if (state.organizationData) {
+          setOrganizationData(prev => ({
+            ...prev,
+            ...state.organizationData,
+            registrationFile: null, // Files cannot be persisted easily in localStorage
+            commercialLicenseFile: null
+          }));
+        }
+        if (state.individualData) {
+          setIndividualData(prev => ({
+            ...prev,
+            ...state.individualData,
+            profileImage: null // Files cannot be persisted easily in localStorage
+          }));
+        }
+      } catch (e) {
+        console.error('Failed to parse saved wizard state', e);
+      }
+    }
   }, []);
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    // Only save if we have some data or are past step 1
+    const stateToSave = {
+      currentStep,
+      creatorType,
+      campaignCategory,
+      experienceLevel,
+      organizationData: {
+        ...organizationData,
+        registrationFile: null,
+        commercialLicenseFile: null
+      },
+      individualData: {
+        ...individualData,
+        profileImage: null
+      }
+    };
+    localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(stateToSave));
+  }, [currentStep, creatorType, campaignCategory, experienceLevel, organizationData, individualData]);
 
   // API Hook
   const { mutate: createProfile, isPending } = useCreateCampaignCreatorProfile();
@@ -95,10 +169,20 @@ const ProfileSetupPage = () => {
       institutionRepresentativePosition: creatorType === 'organization' ? organizationData.representativePosition : undefined,
       institutionRepresentativePhone: creatorType === 'organization' ? organizationData.representativePhone : undefined,
       institutionRepresentativeEmail: creatorType === 'organization' ? organizationData.representativeEmail : undefined,
+      // Individual fields
+      individualName: creatorType === 'individual' ? individualData.name : undefined,
+      individualCountry: creatorType === 'individual' ? individualData.country : undefined,
+      individualContact: creatorType === 'individual' ? individualData.contact : undefined,
+      individualProfileImage: creatorType === 'individual' ? individualData.profileImage?.name : undefined,
+      // Note: File uploads (profile image, docs) would typically be handled via a separate upload endpoint 
+      // or FormData, but for this DTO we are just passing strings as per current setup. 
+      // Real implementation would upload file and get URL.
     };
 
     createProfile(payload, {
       onSuccess: () => {
+        // Clear saved state on success
+        localStorage.removeItem(WIZARD_STORAGE_KEY);
         // Redirect to dashboard on success
         router.push('/dashboard');
       },
@@ -145,6 +229,10 @@ const ProfileSetupPage = () => {
   // Check if we're on the final step
   const isFinalStep = currentStep === 4;
 
+  const isValidEmail = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
   // Handle continue button click
   const handleContinue = () => {
     // Validation for Individual Step 2
@@ -180,6 +268,24 @@ const ProfileSetupPage = () => {
       const { registrationNumber, representativeName, representativePosition, representativePhone, representativeEmail, registrationFile, commercialLicenseFile } = organizationData;
       if (!registrationNumber || !representativeName || !representativePosition || !representativePhone || !representativeEmail || !registrationFile || !commercialLicenseFile) {
         setError('يرجى تعبئة جميع الحقول المطلوبة ورفع الملفات');
+        return;
+      }
+      if (!isValidEmail(representativeEmail)) {
+        setError('يرجى إدخال بريد إلكتروني صحيح');
+        return;
+      }
+      setError(null);
+    }
+
+    // Validation for Individual Step 4
+    if (currentStep === 4 && creatorType === 'individual') {
+      const { name, country, contact } = individualData;
+      if (!name || !country || !contact) {
+        setError('يرجى تعبئة جميع الحقول المطلوبة');
+        return;
+      }
+      if (!isValidEmail(contact)) {
+        setError('يرجى إدخال بريد إلكتروني صحيح');
         return;
       }
       setError(null);
@@ -236,8 +342,12 @@ const ProfileSetupPage = () => {
         {/* Main Content Area (Form) - Left Card */}
         <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[32px] md:rounded-[40px] flex flex-col p-8 md:p-14 overflow-hidden relative shadow-sm">
           
-          {/* Logo inside Content - Top Right - Hide for Organization Step 2 */}
-
+          {/* Logo inside Content - Steps 1-4 for Individual ONLY */}
+          {creatorType === 'individual' && (
+            <div className="absolute top-8 right-8 z-10">
+               <Logo />
+            </div>
+          )}
 
           <div className="flex-1 flex flex-col justify-center mt-12 md:mt-0">
               
@@ -799,8 +909,120 @@ const ProfileSetupPage = () => {
                   </div>
               )}
 
+              {/* Step 4: Individual - Basic Information */}
+              {currentStep === 4 && creatorType === 'individual' && (
+                  <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col h-full">
+                       {/* Header Banner */}
+                       <div className="bg-[#E2E8F0] rounded-full py-5 px-8 mb-6 text-right">
+                          <h1 className="text-xl md:text-2xl font-bold text-[#0F172A] mb-1">
+                              معلومات أساسية
+                          </h1>
+                      </div>
+
+                      {/* Error Message */}
+                      {error && (
+                          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-center animate-in fade-in slide-in-from-top-2">
+                              {error}
+                          </div>
+                      )}
+
+                      <div className="flex-1 overflow-auto flex flex-col gap-6">
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                               {/* Name */}
+                               <div>
+                                   <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">الاسم</label>
+                                   <input
+                                       type="text"
+                                       value={individualData.name}
+                                       onChange={(e) => handleIndividualDataChange('name', e.target.value)}
+                                       placeholder="محمد"
+                                       required
+                                       className="w-full h-11 px-4 border border-[#E2E8F0] rounded-lg text-[#0F172A] text-sm placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#3B82F6] transition-colors bg-white text-right"
+                                   />
+                               </div>
+                               {/* Country */}
+                               <div>
+                                   <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">الدولة</label>
+                                   <input
+                                       type="text"
+                                       value={individualData.country}
+                                       onChange={(e) => handleIndividualDataChange('country', e.target.value)}
+                                       placeholder="فلسطين"
+                                       required
+                                       className="w-full h-11 px-4 border border-[#E2E8F0] rounded-lg text-[#0F172A] text-sm placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#3B82F6] transition-colors bg-white text-right"
+                                   />
+                               </div>
+                           </div>
+
+                           {/* Contact Method */}
+                           <div>
+                               <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">وسيلة التواصل</label>
+                               <input
+                                   type="text"
+                                   value={individualData.contact}
+                                   onChange={(e) => handleIndividualDataChange('contact', e.target.value)}
+                                   placeholder="eng.mohammeduiux@gmail.com"
+                                   required
+                                   className="w-full h-11 px-4 border border-[#E2E8F0] rounded-lg text-[#0F172A] text-sm placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#3B82F6] transition-colors bg-white text-left"
+                                   dir="ltr"
+                               />
+                           </div>
+
+                           {/* Profile Image */}
+                           <div>
+                               <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">الصورة الشخصية</label>
+                               <div 
+                                 className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors bg-[#F8FAFC] cursor-pointer ${individualData.profileImage ? 'border-[#3B82F6] bg-[#EFF6FF]' : 'border-[#E2E8F0] hover:border-[#94A3B8]'}`}
+                                 onClick={() => document.getElementById('profileImage')?.click()}
+                               >
+                                   <input 
+                                     type="file" 
+                                     id="profileImage" 
+                                     className="hidden" 
+                                     onChange={(e) => handleIndividualFileChange(e.target.files?.[0] || null)}
+                                     accept=".png,.jpg,.jpeg,.pdf"
+                                   />
+                                   <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${individualData.profileImage ? 'bg-[#3B82F6] text-white' : 'bg-[#F1F5F9] text-[#64748B]'}`}>
+                                        {individualData.profileImage ? <FaCheck size={16} /> : <div className="text-2xl">+</div>} 
+                                   </div>
+                                   <p className={`text-sm mb-1 ${individualData.profileImage ? 'text-[#1E3A8A] font-medium' : 'text-[#64748B]'}`}>
+                                     {individualData.profileImage ? individualData.profileImage.name : 'اضغط للرفع أو اسحب الملفات هنا'}
+                                   </p>
+                                   {!individualData.profileImage && (
+                                     <p className="text-xs text-[#94A3B8]">(MB حتى 5 - PDF / JPG / PNG)</p>
+                                   )}
+                               </div>
+                           </div>
+                      </div>
+
+                       {/* Buttons */}
+                       <div className="flex gap-4 mt-auto justify-end">
+                           <Button 
+                               variant="subtle" 
+                               className="!bg-white border border-[#E2E8F0] px-8 !h-11 min-w-[100px]"
+                               onClick={() => setCurrentStep(prev => prev - 1)}
+                               disabled={isPending}
+                           >
+                               الخلف
+                           </Button>
+                           <Button 
+                               variant="primary" 
+                               className="px-8 !h-11 min-w-[120px]"
+                               onClick={handleContinue}
+                               disabled={isPending}
+                           >
+                               {isPending ? (
+                                   <FaSpinner className="animate-spin" size={18} />
+                               ) : (
+                                   'حفظ وإنهاء'
+                               )}
+                           </Button>
+                       </div>
+                  </div>
+              )}
+
                {/* Placeholder for remaining steps */}
-               {currentStep > 3 && (
+               {currentStep > 3 && creatorType === 'organization' && (
                   <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col h-full">
                       <div className="flex-1 flex flex-col justify-center items-center">
                           <h2 className="text-2xl font-bold mb-4 text-[#0F172A]">

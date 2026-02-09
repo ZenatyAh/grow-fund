@@ -23,6 +23,11 @@ export interface CreateCampaignCreatorDto {
   institutionCommercialLicense?: string;
   institutionWebsite?: string;
   institutionRepresentativeSocialMedia?: string;
+  // Individual fields
+  individualName?: string;
+  individualCountry?: string;
+  individualContact?: string;
+  individualProfileImage?: string;
 }
 
 export interface CampaignCreatorResponseDto {
