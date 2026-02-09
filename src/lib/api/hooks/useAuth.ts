@@ -22,3 +22,25 @@ export const useRegisterCampaignCreator = () => {
       apiClient.post(API_ENDPOINTS.auth.registerCampaignCreator, data),
   });
 };
+
+export interface LoginDto {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  access_token: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export const useLogin = () => {
+  return useMutation({
+    mutationFn: (data: LoginDto) =>
+      apiClient.post<LoginResponse>(API_ENDPOINTS.auth.login, data),
+  });
+};
