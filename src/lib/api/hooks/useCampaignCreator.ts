@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '../config';
 export interface CreateCampaignCreatorDto {
   userId: string;
   type: 'INDIVIDUAL' | 'INSTITUTION';
+  experience?: 'first_time' | 'previous_experience' | 'organization_representative';
   institutionCountry?: string;
   institutionName?: string;
   institutionType?: string;
@@ -16,6 +17,10 @@ export interface CreateCampaignCreatorDto {
   institutionRepresentativeName?: string;
   institutionRepresentativePosition?: string;
   institutionRepresentativeRegistrationNumber?: string;
+  institutionRepresentativePhone?: string;
+  institutionRepresentativeEmail?: string;
+  institutionRegistrationDocument?: string;
+  institutionCommercialLicense?: string;
   institutionWebsite?: string;
   institutionRepresentativeSocialMedia?: string;
 }
