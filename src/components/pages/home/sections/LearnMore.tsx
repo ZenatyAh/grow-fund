@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 
 const LearnMoreAboutImpact = () => {
   return (
-    <section className="w-full bg-white py-24">
+    <section id="about" className="w-full bg-white py-24">
       <div className="container mx-auto px-4 flex flex-col items-center">
         {/* Section Title */}
         <h2 className="flex items-center justify-center gap-3 mb-16 text-3xl md:text-4xl font-bold text-[#0F172A]">
