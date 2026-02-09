@@ -1,6 +1,6 @@
 import { InputTypes } from '@/utils/types';
-import { UseFormRegister } from 'react-hook-form';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
+import { UseFormRegister } from 'react-hook-form';
 
 export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   type?: InputTypes | string;
@@ -232,3 +232,24 @@ export interface InfoTextProps {
   iconWrapper?: string;
   iconClassName?: string;
 }
+
+export type StarsOption = {
+  label: string;
+  value: number | 'all';
+};
+export type StatItem = {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+};
+
+export type Status = 'مكتملة' | 'نشطة' | 'معلقة' | 'قيد المعالجة' | 'مرفوضة';
+export type CampaignBalance = {
+  id: string;
+  name: string;
+  stars: number;
+  amount: string;
+  date: string;
+  status: 'نشطة' | 'مكتملة';
+  balanceStatus: 'مكتمل' | 'معلق';
+};
