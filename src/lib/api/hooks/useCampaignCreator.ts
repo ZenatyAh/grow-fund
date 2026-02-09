@@ -1,0 +1,58 @@
+import { useMutation } from '@tanstack/react-query';
+import { apiClient } from '../client';
+import { API_ENDPOINTS } from '../config';
+
+// DTO types based on API documentation
+export interface CreateCampaignCreatorDto {
+  userId: string;
+  type: 'INDIVIDUAL' | 'INSTITUTION';
+  institutionCountry?: string;
+  institutionName?: string;
+  institutionType?: string;
+  institutionDateOfEstablishment?: string;
+  institutionLegalStatus?: string;
+  institutionTaxIdentificationNumber?: string;
+  institutionRegistrationNumber?: string;
+  institutionRepresentativeName?: string;
+  institutionRepresentativePosition?: string;
+  institutionRepresentativeRegistrationNumber?: string;
+  institutionWebsite?: string;
+  institutionRepresentativeSocialMedia?: string;
+}
+
+export interface CampaignCreatorResponseDto {
+  id: string;
+  userId: string;
+  type: string;
+  institutionCountry: string;
+  createdAt: string;
+}
+
+export interface CreateCreatorResponseWrapper {
+  message: string;
+  creator: CampaignCreatorResponseDto;
+}
+
+// Hook to create campaign creator profile
+export const useCreateCampaignCreatorProfile = () => {
+  return useMutation({
+    mutationFn: (data: CreateCampaignCreatorDto) =>
+      apiClient.post<CreateCreatorResponseWrapper>(
+        API_ENDPOINTS.campaignCreator.create,
+        data,
+        true // useAuth
+      ),
+  });
+};
+
+// Hook to update campaign creator profile
+export const useUpdateCampaignCreatorProfile = () => {
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<CreateCampaignCreatorDto> }) =>
+      apiClient.patch<CampaignCreatorResponseDto>(
+        API_ENDPOINTS.campaignCreator.update(id),
+        data,
+        true // useAuth
+      ),
+  });
+};
