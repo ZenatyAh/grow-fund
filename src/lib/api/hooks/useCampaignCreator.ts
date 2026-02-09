@@ -23,6 +23,9 @@ export interface CreateCampaignCreatorDto {
   institutionCommercialLicense?: string;
   institutionWebsite?: string;
   institutionRepresentativeSocialMedia?: string;
+  institutionIdPhoto?: string;
+  institutionRepresentativePhoto?: string;
+  institutionAuthorizationLetter?: string;
   // Individual fields
   individualName?: string;
   individualCountry?: string;

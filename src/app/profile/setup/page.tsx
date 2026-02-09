@@ -28,6 +28,11 @@ interface OrganizationData {
   representativeEmail: string;
   registrationFile: File | null;
   commercialLicenseFile: File | null;
+  idPhotoFile: File | null;
+  representativePhotoFile: File | null;
+  authorizationLetterFile: File | null;
+  website: string;
+  socialMedia: string;
 }
 
 interface IndividualData {
@@ -47,6 +52,7 @@ const ProfileSetupPage = () => {
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevel>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [organizationData, setOrganizationData] = useState<OrganizationData>({
     name: '',
     type: 'منظمة غير ربحية',
@@ -61,6 +67,11 @@ const ProfileSetupPage = () => {
     representativeEmail: '',
     registrationFile: null,
     commercialLicenseFile: null,
+    idPhotoFile: null,
+    representativePhotoFile: null,
+    authorizationLetterFile: null,
+    website: '',
+    socialMedia: '',
   });
 
   const [individualData, setIndividualData] = useState<IndividualData>({
@@ -70,7 +81,7 @@ const ProfileSetupPage = () => {
     profileImage: null,
   });
 
-  const handleFileChange = (field: 'registrationFile' | 'commercialLicenseFile', file: File | null) => {
+  const handleFileChange = (field: 'registrationFile' | 'commercialLicenseFile' | 'idPhotoFile' | 'representativePhotoFile' | 'authorizationLetterFile', file: File | null) => {
     setOrganizationData(prev => ({ ...prev, [field]: file }));
   };
 
@@ -106,8 +117,11 @@ const ProfileSetupPage = () => {
           setOrganizationData(prev => ({
             ...prev,
             ...state.organizationData,
-            registrationFile: null, // Files cannot be persisted easily in localStorage
-            commercialLicenseFile: null
+            registrationFile: null, 
+            commercialLicenseFile: null,
+            idPhotoFile: null,
+            representativePhotoFile: null,
+            authorizationLetterFile: null
           }));
         }
         if (state.individualData) {
@@ -134,7 +148,10 @@ const ProfileSetupPage = () => {
       organizationData: {
         ...organizationData,
         registrationFile: null,
-        commercialLicenseFile: null
+        commercialLicenseFile: null,
+        idPhotoFile: null,
+        representativePhotoFile: null,
+        authorizationLetterFile: null
       },
       individualData: {
         ...individualData,
@@ -143,6 +160,11 @@ const ProfileSetupPage = () => {
     };
     localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(stateToSave));
   }, [currentStep, creatorType, campaignCategory, experienceLevel, organizationData, individualData]);
+
+  // Clear error whenever the step changes
+  useEffect(() => {
+    setError(null);
+  }, [currentStep]);
 
   // API Hook
   const { mutate: createProfile, isPending } = useCreateCampaignCreatorProfile();
@@ -169,6 +191,11 @@ const ProfileSetupPage = () => {
       institutionRepresentativePosition: creatorType === 'organization' ? organizationData.representativePosition : undefined,
       institutionRepresentativePhone: creatorType === 'organization' ? organizationData.representativePhone : undefined,
       institutionRepresentativeEmail: creatorType === 'organization' ? organizationData.representativeEmail : undefined,
+      institutionWebsite: creatorType === 'organization' ? organizationData.website : undefined,
+      institutionRepresentativeSocialMedia: creatorType === 'organization' ? organizationData.socialMedia : undefined,
+      institutionIdPhoto: creatorType === 'organization' ? organizationData.idPhotoFile?.name : undefined,
+      institutionRepresentativePhoto: creatorType === 'organization' ? organizationData.representativePhotoFile?.name : undefined,
+      institutionAuthorizationLetter: creatorType === 'organization' ? organizationData.authorizationLetterFile?.name : undefined,
       // Individual fields
       individualName: creatorType === 'individual' ? individualData.name : undefined,
       individualCountry: creatorType === 'individual' ? individualData.country : undefined,
@@ -183,8 +210,7 @@ const ProfileSetupPage = () => {
       onSuccess: () => {
         // Clear saved state on success
         localStorage.removeItem(WIZARD_STORAGE_KEY);
-        // Redirect to dashboard on success
-        router.push('/dashboard');
+        setIsSubmitted(true);
       },
       onError: (err) => {
         setError(err.message || 'حدث خطأ أثناء حفظ الملف الشخصي');
@@ -291,6 +317,16 @@ const ProfileSetupPage = () => {
       setError(null);
     }
 
+    // Validation for Organization Step 4
+    if (currentStep === 4 && creatorType === 'organization') {
+      const { idPhotoFile, representativePhotoFile, authorizationLetterFile } = organizationData;
+      if (!idPhotoFile || !representativePhotoFile || !authorizationLetterFile) {
+        setError('يرجى رفع جميع الوثائق المطلوبة');
+        return;
+      }
+      setError(null);
+    }
+
     if (isFinalStep) {
       handleSubmitProfile();
     } else {
@@ -298,6 +334,107 @@ const ProfileSetupPage = () => {
     }
   };
 
+
+  if (isSubmitted) {
+    if (creatorType === 'individual') {
+      return (
+        <div 
+          className="flex items-center justify-center min-h-screen bg-[#F8FAFC] p-4 md:p-8 box-border"
+          dir="rtl"
+        >
+          <div className="w-full max-w-[1440px] flex items-center justify-center p-6 md:p-20">
+            <div className="w-full max-w-[900px] bg-white border border-[#E5E7EB] rounded-[40px] p-12 md:p-24 flex flex-col items-center justify-center text-center shadow-sm animate-in fade-in zoom-in-95 duration-700">
+               {/* Success Icon (3D Thumbs up vibe) */}
+               <div className="relative w-32 h-32 md:w-40 md:h-40 mb-10 flex items-center justify-center">
+                   <div className="absolute inset-0 bg-[#EFF6FF] rounded-full animate-pulse opacity-50"></div>
+                   <div className="relative z-10 text-6xl md:text-8xl">
+                       👍
+                   </div>
+               </div>
+
+               <h1 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4">
+                   تم إعداد ملفك بنجاح ✨
+               </h1>
+               <p className="text-[#64748B] text-lg md:text-xl leading-relaxed max-w-[500px] mb-12">
+                   يمكنك الآن إنشاء حملتك الأولى. سيتم مراجعتها قبل النشر لضمان الجودة والشفافية.
+               </p>
+
+               <div className="flex flex-col md:flex-row gap-4 w-full justify-center items-center">
+                   <Button 
+                      variant="primary" 
+                      className="px-12 !h-14 text-lg rounded-xl shadow-lg shadow-blue-100 min-w-[240px]"
+                      onClick={() => router.push('/campaigns/create')}
+                   >
+                       انشئ حملتك الأولى
+                   </Button>
+                   <Button 
+                      variant="subtle" 
+                      className="px-10 !h-14 text-lg rounded-xl !bg-[#F1F5F9] border border-[#E2E8F0] min-w-[240px]"
+                      onClick={() => router.push('/dashboard')}
+                   >
+                       تخطي إلى لوحة التحكم
+                   </Button>
+               </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    // Organization Success View
+    return (
+      <div 
+        className="flex items-center justify-center min-h-screen bg-[#F8FAFC] p-4 md:p-8 box-border"
+        dir="rtl"
+      >
+        <div className="w-full max-w-[1440px] flex items-center justify-center p-6 md:p-20">
+          <div className="w-full max-w-[900px] bg-white border border-[#E5E7EB] rounded-[40px] p-12 md:p-24 flex flex-col items-center justify-center text-center shadow-sm animate-in fade-in zoom-in-95 duration-700">
+             {/* Success Icon (Stylized Clock/Stopwatch) */}
+             <div className="relative w-32 h-32 md:w-40 md:h-40 mb-10 flex items-center justify-center">
+                 <div className="absolute inset-0 bg-[#F1F5F9] rounded-full animate-pulse opacity-50"></div>
+                 <div className="relative z-10 w-full h-full text-[#B59410] flex items-center justify-center">
+                      <div className="bg-white rounded-full p-4 shadow-xl border-4 border-[#F1F5F9]">
+                          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
+                              <path d="M12 7V12L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M12 3C7.02944 3 3 7.02944 3 12M21 12C21 7.02944 16.9706 3 12 3M3 12C3 16.9706 7.02944 21 12 21" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2"/>
+                              <path d="M16.5 3.5L19 6" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round"/>
+                              <path d="M7.5 3.5L5 6" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round"/>
+                          </svg>
+                      </div>
+                 </div>
+                 {/* Decorative Arrows */}
+                 <div className="absolute -top-2 -right-2 rotate-45 text-[#D4AF37]">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                        <path d="M16 12L20 16L16 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                 </div>
+                 <div className="absolute -bottom-2 -left-2 rotate-225 text-[#D4AF37]">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                        <path d="M16 12L20 16L16 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                 </div>
+             </div>
+
+             <h1 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4">
+                 طلب المراجعة قيد التقدم
+             </h1>
+             <p className="text-[#64748B] text-lg md:text-xl leading-relaxed max-w-[500px] mb-12">
+                 سنبلغك بإرسال ايميل الموجود بالنموذج بمجرد الموافقة على مؤسستك أو اذا كنا بحاجة إلى معلومات إضافية
+             </p>
+
+             <Button 
+                variant="primary" 
+                className="px-12 !h-14 text-lg rounded-xl shadow-lg shadow-blue-100 min-w-[240px]"
+                onClick={() => router.push('/campaigns')}
+             >
+                 إستكشاف الحملات
+             </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
@@ -1021,48 +1158,180 @@ const ProfileSetupPage = () => {
                   </div>
               )}
 
-               {/* Placeholder for remaining steps */}
-               {currentStep > 3 && creatorType === 'organization' && (
+              {/* Step 4: Organization - General Information */}
+              {currentStep === 4 && creatorType === 'organization' && (
                   <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col h-full">
-                      <div className="flex-1 flex flex-col justify-center items-center">
-                          <h2 className="text-2xl font-bold mb-4 text-[#0F172A]">
-                               {creatorType === 'organization' ? 'معلومات عامة' : 'معلومات أساسية للثقة'}
-                          </h2>
-                          <p className="text-[#64748B] mb-8">هذه الخطوة قيد التطوير</p>
-                          
-                          {/* Error Message */}
-                          {error && (
-                              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-center">
-                                  {error}
-                              </div>
-                          )}
+                       {/* Header Banner */}
+                       <div className="bg-[#E2E8F0] rounded-full py-5 px-8 mb-6 text-right">
+                          <h1 className="text-xl md:text-2xl font-bold text-[#0F172A] mb-1">
+                              معلومات المنظمة
+                          </h1>
+                          <p className="text-[#64748B] text-sm">يوفر تفاصيل المنظمة للتحقق من الحملة</p>
                       </div>
 
-                      {/* Buttons */}
-                      <div className="flex gap-4 mt-auto justify-end">
-                          <Button 
-                              variant="subtle" 
-                              className="!bg-white border border-[#E2E8F0] px-8 !h-11 min-w-[100px]"
-                              onClick={() => setCurrentStep(prev => prev - 1)}
-                              disabled={isPending}
-                          >
-                              الخلف
-                          </Button>
-                          <Button 
-                              variant="primary" 
-                              className="px-8 !h-11 min-w-[120px]"
-                              onClick={handleContinue}
-                              disabled={isPending}
-                          >
-                              {isPending ? (
-                                  <FaSpinner className="animate-spin" size={18} />
-                              ) : isFinalStep ? (
-                                  'حفظ وإنهاء'
-                              ) : (
-                                  'متابعة'
-                              )}
-                          </Button>
+                      {/* Error Message */}
+                      {error && (
+                          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-center animate-in fade-in slide-in-from-top-2">
+                              {error}
+                          </div>
+                      )}
+
+                      <div className="flex-1 overflow-auto flex flex-col gap-6">
+                           
+                           {/* Main Section */}
+                           <div className="border border-[#E5E7EB] rounded-2xl">
+                               <div className="flex items-center gap-3 p-5 border-b border-[#E5E7EB]">
+                                    <div className="w-12 h-12 bg-[#F1F5F9] rounded-xl flex items-center justify-center">
+                                       <FaBuilding className="text-[#64748B]" size={20} /> 
+                                   </div>
+                                   <div className="text-right">
+                                       <h2 className="text-lg font-bold text-[#0F172A]">معلومات عامة</h2>
+                                       <p className="text-sm text-[#94A3B8]">تقديم معلومات إضافية لبناء الثقة مع الداعمين</p>
+                                   </div>
+                               </div>
+
+                               <div className="p-6 flex flex-col gap-5">
+                                   {/* Registration Number - Displayed again as per design */}
+                                   <div>
+                                       <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">رقم التسجيل</label>
+                                       <input
+                                           type="text"
+                                           value={organizationData.registrationNumber}
+                                           onChange={(e) => handleOrgDataChange('registrationNumber', e.target.value)}
+                                           placeholder="REG-2018-12343"
+                                           required
+                                           className="w-full h-11 px-4 border border-[#E2E8F0] rounded-lg text-[#0F172A] text-sm placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#3B82F6] transition-colors bg-white text-right"
+                                       />
+                                   </div>
+
+                                   {/* ID Photo */}
+                                   <div>
+                                       <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">صورة الهوية</label>
+                                       <div 
+                                         className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors bg-[#F8FAFC] cursor-pointer ${organizationData.idPhotoFile ? 'border-[#3B82F6] bg-[#EFF6FF]' : 'border-[#E2E8F0] hover:border-[#94A3B8]'}`}
+                                         onClick={() => document.getElementById('idPhotoFile')?.click()}
+                                       >
+                                           <input 
+                                             type="file" 
+                                             id="idPhotoFile" 
+                                             className="hidden" 
+                                             onChange={(e) => handleFileChange('idPhotoFile', e.target.files?.[0] || null)}
+                                             accept=".png,.jpg,.jpeg,.docx,.pdf"
+                                           />
+                                           <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${organizationData.idPhotoFile ? 'bg-[#3B82F6] text-white' : 'bg-[#E0F2FE] text-[#0284C7]'}`}>
+                                               {organizationData.idPhotoFile ? <FaCheck size={16} /> : <FaBuilding size={16} />}
+                                           </div>
+                                           <p className={`text-sm mb-1 ${organizationData.idPhotoFile ? 'text-[#1E3A8A] font-medium' : 'text-[#64748B]'}`}>
+                                             {organizationData.idPhotoFile ? organizationData.idPhotoFile.name : 'اسحب الملف وأفلته أو انقر للتحميل'}
+                                           </p>
+                                           {!organizationData.idPhotoFile && (
+                                             <p className="text-xs text-[#94A3B8]">(الصيغة المقبولة: PNG, JPG, DOCX, PDF)</p>
+                                           )}
+                                       </div>
+                                   </div>
+
+                                   {/* Representative Photo */}
+                                   <div>
+                                       <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">صورة شخصية للمفوض</label>
+                                       <div 
+                                         className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors bg-[#F8FAFC] cursor-pointer ${organizationData.representativePhotoFile ? 'border-[#3B82F6] bg-[#EFF6FF]' : 'border-[#E2E8F0] hover:border-[#94A3B8]'}`}
+                                         onClick={() => document.getElementById('representativePhotoFile')?.click()}
+                                       >
+                                           <input 
+                                             type="file" 
+                                             id="representativePhotoFile" 
+                                             className="hidden" 
+                                             onChange={(e) => handleFileChange('representativePhotoFile', e.target.files?.[0] || null)}
+                                             accept=".png,.jpg,.jpeg,.docx,.pdf"
+                                           />
+                                           <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${organizationData.representativePhotoFile ? 'bg-[#3B82F6] text-white' : 'bg-[#E0F2FE] text-[#0284C7]'}`}>
+                                               {organizationData.representativePhotoFile ? <FaCheck size={16} /> : <FaUser size={16} />}
+                                           </div>
+                                           <p className={`text-sm mb-1 ${organizationData.representativePhotoFile ? 'text-[#1E3A8A] font-medium' : 'text-[#64748B]'}`}>
+                                             {organizationData.representativePhotoFile ? organizationData.representativePhotoFile.name : 'اسحب الملف وأفلته أو انقر للتحميل'}
+                                           </p>
+                                           {!organizationData.representativePhotoFile && (
+                                             <p className="text-xs text-[#94A3B8]">(الصيغة المقبولة: PNG, JPG, DOCX, PDF)</p>
+                                           )}
+                                       </div>
+                                   </div>
+
+                                   {/* Authorization Letter */}
+                                   <div>
+                                       <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">خطاب التفويض</label>
+                                       <div 
+                                         className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors bg-[#F8FAFC] cursor-pointer ${organizationData.authorizationLetterFile ? 'border-[#3B82F6] bg-[#EFF6FF]' : 'border-[#E2E8F0] hover:border-[#94A3B8]'}`}
+                                         onClick={() => document.getElementById('authorizationLetterFile')?.click()}
+                                       >
+                                           <input 
+                                             type="file" 
+                                             id="authorizationLetterFile" 
+                                             className="hidden" 
+                                             onChange={(e) => handleFileChange('authorizationLetterFile', e.target.files?.[0] || null)}
+                                             accept=".png,.jpg,.jpeg,.pdf"
+                                           />
+                                           <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${organizationData.authorizationLetterFile ? 'bg-[#3B82F6] text-white' : 'bg-[#E0F2FE] text-[#0284C7]'}`}>
+                                               {organizationData.authorizationLetterFile ? <FaCheck size={16} /> : <FaCheck size={16} />}
+                                           </div>
+                                           <p className={`text-sm mb-1 ${organizationData.authorizationLetterFile ? 'text-[#1E3A8A] font-medium' : 'text-[#64748B]'}`}>
+                                             {organizationData.authorizationLetterFile ? organizationData.authorizationLetterFile.name : 'ارفق خطاب التفويض الرسمي للمؤسسة'}
+                                           </p>
+                                           {!organizationData.authorizationLetterFile && (
+                                             <p className="text-xs text-[#94A3B8]">(MB الحد الأقصى 5) JPG أو PDF</p>
+                                           )}
+                                       </div>
+                                   </div>
+
+                                   {/* Website */}
+                                   <div>
+                                       <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">الموقع الالكتروني ( اختياري )</label>
+                                       <input
+                                           type="text"
+                                           value={organizationData.website}
+                                           onChange={(e) => handleOrgDataChange('website', e.target.value)}
+                                           placeholder="www.starry.org"
+                                           className="w-full h-11 px-4 border border-[#E2E8F0] rounded-lg text-[#0F172A] text-sm placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#3B82F6] transition-colors bg-white text-right"
+                                       />
+                                   </div>
+
+                                   {/* Social Media */}
+                                   <div>
+                                       <label className="block text-sm font-medium text-[#0F172A] mb-2 text-right">روابط وسائل التواصل الاجتماعي (اختياري)</label>
+                                       <input
+                                           type="text"
+                                           value={organizationData.socialMedia}
+                                           onChange={(e) => handleOrgDataChange('socialMedia', e.target.value)}
+                                           placeholder="https://facebook.com/username"
+                                           className="w-full h-11 px-4 border border-[#E2E8F0] rounded-lg text-[#0F172A] text-sm placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#3B82F6] transition-colors bg-white text-right"
+                                       />
+                                   </div>
+                               </div>
+                           </div>
                       </div>
+
+                       {/* Buttons */}
+                       <div className="flex gap-4 mt-auto justify-end">
+                           <Button 
+                               variant="subtle" 
+                               className="!bg-white border border-[#E2E8F0] px-8 !h-11 min-w-[100px]"
+                               onClick={() => setCurrentStep(prev => prev - 1)}
+                               disabled={isPending}
+                           >
+                               الخلف
+                           </Button>
+                           <Button 
+                               variant="primary" 
+                               className="px-8 !h-11 min-w-[150px]"
+                               onClick={handleContinue}
+                               disabled={isPending}
+                           >
+                               {isPending ? (
+                                   <FaSpinner className="animate-spin" size={18} />
+                               ) : (
+                                   'إرسال للمراجعة'
+                               )}
+                           </Button>
+                       </div>
                   </div>
               )}
 
