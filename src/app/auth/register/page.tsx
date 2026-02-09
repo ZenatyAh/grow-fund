@@ -54,7 +54,10 @@ const sliderImages = [
   },
 ];
 
+import { useRouter } from 'next/navigation';
+
 const RegisterPage = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const { mutate: registerCreator, isPending } = useRegisterCampaignCreator();
 
@@ -83,6 +86,9 @@ const RegisterPage = () => {
     registerCreator(payload, {
       onSuccess: () => {
         toast.success('تم إنشاء الحساب بنجاح');
+        // Redirect to Role Selection with name
+        const fullName = `${payload.firstName} ${payload.lastName}`;
+        router.push(`/auth/choose-role?name=${encodeURIComponent(fullName)}`);
       },
       onError: (error: any) => {
         toast.error(error.message || 'حدث خطأ أثناء إنشاء الحساب');
