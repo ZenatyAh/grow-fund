@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Tajawal } from 'next/font/google';
 import './globals.css';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 import ToastsProvider from './providers/ToastsProvider';
+import { ToastContainer } from 'react-toastify';
 
 const tajawal = Tajawal({
   variable: '--font-tajawal',
@@ -31,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir='rtl'>
+    <html lang="en" dir="rtl">
       <head>
         <link rel="icon" href="/images/logo.png" sizes="any" />
       </head>
@@ -41,6 +42,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           {children}
           <ToastsProvider />
+          <ToastContainer />
         </ReactQueryProvider>
       </body>
     </html>
