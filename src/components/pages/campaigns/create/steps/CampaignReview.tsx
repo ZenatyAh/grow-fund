@@ -106,11 +106,11 @@ const CampaignReviewStep = ({ control, errors }: ReactHookFormProps) => {
           control={control}
           variant="secondary"
         />
-        {errors && errors?.['checkbox'] && (
+        {/* {errors && errors?.['checkbox'] && (
           <p className="text-base text-red-500 mt-1">
             {errors?.['checkbox'].message}
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );
