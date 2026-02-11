@@ -56,6 +56,7 @@ export interface ProfileCardProps {
   typeLabel?: string;
   profileStrength?: number;
   imageUrl?: string;
+  isDonor?: boolean;
   activeItemId?: string;
   onMenuItemClick?: (id: string, label: string) => void;
   className?: string;
@@ -64,6 +65,7 @@ export interface InfoWarCardProps {
   variant?: 'info' | 'warning';
   title?: string;
   message: string;
+  isCompact?: boolean;
   className?: string;
 }
 
@@ -92,3 +94,8 @@ export interface CampaignSummaryCardProps {
   className?: string;
 }
 
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  icon?: React.ReactNode;
+  containerClassName?: string;
+}
