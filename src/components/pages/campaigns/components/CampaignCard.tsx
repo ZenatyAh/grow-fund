@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { Clock, Heart, Share2 } from "lucide-react";
+import Link from "next/link";
+import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import ShareCampaignModal from "./ShareCampaignModal";
+import CampaignLikeButton from "./CampaignLikeButton";
+import CampaignShareButton from "./CampaignShareButton";
 
 interface CampaignCardProps {
   id: string | number;
@@ -37,26 +39,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
   className,
 }) => {
   const progressPercentage = Math.min(Math.round((raised / goal) * 100), 100);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isShareOpen, setIsShareOpen] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    const stored = window.localStorage.getItem(`campaign-like:${id}`);
-    setIsLiked(stored === "true");
-  }, [id]);
-
-  const toggleLike = () => {
-    setIsLiked((prev) => {
-      const next = !prev;
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem(`campaign-like:${id}`, String(next));
-      }
-      return next;
-    });
-  };
+  const detailsHref = `/campaigns/${id}`;
 
   return (
     <div
@@ -66,7 +49,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
       )}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+      <Link href={detailsHref} className="relative aspect-[4/3] w-full overflow-hidden block">
         <Image
           src={image}
           alt={title}
@@ -80,40 +63,15 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
             <Clock className="h-4 w-4" />
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="flex flex-1 flex-col px-6 pb-6 pt-5 text-right">
         {/* Actions Row */}
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button
-              size="icon"
-              variant="secondary"
-              className="h-12 w-12 rounded-full bg-slate-100 text-blue-600 hover:bg-slate-200"
-              onClick={() => setIsShareOpen(true)}
-              aria-label="مشاركة الحملة"
-            >
-              <Share2 className="h-5 w-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="secondary"
-              className={cn(
-                "h-12 w-12 rounded-full bg-slate-100 text-rose-500 hover:bg-slate-200",
-                isLiked && "text-rose-600"
-              )}
-              onClick={toggleLike}
-              aria-pressed={isLiked}
-              aria-label={isLiked ? "إلغاء الإعجاب" : "أعجبني"}
-            >
-              <Heart
-                className={cn(
-                  "h-5 w-5 transition-colors",
-                  isLiked && "fill-current"
-                )}
-              />
-            </Button>
+            <CampaignShareButton campaignId={id} campaignTitle={title} />
+            <CampaignLikeButton campaignId={id} />
           </div>
           <span className="inline-flex items-center rounded-full bg-blue-50 px-5 py-2 text-base font-semibold text-blue-600">
             {category}
@@ -121,12 +79,14 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
         </div>
 
         {/* Title */}
-        <h3
-          className="mb-3 text-2xl font-extrabold leading-snug text-slate-900 line-clamp-2"
-          title={title}
-        >
-          {title}
-        </h3>
+        <Link href={detailsHref}>
+          <h3
+            className="mb-3 text-2xl font-extrabold leading-snug text-slate-900 line-clamp-2 hover:text-blue-700 transition-colors"
+            title={title}
+          >
+            {title}
+          </h3>
+        </Link>
         <div className="mb-4 text-sm text-slate-500">{date}</div>
 
         {/* Description */}
@@ -150,12 +110,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
           </Button>
         </div>
       </div>
-      <ShareCampaignModal
-        isOpen={isShareOpen}
-        onClose={() => setIsShareOpen(false)}
-        campaignId={id}
-        campaignTitle={title}
-      />
     </div>
   );
 };
