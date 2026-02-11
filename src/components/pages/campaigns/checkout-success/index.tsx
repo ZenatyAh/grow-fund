@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import React, { useMemo } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useParams, useSearchParams } from "next/navigation";
-import Breadcrumbs from "@/shared/ui/components/Breadcrumbs";
-import { CAMPAIGNS } from "../data/campaigns";
-import SuccessHero from "./components/SuccessHero";
-import SuccessDetailsCard from "./components/SuccessDetailsCard";
-import ContributionImpactCard from "./components/ContributionImpactCard";
+import React, { useMemo } from 'react';
+import Link from 'next/link';
+import { Download } from 'lucide-react';
+import { useParams, useSearchParams } from 'next/navigation';
+import { CAMPAIGNS } from '../data/campaigns';
+import SuccessHero from './components/SuccessHero';
+import SuccessDetailsCard from './components/SuccessDetailsCard';
+import ContributionImpactCard from './components/ContributionImpactCard';
 
 const CampaignCheckoutSuccessPage = () => {
   const params = useParams<{ id: string }>();
@@ -27,11 +26,12 @@ const CampaignCheckoutSuccessPage = () => {
     );
   }, [campaignId]);
 
-  const amountParam = searchParams?.get("amount") ?? "200";
-  const transactionParam = searchParams?.get("trx") ?? "TRX-1002";
-  const dateParam =
-    searchParams?.get("date") ?? "12 أكتوبر 2025 • 10:30 ص";
+  const amountParam = searchParams?.get('amount') ?? '200';
+  const transactionParam = searchParams?.get('trx') ?? 'TRX-1002';
+  const dateParam = searchParams?.get('date') ?? '12 أكتوبر 2025 . 10:30 ص';
+  const totalParam = searchParams?.get('total') ?? '200';
   const amountLabel = `${amountParam} ش`;
+  const totalLabel = `${totalParam} ش`;
 
   if (!campaign) {
     return (
@@ -44,17 +44,9 @@ const CampaignCheckoutSuccessPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 font-['Tajawal']">
-      <div className="mx-auto max-w-[1200px] px-4 pb-20 pt-8">
-        <Breadcrumbs
-          className="mb-8 text-slate-400"
-          currentLabel="نجاح التبرع"
-          labelMap={{
-            campaigns: "استكشاف الحملات",
-          }}
-        />
-
-        <div className="mx-auto max-w-[520px]">
+    <main className="min-h-screen bg-[#F1F5F9]">
+      <div className="mx-auto w-full max-w-[700px] px-3 pb-14 pt-7 md:pt-10">
+        <div className="mx-auto max-w-[600px]">
           <SuccessHero
             title="تم التبرع بنجاح! شكراً لك"
             subtitle="مساهمتك ستصنع فرقًا حقيقيًا في حياة الآخرين"
@@ -63,6 +55,7 @@ const CampaignCheckoutSuccessPage = () => {
           <div className="mt-6">
             <SuccessDetailsCard
               amountLabel={amountLabel}
+              totalLabel={totalLabel}
               campaignName={campaign.title}
               transactionId={transactionParam}
               dateLabel={dateParam}
@@ -76,31 +69,21 @@ const CampaignCheckoutSuccessPage = () => {
             />
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="#"
-              className="inline-flex w-full items-center justify-center rounded-[12px] bg-blue-600 px-6 py-3 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-[10px] bg-[#2563EB] px-4 py-3 text-[14px] font-bold text-white transition-colors hover:bg-[#1D4ED8] md:text-[20px]"
             >
+              <Download className="h-4 w-4 md:h-5 md:w-5" />
               تحميل الفاتورة
-            </Link>
+            </button>
             <Link
               href="/campaigns"
-              className="inline-flex w-full items-center justify-center rounded-[12px] border border-slate-200 bg-white px-6 py-3 text-[14px] font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-300"
+              className="inline-flex w-full items-center justify-center rounded-[10px] border border-[#CBD5E1] bg-[#F8FAFC] px-4 py-3 text-[5px] font-bold text-[#0F172A] transition-colors hover:bg-slate-100 md:text-[20px]"
             >
               استكشاف المزيد من الحملات
             </Link>
           </div>
-        </div>
-
-        <div className="mt-10 flex items-center justify-center gap-3 text-[12px] text-slate-400">
-          <Image
-            src="/images/home/background.png"
-            alt="نجومي"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-          <span>نجومي</span>
         </div>
       </div>
     </main>

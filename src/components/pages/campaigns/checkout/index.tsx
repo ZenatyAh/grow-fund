@@ -39,6 +39,14 @@ const CampaignCheckoutPage = () => {
   }, [campaignId]);
 
   const initialStars = Number(searchParams?.get("stars") ?? "");
+  const mockStatusParam = searchParams?.get("mockStatus");
+  const forcedMockStatus =
+    mockStatusParam === "success" || mockStatusParam === "failed"
+      ? mockStatusParam
+      : null;
+  const initialMethodParam = searchParams?.get("method");
+  const initialMethod: "card" | "paypal" =
+    initialMethodParam === "paypal" ? "paypal" : "card";
   const initialOption =
     amountOptions.find((option) => option.stars === initialStars)?.id ?? "5";
   const initialCustom =
@@ -48,7 +56,7 @@ const CampaignCheckoutPage = () => {
 
   const [selectedOptionId, setSelectedOptionId] = useState(initialOption);
   const [customAmount, setCustomAmount] = useState(initialCustom);
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">(initialMethod);
 
   const selectedOption = amountOptions.find(
     (option) => option.id === selectedOptionId
@@ -105,9 +113,12 @@ const CampaignCheckoutPage = () => {
             />
 
             <PaymentDetailsCard
+              campaignId={String(campaign.id)}
               amountLabel={`${totalAmount} شيكل`}
+              amountValue={totalAmount}
               method={paymentMethod}
               onMethodChange={setPaymentMethod}
+              mockStatus={forcedMockStatus}
             />
           </div>
 

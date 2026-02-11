@@ -114,9 +114,12 @@ const AuthLandingPage = () => {
                   <span className="flex-1 h-px bg-[#E5E7EB]" />
                 </div>
 
-                <button className="text-sm font-semibold text-[#2563EB] hover:text-[#1D4ED8] underline-offset-4 hover:underline cursor-pointer">
+                <Link
+                  href="/home"
+                  className="text-sm font-semibold text-[#2563EB] hover:text-[#1D4ED8] underline-offset-4 hover:underline cursor-pointer text-center"
+                >
                   تصفح كضيف
-                </button>
+                </Link>
               </div>
             </div>
           </div>
