@@ -6,6 +6,7 @@ import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
 import EditProfileForm from '@/components/shared/EditProfileForm';
 import DonationPreferencesForm from '@/components/shared/DonationPreferencesForm';
+import ChangePasswordForm from '@/components/shared/ChangePasswordForm';
 
 const DonorProfilePage = ({ params }: { params: { id: string } }) => {
   const [activeSection, setActiveSection] = useState('edit-data');
@@ -42,6 +43,7 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
           <main className="flex-1">
             {activeSection === 'edit-data' && <EditProfileForm />}
             {activeSection === 'donation-preferences' && <DonationPreferencesForm />}
+            {activeSection === 'change-password' && <ChangePasswordForm />}
           </main>
         </div>
       </div>
