@@ -90,11 +90,13 @@ const AuthLandingPage = () => {
                 subtitleClassName="text-sm md:text-base text-[#6B7280] leading-relaxed"
               />
 
-              <div className="flex flex-col gap-3 items-stretch">
+              <Link href="/auth/login" className="w-full">
                 <Button variant="primary" size="lg" fullWidth>
                   تسجيل الدخول
                 </Button>
+              </Link>
 
+              <div className="flex flex-col gap-3 items-stretch">
                 <Link href="/auth/register" className="w-full">
                   <Button
                     variant="subtle"

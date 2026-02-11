@@ -176,9 +176,7 @@ const Input = ({
                 placeholder={placeholder}
                 aria-label={ariaLabel}
                 className={inputClasses}
-                {...(typeof register === 'function' ? register(inputName) : {})}
-                // onChange={onChange}
-                // value={value}
+                {...(typeof register === 'function' ? register(inputName) : { value, onChange })}
                 {...props}
               />
             )}

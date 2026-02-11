@@ -9,5 +9,14 @@ export const API_BASE_URL =
 export const API_ENDPOINTS = {
   auth: {
     registerCampaignCreator: '/api/v1/auth/register/campaign-creator',
+    login: '/api/v1/auth/login',
+    forgotPassword: '/api/v1/auth/password/forgot',
+    verifyOtp: '/api/v1/auth/password/verify-otp',
+    resetPassword: '/api/v1/auth/password/reset',
+  },
+  campaignCreator: {
+    create: '/api/v1/campaign-creator',
+    getById: (id: string) => `/api/v1/campaign-creator/${id}`,
+    update: (id: string) => `/api/v1/campaign-creator/${id}`,
   },
 };
