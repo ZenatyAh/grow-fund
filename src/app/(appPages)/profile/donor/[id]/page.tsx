@@ -7,6 +7,7 @@ import InfoWarCard from '@/components/shared/InfoWarCard';
 import EditProfileForm from '@/components/shared/EditProfileForm';
 import DonationPreferencesForm from '@/components/shared/DonationPreferencesForm';
 import ChangePasswordForm from '@/components/shared/ChangePasswordForm';
+import TwoFactorAuthForm from '@/components/shared/TwoFactorAuthForm';
 
 const DonorProfilePage = ({ params }: { params: { id: string } }) => {
   const [activeSection, setActiveSection] = useState('edit-data');
@@ -44,6 +45,7 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
             {activeSection === 'edit-data' && <EditProfileForm />}
             {activeSection === 'donation-preferences' && <DonationPreferencesForm />}
             {activeSection === 'change-password' && <ChangePasswordForm />}
+            {activeSection === '2fa' && <TwoFactorAuthForm />}
           </main>
         </div>
       </div>

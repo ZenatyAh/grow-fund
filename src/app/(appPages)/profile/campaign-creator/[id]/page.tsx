@@ -6,6 +6,7 @@ import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
 import EditProfileForm from '@/components/shared/EditProfileForm';
 import ChangePasswordForm from '@/components/shared/ChangePasswordForm';
+import TwoFactorAuthForm from '@/components/shared/TwoFactorAuthForm';
 
 const CampaignCreatorProfilePage = ({ params }: { params: { id: string } }) => {
   const [activeSection, setActiveSection] = useState('edit-data');
@@ -41,6 +42,7 @@ const CampaignCreatorProfilePage = ({ params }: { params: { id: string } }) => {
           <main className="flex-1">
             {activeSection === 'edit-data' && <EditProfileForm />}
             {activeSection === 'change-password' && <ChangePasswordForm />}
+            {activeSection === '2fa' && <TwoFactorAuthForm />}
           </main>
         </div>
       </div>

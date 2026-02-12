@@ -109,3 +109,9 @@ export interface VerificationCodeInputProps {
     onVerify: () => void;
     onCancel: () => void;
 }
+export interface AuthMethod {
+    id: string;
+    title: string;
+    description: string;
+    icon: React.ReactNode;
+}
