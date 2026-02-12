@@ -5,15 +5,14 @@ import BasicCampaignInfoStep from './steps/BasicCampaignInfo';
 import CampaignImageStep from './steps/CampaignImage';
 import CampaignGoalStep from './steps/CampaignGoal';
 import CampaignReviewStep from './steps/CampaignReview';
-import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { textOnlyRegex, textWithPunctuationRegex } from '@/utils/regex';
 import Logo from '@/shared/ui/components/Logo';
 import { Button } from '@/components/shared/Button';
 import CampaignUnderReview from './steps/CampaignUnderReview';
 import useAPI from '@/hooks/useAPI';
 import { FaSpinner } from 'react-icons/fa';
+import { campaignsCreateSchema } from '@/features/auth/schemas';
 
 export interface CampaignsCreateData {
   title: string;
@@ -33,31 +32,6 @@ const STEPS = [
   { id: 'step-3', label: 'تفاصيل الهدف والتقدّم' },
   { id: 'step-4', label: 'مراجعة الحملة قبل النشر' },
 ];
-
-const fullSchema = yup.object({
-  title: yup
-    .string()
-    .required('عنوان الحملة مطلوب')
-    .matches(
-      textOnlyRegex,
-      'عنوان الحملة يجب أن يحتوي على نص صحيح فقط بدون رموز غريبة'
-    ),
-  motivationMessage: yup.string().required('وصف الحملة مطلوب'),
-
-  category: yup.string().required('نوع الحملة مطلوب'),
-  goal: yup.number().required('عدد النجوم مطلوب'),
-  file: yup.mixed().nullable().notRequired(),
-  description: yup
-    .string()
-    .required('وصف الحملة مطلوب')
-    .matches(
-      textWithPunctuationRegex,
-      'وصف الحملة يجب أن يحتوي على نص صحيح فقط بدون رموز غير مدعومة'
-    ),
-  startDate: yup.string().required('تاريخ البدء مطلوب'),
-  endDate: yup.string().required('تاريخ الإنتهاء مطلوب'),
-  checkbox: yup.boolean().oneOf([true, false]),
-});
 
 const stepFields = [
   ['title', 'motivationMessage', 'category', 'goal'] as const,
@@ -80,7 +54,7 @@ const CampaignsCreatePage = () => {
     setValue,
     formState: { errors },
   } = useForm<any>({
-    resolver: yupResolver(fullSchema),
+    resolver: yupResolver(campaignsCreateSchema),
     defaultValues: {
       title: '',
       motivationMessage: '',
