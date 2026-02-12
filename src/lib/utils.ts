@@ -99,3 +99,13 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   icon?: React.ReactNode;
   containerClassName?: string;
 }
+export interface VerificationModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: (method: 'phone' | 'email') => void;
+}
+export interface VerificationCodeInputProps {
+    method: 'phone' | 'email';
+    onVerify: () => void;
+    onCancel: () => void;
+}
