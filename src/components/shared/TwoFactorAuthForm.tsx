@@ -5,11 +5,11 @@ import InfoWarCard from './InfoWarCard';
 import { Button } from './Button';
 import { IconShield, IconMessage } from '@tabler/icons-react';
 import { AuthMethod, cn } from '@/lib/utils';
-
-
+import TwoFactorWizardModal from './TwoFactorWizardModal';
 
 const TwoFactorAuthForm = () => {
     const [enabledMethod, setEnabledMethod] = useState<string | null>(null);
+    const [isWizardOpen, setIsWizardOpen] = useState(false);
 
     const authMethods: AuthMethod[] = [
         {
@@ -27,8 +27,17 @@ const TwoFactorAuthForm = () => {
     ];
 
     const handleEnable = (methodId: string) => {
-        setEnabledMethod(methodId);
-        console.log(`Enabling 2FA method: ${methodId}`);
+        if (methodId === 'sms') {
+            setIsWizardOpen(true);
+        } else {
+            setEnabledMethod(methodId);
+            console.log(`Enabling 2FA method: ${methodId}`);
+        }
+    };
+
+    const handleWizardComplete = () => {
+        setEnabledMethod('sms');
+        console.log('2FA SMS enabled successfully');
     };
 
     return (
@@ -42,7 +51,7 @@ const TwoFactorAuthForm = () => {
                 المصادقة الثنائية
             </h1>
 
-    
+
             <div>
                 <InfoWarCard
                     variant="warning"
@@ -51,12 +60,12 @@ const TwoFactorAuthForm = () => {
                 />
             </div>
 
-         
+
             <div
                 className="bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px]"
                 style={{ width: '1050px', height: '719px' }}
             >
-  
+
                 <div className="flex items-center gap-[8px]">
                     <div className="w-6 h-6 bg-[#2563EB] rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold leading-none">!</span>
@@ -66,7 +75,7 @@ const TwoFactorAuthForm = () => {
                     </h3>
                 </div>
 
- 
+
                 <div className="flex flex-col gap-[24px]">
                     {authMethods.map((method) => (
                         <div
@@ -80,7 +89,7 @@ const TwoFactorAuthForm = () => {
                             style={{ width: '986px', height: '104px', padding: '24px' }}
                         >
                             <div className="flex items-start gap-[24px] flex-1">
-               
+
                                 <div className={cn(
                                     "w-[48px] h-[48px] rounded-full flex items-center justify-center shrink-0",
                                     enabledMethod === method.id ? "bg-[#2563EB]" : "bg-[#EFF6FF]"
@@ -90,7 +99,7 @@ const TwoFactorAuthForm = () => {
                                     </div>
                                 </div>
 
-               
+
                                 <div className="flex flex-col gap-[8px] flex-1">
                                     <h4 className="text-[18px] font-bold text-[#0F264D] font-['var(--font-tajawal)'] text-right">
                                         {method.title}
@@ -101,7 +110,7 @@ const TwoFactorAuthForm = () => {
                                 </div>
                             </div>
 
-          
+
                             <Button
                                 variant={enabledMethod === method.id ? "subtle" : "primary"}
                                 className="w-[103px] h-[48px] rounded-[8px] font-['var(--font-tajawal)'] text-[18px] font-bold px-[32px] py-[16px]"
@@ -113,6 +122,13 @@ const TwoFactorAuthForm = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Two-Factor Wizard Modal */}
+            <TwoFactorWizardModal
+                isOpen={isWizardOpen}
+                onClose={() => setIsWizardOpen(false)}
+                onComplete={handleWizardComplete}
+            />
         </div>
     );
 };

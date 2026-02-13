@@ -101,9 +101,18 @@ const EditProfileForm = () => {
 
             <div className="w-[485px] h-[86px] flex flex-col gap-[8px]">
               <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] leading-[150%]">الجنس</label>
-              <div className="relative w-full h-[48px] px-[16px] py-[12px] bg-white border border-[#E2E8F0] rounded-[12px] flex items-center gap-[8px] cursor-pointer">
-                <IconChevronDown size={20} className="text-[#94A3B8]" />
-                <span className="flex-1 text-[16px] text-[#334155] text-right font-['var(--font-tajawal)']">ذكر</span>
+              <div className="relative w-full h-[48px] bg-white border border-[#E2E8F0] rounded-[12px] flex items-center">
+                <select
+                  className="w-full h-full px-[16px] py-[12px] bg-transparent border-none outline-none text-[16px] text-[#334155] text-right font-['var(--font-tajawal)'] appearance-none cursor-pointer z-10"
+                  defaultValue=""
+                >
+                  <option value="" disabled hidden>اختر الجنس</option>
+                  <option value="male">ذكر</option>
+                  <option value="female">أنثى</option>
+                </select>
+                <div className="absolute left-[16px] top-1/2 -translate-y-1/2 pointer-events-none z-0">
+                  <IconChevronDown size={20} className="text-[#94A3B8]" />
+                </div>
               </div>
             </div>
           </div>

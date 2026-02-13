@@ -115,3 +115,8 @@ export interface AuthMethod {
     description: string;
     icon: React.ReactNode;
 }
+export interface TwoFactorWizardModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onComplete: () => void;
+}
