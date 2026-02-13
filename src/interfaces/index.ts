@@ -1,6 +1,8 @@
 import { InputTypes } from '@/utils/types';
 import { UseFormRegister } from 'react-hook-form';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
+import { Variants } from 'framer-motion';
+import { ReactNode } from 'react';
 
 export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   type?: InputTypes | string;
@@ -44,6 +46,7 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   bars?: number;
   onChange?: (e: React.ChangeEvent<any>) => void;
   onFileChange?: (files: File[]) => void;
+  file?: File | Blob | null;
 }
 
 export interface MultiSelectProps {
@@ -77,6 +80,18 @@ export interface FileInputProps {
   accept?: string | any;
   maxSize?: number;
   disabled?: boolean;
+  file: any;
+}
+
+export interface FileUploadProps {
+  onChange?: (files: File[]) => void;
+  children: React.ReactNode;
+  uploadClassName: string;
+  emptyStateClassName: string;
+  accept?: string | any;
+  maxSize?: number;
+  disabled?: boolean;
+  file: any;
 }
 
 export interface ProgressTopInfoProps {
@@ -182,7 +197,7 @@ export interface CampaignStatisticsCardProps {
   label: string;
 }
 
-export interface TitleWithIconProps {
+export interface TitleWithIconProps extends ReactHookFormProps {
   otherClassName?: string;
   title: string;
   description?: React.ReactNode;
@@ -191,6 +206,8 @@ export interface TitleWithIconProps {
   iconSize?: number;
   iconClassName?: string;
   handleClick?: () => void;
+  inputType: string;
+  inputName: string;
 }
 
 export interface DataTableBodyProps {
@@ -209,11 +226,24 @@ export interface TableProps extends DataTableBodyProps {
   title: string;
 }
 
+export interface ReactHookFormValuesProps {
+  title: string;
+  motivationMessage: string;
+  category: string;
+  goal: number;
+  description: string;
+  file: any;
+  startDate: string;
+  endDate: string;
+  checkbox: string;
+}
+
 export interface ReactHookFormProps {
   register?: UseFormRegister<any>;
   setValue?: any;
   control?: any;
-  errors: any;
+  errors?: any;
+  values?: ReactHookFormValuesProps | any;
 }
 
 export interface BasicCampaignInfoStepProps extends ReactHookFormProps {
@@ -231,4 +261,13 @@ export interface InfoTextProps {
   className?: string;
   iconWrapper?: string;
   iconClassName?: string;
+}
+
+export interface AnimatedWrapperProps {
+  children: ReactNode;
+  custom?: number;
+  variants?: Variants;
+  direction?: 'x' | 'y';
+  distance?: number;
+  duration?: number;
 }
