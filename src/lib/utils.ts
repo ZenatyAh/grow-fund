@@ -120,3 +120,47 @@ export interface TwoFactorWizardModalProps {
     onClose: () => void;
     onComplete: () => void;
 }
+
+export interface DonationRecord {
+  id: string;
+  amount: number;
+  title: string;
+  date: string;
+  imageUrl: string;
+  isCompleted: boolean;
+  progressValue?: number;
+  goalLabel?: string;
+  indicatorValue?: string | number;
+  completedMessage?: string;
+  completedIcon?: React.ReactNode;
+  buttons?: ActionButtonConfig[];
+}
+
+export interface DonationHistoryProps {
+  donations?: DonationRecord[];
+  onExploreClick?: () => void;
+}
+export interface DonationRecord {
+    id: string;
+    amount: number;
+    title: string;
+    date: string;
+    imageUrl: string;
+    isCompleted: boolean;
+    progressValue?: number;
+    goalLabel?: string;
+    indicatorValue?: string | number;
+    completedMessage?: string;
+    completedIcon?: React.ReactNode;
+    buttons?: Array<{
+        label: string;
+        icon?: React.ReactNode;
+        variant?: 'primary' | 'subtle';
+        onClick?: () => void;
+    }>;
+}
+
+export interface DonationHistoryProps {
+    donations?: DonationRecord[];
+    onExploreClick?: () => void;
+}

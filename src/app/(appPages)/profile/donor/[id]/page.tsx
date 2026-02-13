@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { CheckCircle2, RotateCcw, Eye, Bell } from 'lucide-react';
 import SharedHeader from '@/components/shared/SharedHeader';
 import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
@@ -8,9 +9,56 @@ import EditProfileForm from '@/components/shared/EditProfileForm';
 import DonationPreferencesForm from '@/components/shared/DonationPreferencesForm';
 import ChangePasswordForm from '@/components/shared/ChangePasswordForm';
 import TwoFactorAuthForm from '@/components/shared/TwoFactorAuthForm';
+import DonationHistorySection, { DonationRecord } from '@/components/shared/DonationHistorySection';
 
 const DonorProfilePage = ({ params }: { params: { id: string } }) => {
   const [activeSection, setActiveSection] = useState('edit-data');
+
+  const sampleDonations: DonationRecord[] = [
+    {
+      id: '1',
+      amount: 100,
+      title: 'حملة تعليمية - حملة خيرية لبناء مدرسة اساسية',
+      date: '15 مارس 2025',
+      imageUrl: '/images/donation-record.jpg',
+      isCompleted: false,
+      progressValue: 50,
+      goalLabel: 'الهدف : 5000 نجمة',
+      indicatorValue: '50',
+      buttons: [
+        {
+          label: 'تبرع مرة أخرى',
+          icon: <RotateCcw size={16} />,
+          variant: 'primary',
+          onClick: () => console.log('Donate again clicked'),
+        },
+        {
+          label: 'مشاهدة التفاصيل',
+          icon: <Eye size={16} />,
+          variant: 'subtle',
+          onClick: () => console.log('View details clicked'),
+        },
+      ],
+    },
+    {
+      id: '2',
+      amount: 100,
+      title: 'حملة تعليمية - حملة خيرية لبناء مدرسة اساسية',
+      date: '15 مارس 2025',
+      imageUrl: '/images/donation-record.jpg',
+      isCompleted: true,
+      completedMessage: 'اكتمل الهدف 5000',
+      completedIcon: <CheckCircle2 size={16} className="text-white hidden" />, // Hiding icon as it's not visible in screenshot text flow
+      buttons: [
+        {
+          label: 'مشاهدة التحديثات',
+          icon: <Bell size={16} />,
+          variant: 'primary',
+          onClick: () => console.log('View updates clicked'),
+        },
+      ],
+    },
+  ];
 
   return (
     <div
@@ -46,6 +94,7 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
             {activeSection === 'donation-preferences' && <DonationPreferencesForm />}
             {activeSection === 'change-password' && <ChangePasswordForm />}
             {activeSection === '2fa' && <TwoFactorAuthForm />}
+            {activeSection === 'donation-record' && <DonationHistorySection donations={sampleDonations} />}
           </main>
         </div>
       </div>
