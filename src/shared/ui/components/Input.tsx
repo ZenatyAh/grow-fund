@@ -55,6 +55,7 @@ const Input = ({
   passwordStrengthLevel,
   bars,
   onFileChange,
+  file,
   ...props
 }: React.PropsWithChildren<InputProps>) => {
   const inputClasses = `w-full h-13 bg-transparent outline-none transition-all duration-300 ${inputClassName}`;
@@ -89,6 +90,7 @@ const Input = ({
         />
       ) : type === 'file' ? (
         <FileInput
+          file={file}
           uploadVariant={uploadVariant}
           uploadClassName={uploadClassName}
           emptyStateClassName={emptyStateClassName}
@@ -176,7 +178,9 @@ const Input = ({
                 placeholder={placeholder}
                 aria-label={ariaLabel}
                 className={inputClasses}
-                {...(typeof register === 'function' ? register(inputName) : { value, onChange })}
+                {...(typeof register === 'function'
+                  ? register(inputName)
+                  : { value, onChange })}
                 {...props}
               />
             )}

@@ -1,8 +1,9 @@
 import { cn } from '@/lib/utils';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import { IconUpload } from '@tabler/icons-react';
 import { useDropzone } from 'react-dropzone';
+import { FileUploadProps } from '@/interfaces';
 
 const mainVariant = {
   initial: {
@@ -33,16 +34,8 @@ export const FileUpload = ({
   accept,
   maxSize,
   disabled,
-}: {
-  onChange?: (files: File[]) => void;
-  children: React.ReactNode;
-  uploadClassName: string;
-  emptyStateClassName: string;
-  accept?: string | any;
-  maxSize?: number;
-  disabled?: boolean;
-}) => {
-  const [file, setFile] = useState<File | null>(null);
+  file,
+}: FileUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
@@ -50,7 +43,6 @@ export const FileUpload = ({
     if (!selectedFile) return;
 
     if (maxSize && selectedFile.size > maxSize) return;
-    setFile(selectedFile);
     onChange && onChange([selectedFile]);
   };
 

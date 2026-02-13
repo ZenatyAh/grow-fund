@@ -17,11 +17,13 @@ const FileInput = ({
   accept,
   maxSize,
   disabled,
+  file,
 }: FileInputProps) => {
   const isStacked = uploadVariant === 'stacked';
 
   return (
     <FileUpload
+      file={file}
       onChange={onFileChange}
       uploadClassName={uploadClassName}
       emptyStateClassName={emptyStateClassName}
