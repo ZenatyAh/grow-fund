@@ -6,6 +6,7 @@ import {
   BasicCampaignInfoInputs,
   CampaignCategorys,
 } from '@/shared/config/CampaignData';
+import AnimatedWrapper from '@/shared/ui/components/FramerMotion/AnimatedWrapper';
 
 const BasicCampaignInfoStep = ({
   register,
@@ -16,54 +17,58 @@ const BasicCampaignInfoStep = ({
   return (
     <div>
       <div className="space-y-8">
-        {BasicCampaignInfoInputs.map((input) => {
+        {BasicCampaignInfoInputs.map((input, index) => {
           const { id, label, type, name, placeholder } = input;
           return (
-            <Input
-              key={id}
-              type={type}
-              label={label}
-              inputName={name}
-              placeholder={placeholder}
-              register={register}
-              error={errors}
-              variant="secondary"
-              textareaClassName="h-32"
-              otherClassName={`rounded-xl! w-full ${
-                errors[name] ? 'border border-red-500' : ''
-              }`}
-            />
+            <AnimatedWrapper key={id} custom={index}>
+              <Input
+                type={type}
+                label={label}
+                inputName={name}
+                placeholder={placeholder}
+                register={register}
+                error={errors}
+                variant="secondary"
+                textareaClassName="h-32"
+                otherClassName={`rounded-xl! w-full ${
+                  errors[name] ? 'border border-red-500' : ''
+                }`}
+              />
+            </AnimatedWrapper>
           );
         })}
       </div>
 
       <div className="my-8">
-        <h1 className="text-xl font-bold text-(--text-third)">
-          ما نوع الحملات التي تخطط لإنشائها؟
-        </h1>
+        <AnimatedWrapper>
+          <h1 className="text-xl font-bold text-(--text-third)">
+            ما نوع الحملات التي تخطط لإنشائها؟
+          </h1>
+        </AnimatedWrapper>
 
         <div>
           <div className="flex items-center gap-4 flex-wrap mt-2">
-            {CampaignCategorys.map((item) => {
+            {CampaignCategorys.map((item, index) => {
               const { id, Icon, name, type } = item;
               return (
-                <div
-                  key={id}
-                  onClick={() =>
-                    setValue('category', type.toUpperCase(), {
-                      shouldValidate: true,
-                    })
-                  }
-                  className={`flex items-center gap-4 text-lg py-1.5 px-5 rounded-xl cursor-pointer transition
+                <AnimatedWrapper key={id} custom={index}>
+                  <div
+                    onClick={() =>
+                      setValue('category', type.toUpperCase(), {
+                        shouldValidate: true,
+                      })
+                    }
+                    className={`flex items-center gap-4 text-lg py-1.5 px-5 rounded-xl cursor-pointer transition
                 ${
                   type.toUpperCase() === category
                     ? 'bg-(--bg-bold-blue) text-white'
                     : 'border border-(--bg-slate-100)'
                 }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span className="font-bold">{name}</span>
-                </div>
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className="font-bold">{name}</span>
+                  </div>
+                </AnimatedWrapper>
               );
             })}
           </div>
@@ -75,7 +80,7 @@ const BasicCampaignInfoStep = ({
         </div>
       </div>
 
-      <div>
+      <AnimatedWrapper>
         <Input
           type="number"
           label="هدف الحملة (عدد النجوم)"
@@ -88,11 +93,13 @@ const BasicCampaignInfoStep = ({
             errors.goal ? 'border border-red-500' : ''
           }`}
         />
+      </AnimatedWrapper>
+      <AnimatedWrapper>
         <InfoText
           Icon={FaExclamationCircle}
           text="يُستخدم عدد النجوم لقياس التقدم وليس كمبلغ مالي"
         />
-      </div>
+      </AnimatedWrapper>
     </div>
   );
 };

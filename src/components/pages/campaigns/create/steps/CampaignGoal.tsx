@@ -9,6 +9,7 @@ import { format, addDays } from 'date-fns';
 import { useState } from 'react';
 import { campaignsDurations } from '@/shared/config/CampaignData';
 import ProgressTracked from '@/shared/ui/components/ProgressTracked';
+import AnimatedWrapper from '@/shared/ui/components/FramerMotion/AnimatedWrapper';
 
 const CampaignGoalStep = ({
   startDate,
@@ -30,44 +31,49 @@ const CampaignGoalStep = ({
       <div>
         <h2 className="text-xl text-(--text-third) font-bold">مدة الحملة</h2>
         <div className="flex items-center gap-4 flex-wrap mt-2">
-          {campaignsDurations.map((item) => {
+          {campaignsDurations.map((item, index) => {
             const { id, duration } = item;
             return (
-              <div
-                key={id}
-                onClick={() => handleDurationClick(duration)}
-                className={`flex items-center gap-4 text-lg py-2 px-8 rounded-xl border-2 cursor-pointer transition
+              <AnimatedWrapper key={id} custom={index}>
+                <div
+                  onClick={() => handleDurationClick(duration)}
+                  className={`flex items-center gap-4 text-lg py-2 px-8 rounded-xl border-2 cursor-pointer transition
                 ${
                   selectedDuration === duration
                     ? 'bg-(--bg-bold-blue) text-white border-(--bg-bold-blue)'
                     : 'text-(--brand-primary) border-(--bg-slate-100)'
                 }`}
-              >
-                <span>{duration} يوماً</span>
-              </div>
+                >
+                  <span>{duration} يوماً</span>
+                </div>
+              </AnimatedWrapper>
             );
           })}
           <div className="flex-1">
-            <Input
-              type="date"
-              inputName="startDate"
-              placeholder="تحديد تاريخ بدء الحملة"
-              register={register}
-              variant="secondary"
-              otherClassName={`rounded-xl! w-full cursor-pointer ${
-                errors.startDate ? 'border border-red-500' : ''
-              }`}
-              inputClassName="cursor-pointer"
-              onChange={(e) =>
-                setValue('startDate', e.target.value, {
-                  shouldValidate: true,
-                })
-              }
-            />
+            <AnimatedWrapper>
+              <Input
+                type="date"
+                inputName="startDate"
+                placeholder="تحديد تاريخ بدء الحملة"
+                register={register}
+                variant="secondary"
+                otherClassName={`rounded-xl! w-full cursor-pointer ${
+                  errors.startDate ? 'border border-red-500' : ''
+                }`}
+                inputClassName="cursor-pointer"
+                onChange={(e) =>
+                  setValue('startDate', e.target.value, {
+                    shouldValidate: true,
+                  })
+                }
+              />
+            </AnimatedWrapper>
             {errors && errors?.['startDate'] && (
-              <p className="text-base text-red-500 mt-1">
-                {errors?.startDate.message}
-              </p>
+              <AnimatedWrapper>
+                <p className="text-base text-red-500 mt-1">
+                  {errors?.startDate.message}
+                </p>
+              </AnimatedWrapper>
             )}
           </div>
         </div>
@@ -76,33 +82,39 @@ const CampaignGoalStep = ({
       {/* Campaign end date */}
       <div>
         <div>
-          <Input
-            type="date"
-            label="تاريخ انتهاء الحملة"
-            inputName="endDate"
-            placeholder=" تاريخ انتهاء الحملة"
-            register={register}
-            variant="secondary"
-            otherClassName={`rounded-xl! w-full cursor-pointer ${
-              errors.endDate ? 'border border-red-500' : ''
-            }`}
-            inputClassName="cursor-pointer"
-            onChange={(e) =>
-              setValue('endDate', e.target.value, {
-                shouldValidate: true,
-              })
-            }
-          />
+          <AnimatedWrapper>
+            <Input
+              type="date"
+              label="تاريخ انتهاء الحملة"
+              inputName="endDate"
+              placeholder=" تاريخ انتهاء الحملة"
+              register={register}
+              variant="secondary"
+              otherClassName={`rounded-xl! w-full cursor-pointer ${
+                errors.endDate ? 'border border-red-500' : ''
+              }`}
+              inputClassName="cursor-pointer"
+              onChange={(e) =>
+                setValue('endDate', e.target.value, {
+                  shouldValidate: true,
+                })
+              }
+            />
+          </AnimatedWrapper>
           {errors && errors?.['endDate'] && (
-            <p className="text-base text-red-500 mt-1">
-              {errors?.endDate.message}
-            </p>
+            <AnimatedWrapper>
+              <p className="text-base text-red-500 mt-1">
+                {errors?.endDate.message}
+              </p>
+            </AnimatedWrapper>
           )}
         </div>
-        <InfoText
-          Icon={FaExclamationCircle}
-          text="يمكنك تمديد المدة لاحقًا إذا لزم الأمر."
-        />
+        <AnimatedWrapper>
+          <InfoText
+            Icon={FaExclamationCircle}
+            text="يمكنك تمديد المدة لاحقًا إذا لزم الأمر."
+          />
+        </AnimatedWrapper>
       </div>
 
       {/* How is progress tracked? */}
