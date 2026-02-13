@@ -11,6 +11,7 @@ import ChangePasswordForm from '@/components/shared/ChangePasswordForm';
 import TwoFactorAuthForm from '@/components/shared/TwoFactorAuthForm';
 import DonationHistorySection from '@/components/shared/DonationHistorySection';
 import NotificationSettingsSection from '@/components/shared/NotificationSettings';
+import AccountVerificationSection from '@/components/shared/AccountVerification';
 import { DonationRecord } from '@/lib/utils';
 
 const DonorProfilePage = ({ params }: { params: { id: string } }) => {
@@ -97,6 +98,7 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
             {activeSection === 'change-password' && <ChangePasswordForm />}
             {activeSection === '2fa' && <TwoFactorAuthForm />}
             {activeSection === 'notifications' && <NotificationSettingsSection />}
+            {activeSection === 'verification' && <AccountVerificationSection />}
             {activeSection === 'donation-record' && <DonationHistorySection donations={sampleDonations} />}
           </main>
         </div>

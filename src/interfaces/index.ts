@@ -39,7 +39,7 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   isRequired?: boolean;
   textareaClassName?: string;
   showPassStrength?: boolean;
-  passwordStrengthLevel: number;
+  passwordStrengthLevel?: number;
   bars?: number;
   onChange?: (e: React.ChangeEvent<any>) => void;
   onFileChange?: (files: File[]) => void;
