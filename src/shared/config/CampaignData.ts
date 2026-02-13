@@ -100,3 +100,17 @@ export const campaignsDurations = [
     duration: 90,
   },
 ];
+
+export const STEPS = [
+  { id: 'step-1', label: 'معلومات الحملة الأساسية' },
+  { id: 'step-2', label: 'صورة الحملة' },
+  { id: 'step-3', label: 'تفاصيل الهدف والتقدّم' },
+  { id: 'step-4', label: 'مراجعة الحملة قبل النشر' },
+];
+
+export const stepFields = [
+  ['title', 'motivationMessage', 'category', 'goal'] as const,
+  ['file', 'description'] as const,
+  ['startDate', 'endDate'] as const,
+  ['checkbox'] as const,
+];
