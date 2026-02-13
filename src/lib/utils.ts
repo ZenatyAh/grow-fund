@@ -49,25 +49,7 @@ export interface MenuItemProps {
 
 export type ProfileType = 'individual' | 'institution';
 
-export interface ProfileCardProps {
-  type?: ProfileType;
-  name?: string;
-  location?: string;
-  typeLabel?: string;
-  profileStrength?: number;
-  imageUrl?: string;
-  isDonor?: boolean;
-  activeItemId?: string;
-  onMenuItemClick?: (id: string, label: string) => void;
-  className?: string;
-}
-export interface InfoWarCardProps {
-  variant?: 'info' | 'warning';
-  title?: string;
-  message: string;
-  isCompact?: boolean;
-  className?: string;
-}
+
 
 export interface ActionButtonConfig {
   label: string;
@@ -76,50 +58,6 @@ export interface ActionButtonConfig {
   onClick?: () => void;
 }
 
-export interface CampaignSummaryCardProps {
-  amount: number | string;
-  amountIcon?: React.ReactNode;
-  title: string;
-  date: string;
-  imageUrl: string;
-  imageAlt?: string;
-  isCompleted?: boolean;
-  progressValue?: number;
-  goalLabel?: string;
-  indicatorValue?: string | number;
-  indicatorIcon?: React.ReactNode;
-  completedMessage?: string;
-  completedIcon?: React.ReactNode;
-  buttons?: ActionButtonConfig[];
-  className?: string;
-}
-
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  icon?: React.ReactNode;
-  containerClassName?: string;
-}
-export interface VerificationModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onConfirm: (method: 'phone' | 'email') => void;
-}
-export interface VerificationCodeInputProps {
-    method: 'phone' | 'email';
-    onVerify: () => void;
-    onCancel: () => void;
-}
-export interface AuthMethod {
-    id: string;
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-}
-export interface TwoFactorWizardModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onComplete: () => void;
-}
 
 export interface DonationRecord {
   id: string;
@@ -136,31 +74,6 @@ export interface DonationRecord {
   buttons?: ActionButtonConfig[];
 }
 
-export interface DonationHistoryProps {
-  donations?: DonationRecord[];
-  onExploreClick?: () => void;
-}
-export interface DonationRecord {
-    id: string;
-    amount: number;
-    title: string;
-    date: string;
-    imageUrl: string;
-    isCompleted: boolean;
-    progressValue?: number;
-    goalLabel?: string;
-    indicatorValue?: string | number;
-    completedMessage?: string;
-    completedIcon?: React.ReactNode;
-    buttons?: Array<{
-        label: string;
-        icon?: React.ReactNode;
-        variant?: 'primary' | 'subtle';
-        onClick?: () => void;
-    }>;
-}
 
-export interface DonationHistoryProps {
-    donations?: DonationRecord[];
-    onExploreClick?: () => void;
-}
+// End of file
+

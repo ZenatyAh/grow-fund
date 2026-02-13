@@ -1,6 +1,7 @@
 import { InputTypes } from '@/utils/types';
 import { UseFormRegister } from 'react-hook-form';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
+import { ActionButtonConfig, DonationRecord, ProfileType } from '@/lib/utils';
 
 export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   type?: InputTypes | string;
@@ -204,4 +205,92 @@ export interface DataTableBodyProps {
 
 export interface TableProps extends DataTableBodyProps {
   title: string;
+}
+
+export interface CampaignSummaryCardProps {
+  amount: number | string;
+  amountIcon?: React.ReactNode;
+  title: string;
+  date: string;
+  imageUrl: string;
+  imageAlt?: string;
+  isCompleted?: boolean;
+  progressValue?: number;
+  goalLabel?: string;
+  indicatorValue?: string | number;
+  indicatorIcon?: React.ReactNode;
+  completedMessage?: string;
+  completedIcon?: React.ReactNode;
+  buttons?: ActionButtonConfig[];
+  className?: string;
+}
+
+export interface ProfileCardProps {
+  type?: ProfileType;
+  name?: string;
+  location?: string;
+  typeLabel?: string;
+  profileStrength?: number;
+  imageUrl?: string;
+  isDonor?: boolean;
+  activeItemId?: string;
+  onMenuItemClick?: (id: string, label: string) => void;
+  className?: string;
+}
+
+export interface InfoWarCardProps {
+  variant?: 'info' | 'warning';
+  title?: string;
+  message: string;
+  isCompact?: boolean;
+  className?: string;
+}
+
+export interface DonationHistoryProps {
+  donations?: DonationRecord[];
+  onExploreClick?: () => void;
+}
+
+export interface NotificationSettingItemProps {
+  id: string;
+  title: string;
+  description: string;
+  isEnabled: boolean;
+  onToggle: (id: string) => void;
+}
+
+export interface NotificationGroupProps {
+  title: string;
+  items: Array<{
+    id: string;
+    title: string;
+    description: string;
+  }>;
+  state: Record<string, boolean>;
+  onToggle: (id: string) => void;
+}
+
+export interface VerificationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (method: 'phone' | 'email') => void;
+}
+
+export interface VerificationCodeInputProps {
+  method: 'phone' | 'email';
+  onVerify: () => void;
+  onCancel: () => void;
+}
+
+export interface AuthMethod {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+export interface TwoFactorWizardModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onComplete: () => void;
 }

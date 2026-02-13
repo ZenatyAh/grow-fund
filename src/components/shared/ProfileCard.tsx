@@ -1,25 +1,26 @@
 'use client';
 
-import { 
+import {
   IconCamera,
   IconMapPin,
   IconUser,
   IconBuilding
 } from '@tabler/icons-react';
-import { 
-  MdPerson, 
-  MdKey, 
-  MdSecurity, 
-  MdNotifications, 
+import {
+  MdPerson,
+  MdKey,
+  MdSecurity,
+  MdNotifications,
   MdVerified,
   MdFavorite,
   MdHistory
 } from 'react-icons/md';
-import { cn, MenuItemProps, ProfileCardProps } from '@/lib/utils';
+import { cn, MenuItemProps } from '@/lib/utils';
+import { ProfileCardProps } from '@/interfaces';
 
 
 const MenuItem = ({ id, icon, label, isActive, onClick }: MenuItemProps) => (
-  <div 
+  <div
     onClick={() => onClick?.(id, label)}
     className={cn(
       "flex items-center justify-between w-[324px] h-[49px] px-[8px] py-[10px] rounded-xl transition-all cursor-pointer gap-[10px]",
@@ -27,10 +28,10 @@ const MenuItem = ({ id, icon, label, isActive, onClick }: MenuItemProps) => (
     )}
   >
     <div className="flex items-center gap-[10px]">
-      <div 
+      <div
         className={cn("flex items-center justify-center transition-colors relative", isActive ? "text-[#1D4ED8]" : "text-[#64748B]")}
-        style={{ 
-          width: '20.005px', 
+        style={{
+          width: '20.005px',
           height: '19.995px',
           top: '2.01px',
           left: '2px'
@@ -62,54 +63,54 @@ const ProfileCard = ({
   onMenuItemClick,
   className
 }: ProfileCardProps) => {
-  const typeIcon = type === 'individual' 
-    ? <IconUser size={14} stroke={1.5} /> 
+  const typeIcon = type === 'individual'
+    ? <IconUser size={14} stroke={1.5} />
     : <IconBuilding size={14} stroke={1.5} />;
-  
+
   const menuItems = [
-    { 
-      id: 'edit-data', 
-      label: 'تعديل بياناتي', 
+    {
+      id: 'edit-data',
+      label: 'تعديل بياناتي',
       icon: <MdPerson size={20} />
     },
     ...(isDonor ? [
-      { 
-        id: 'donation-preferences', 
-        label: 'تفضيلات التبرع', 
+      {
+        id: 'donation-preferences',
+        label: 'تفضيلات التبرع',
         icon: <MdFavorite size={20} />
       }
     ] : []),
-    { 
-      id: 'change-password', 
-      label: 'تغيير كلمة المرور', 
+    {
+      id: 'change-password',
+      label: 'تغيير كلمة المرور',
       icon: <MdKey size={20} />
     },
-    { 
-      id: '2fa', 
-      label: 'المصادقة الثنائية', 
+    {
+      id: '2fa',
+      label: 'المصادقة الثنائية',
       icon: <MdSecurity size={20} />
     },
     ...(isDonor ? [
-      { 
-        id: 'donation-record', 
-        label: 'سجل التبرع', 
+      {
+        id: 'donation-record',
+        label: 'سجل التبرع',
         icon: <MdHistory size={20} />
       }
     ] : []),
-    { 
-      id: 'notifications', 
-      label: 'إعدادات الإشعارات', 
+    {
+      id: 'notifications',
+      label: 'إعدادات الإشعارات',
       icon: <MdNotifications size={20} />
     },
-    { 
-      id: 'verification', 
-      label: 'توثيق الحساب', 
+    {
+      id: 'verification',
+      label: 'توثيق الحساب',
       icon: <MdVerified size={20} />
     },
   ];
 
   return (
-    <div 
+    <div
       dir="rtl"
       className={cn(
         "flex flex-col bg-white border border-[#E2E8F0] rounded-[24px] shadow-sm font-['var(--font-tajawal)']",
@@ -118,7 +119,7 @@ const ProfileCard = ({
         className
       )}
     >
-      
+
       <div className="flex flex-col items-center gap-[16px] w-full mx-auto">
         <div className="relative">
           <div className="w-[180px] h-[180px] rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center border-[6px] border-white shadow-sm">
@@ -141,9 +142,9 @@ const ProfileCard = ({
           <h2 className="text-[32px] font-bold text-[#0F172A] text-center leading-[140%] font-['var(--font-tajawal)']">
             {name}
           </h2>
-          
+
           <div className="flex items-center gap-2">
-            <div 
+            <div
               style={{ width: '81px', height: '33px' }}
               className="flex items-center justify-center gap-[16px] bg-[#EFF6FF] px-[16px] py-[8px] rounded-[48px] opacity-100 rotate-0"
             >
@@ -155,7 +156,7 @@ const ProfileCard = ({
               </span>
             </div>
 
-            <div 
+            <div
               style={{ width: '151px', height: '33px' }}
               className="flex items-center justify-center gap-[4px] bg-[#E2E8F0] px-[16px] py-[8px] rounded-[58px] opacity-100 rotate-0"
             >
@@ -177,14 +178,14 @@ const ProfileCard = ({
             {profileStrength}%
           </span>
         </div>
-        
+
         <div className="relative w-full h-[10px] bg-[#F1F5F9] rounded-full overflow-hidden">
-          <div 
+          <div
             className="absolute top-0 right-0 h-full bg-[#2563EB] transition-all duration-500 ease-out"
             style={{ width: `${profileStrength}%` }}
           />
         </div>
-        
+
         <p className="text-[12px] text-[#64748B] text-center font-normal leading-[140%] font-['var(--font-tajawal)']">
           أكمل بياناتك {type === 'individual' ? 'الشخصية' : 'المؤسسية'} للوصول الى 100%
         </p>
@@ -194,7 +195,7 @@ const ProfileCard = ({
 
       <div className="flex flex-col gap-[16px] w-[324px] min-h-[309px] mx-auto flex-grow">
         {menuItems.map((item) => (
-          <MenuItem 
+          <MenuItem
             key={item.id}
             id={item.id}
             icon={item.icon}

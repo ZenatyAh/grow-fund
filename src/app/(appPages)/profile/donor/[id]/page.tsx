@@ -9,7 +9,9 @@ import EditProfileForm from '@/components/shared/EditProfileForm';
 import DonationPreferencesForm from '@/components/shared/DonationPreferencesForm';
 import ChangePasswordForm from '@/components/shared/ChangePasswordForm';
 import TwoFactorAuthForm from '@/components/shared/TwoFactorAuthForm';
-import DonationHistorySection, { DonationRecord } from '@/components/shared/DonationHistorySection';
+import DonationHistorySection from '@/components/shared/DonationHistorySection';
+import NotificationSettingsSection from '@/components/shared/NotificationSettings';
+import { DonationRecord } from '@/lib/utils';
 
 const DonorProfilePage = ({ params }: { params: { id: string } }) => {
   const [activeSection, setActiveSection] = useState('edit-data');
@@ -94,6 +96,7 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
             {activeSection === 'donation-preferences' && <DonationPreferencesForm />}
             {activeSection === 'change-password' && <ChangePasswordForm />}
             {activeSection === '2fa' && <TwoFactorAuthForm />}
+            {activeSection === 'notifications' && <NotificationSettingsSection />}
             {activeSection === 'donation-record' && <DonationHistorySection donations={sampleDonations} />}
           </main>
         </div>

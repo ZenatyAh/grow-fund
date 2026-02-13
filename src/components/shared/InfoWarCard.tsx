@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdInfo, MdWarning } from 'react-icons/md';
-import { cn, InfoWarCardProps } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import { InfoWarCardProps } from '@/interfaces';
 
 const InfoWarCard = ({
   variant,

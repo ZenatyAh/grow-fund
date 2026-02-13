@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Button } from './Button';
-import { VerificationCodeInputProps } from '@/lib/utils';
+import { VerificationCodeInputProps } from '@/interfaces';
 
 
 
 const VerificationCodeInput = ({ method, onVerify, onCancel }: VerificationCodeInputProps) => {
     const [code, setCode] = useState(['', '', '', '', '']);
-    const [timer, setTimer] = useState(60); 
+    const [timer, setTimer] = useState(60);
 
-    
+
     useEffect(() => {
         if (timer > 0) {
             const interval = setInterval(() => {
@@ -20,7 +20,7 @@ const VerificationCodeInput = ({ method, onVerify, onCancel }: VerificationCodeI
         }
     }, [timer]);
 
-   
+
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -34,7 +34,7 @@ const VerificationCodeInput = ({ method, onVerify, onCancel }: VerificationCodeI
             newCode[index] = value;
             setCode(newCode);
 
-          
+
             if (value && index < 4) {
                 const nextInput = document.getElementById(`code-input-${index + 1}`);
                 nextInput?.focus();
@@ -83,7 +83,7 @@ const VerificationCodeInput = ({ method, onVerify, onCancel }: VerificationCodeI
                 ))}
             </div>
 
-      
+
             <div className="flex flex-col items-center gap-[8px]">
                 <span className="text-[14px] text-[#64748B] font-['var(--font-tajawal)']">
                     إعادة إرسال الكود خلال <span className="font-bold text-[#0F264D]">{formatTime(timer)}</span>

@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { Button } from './Button';
-import { cn, VerificationModalProps } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import { VerificationModalProps } from '@/interfaces';
 import VerificationCodeInput from './VerificationCodeInput';
 
 
@@ -23,18 +24,18 @@ const VerificationModal = ({ isOpen, onClose, onConfirm }: VerificationModalProp
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center">
-    
+
             <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                 onClick={onClose}
             />
 
-      
+
             <div
                 className="relative w-[1114px] bg-white rounded-[8px] border-2 border-[#737373] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200"
                 dir="rtl"
             >
-           
+
                 <div className="h-[99px] flex items-center justify-center border-b-2 border-[#3F3F3F] px-[40px] py-[32px]">
                     <h2 className="text-[24px] font-bold text-[#0F264D] font-['var(--font-tajawal)'] leading-[145%]">
                         {step === 'select' ? 'اختيار طريقة التحقق' : `تحقق من ${selectedMethod === 'phone' ? 'رقم هاتفك' : 'بريدك الإلكتروني'}`}
@@ -43,7 +44,7 @@ const VerificationModal = ({ isOpen, onClose, onConfirm }: VerificationModalProp
 
                 {step === 'select' ? (
                     <>
-                     
+
                         <div className="h-[286px] px-[40px] py-[24px] flex flex-col gap-[24px]">
                             <h3 className="text-[24px] font-bold text-[#0F264D] font-['Almarai'] text-right leading-[30px]">طريقة التأكيد</h3>
 
@@ -90,7 +91,7 @@ const VerificationModal = ({ isOpen, onClose, onConfirm }: VerificationModalProp
                             </div>
                         </div>
 
-               
+
                         <div className="h-[120px] flex gap-[8px] justify-end px-[40px] pb-[24px] items-center">
                             <Button
                                 variant="subtle"
