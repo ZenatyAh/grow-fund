@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AlertCircle, Camera, Check, ImagePlus } from 'lucide-react';
+import { AlertCircle, Camera, Check, ImagePlus, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Input from '@/shared/ui/components/Input';
 import Image from 'next/image';
@@ -21,7 +21,7 @@ const AccountVerificationSection = () => {
                 توثيق الحساب
             </h1>
 
-      
+
             <div className="w-[1050px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px] shadow-sm">
                 <div className="flex items-center justify-start gap-[12px]">
                     <div className="w-6 h-6 bg-[#2563EB] rounded-full flex items-center justify-center">
@@ -33,7 +33,7 @@ const AccountVerificationSection = () => {
                 </div>
 
                 <div className="flex flex-col gap-[24px]">
-            
+
                     <div className="flex flex-col gap-[8px]">
                         <Input
                             label="الاسم الكامل (كما في الهوية)"
@@ -45,7 +45,7 @@ const AccountVerificationSection = () => {
                         />
                     </div>
 
-               
+
                     <div className="flex flex-col gap-[8px]">
                         <Input
                             label="رقم الهوية"
@@ -57,7 +57,7 @@ const AccountVerificationSection = () => {
                         />
                     </div>
 
-                 
+
                     <div className="flex flex-col gap-[8px]">
                         <label className="text-[16px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] block mb-2">
                             نوع الهوية
@@ -71,19 +71,19 @@ const AccountVerificationSection = () => {
                                 <option value="هوية شخصية">هوية شخصية</option>
                                 <option value="جواز سفر">جواز سفر</option>
                             </select>
-                            <div className="absolute left-[20px] top-1/2 -translate-y-1/2 pointer-events-none">
-                                <Image src="/images/chevron-down.svg" width={20} height={20} alt="arrow" />
+                            <div className="absolute left-[20px] top-1/2 -translate-y-1/2 pointer-events-none text-[#64748B]">
+                                <ChevronDown size={20} />
                             </div>
                         </div>
                     </div>
 
-             
+
                     <div className="flex flex-col gap-[16px]">
                         <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] block">
                             صورة الهوية
                         </label>
                         <div className="flex gap-[24px]">
-                         
+
                             <div className="flex-1 h-[140px] border-2 border-dashed border-[#E2E8F0] rounded-[24px] flex flex-col items-center justify-center gap-[12px] cursor-pointer hover:bg-gray-50 transition-colors bg-white">
                                 <div className="w-[48px] h-[48px] rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#2563EB]">
                                     <ImagePlus size={24} />
@@ -93,7 +93,7 @@ const AccountVerificationSection = () => {
                                     <span className="text-[12px] text-[#64748B] font-['var(--font-tajawal)']">(بحد أقصى 5 ميجابايت) PNG, JPG</span>
                                 </div>
                             </div>
-                         
+
                             <div className="flex-1 h-[140px] border-2 border-dashed border-[#E2E8F0] rounded-[24px] flex flex-col items-center justify-center gap-[12px] cursor-pointer hover:bg-gray-50 transition-colors bg-white">
                                 <div className="w-[48px] h-[48px] rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#2563EB]">
                                     <ImagePlus size={24} />
@@ -106,7 +106,7 @@ const AccountVerificationSection = () => {
                         </div>
                     </div>
 
-                 
+
                     <div className="flex flex-col gap-[16px]">
                         <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] block">
                             صورة شخصية
@@ -124,7 +124,7 @@ const AccountVerificationSection = () => {
                 </div>
             </div>
 
-       
+
             <div className="w-[1050px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px] mb-[40px] shadow-sm">
                 <div className="flex items-center justify-start gap-[12px]">
                     <div className="w-6 h-6 bg-[#2563EB] rounded-full flex items-center justify-center">
@@ -136,7 +136,7 @@ const AccountVerificationSection = () => {
                 </div>
 
                 <div className="flex flex-col gap-[24px]">
-                   
+
                     <div className="flex flex-col gap-[8px]">
                         <Input
                             label="اسم صاحب الحساب"
@@ -149,7 +149,7 @@ const AccountVerificationSection = () => {
                         <span className="text-[12px] text-[#64748B] font-['var(--font-tajawal)'] text-right mt-[-8px]">تم التحقق من الاسم عبر الهوية الوطنية</span>
                     </div>
 
-               
+
                     <div className="flex flex-col gap-[8px]">
                         <Input
                             label="رقم الايبان (IBAN)"
@@ -163,7 +163,7 @@ const AccountVerificationSection = () => {
                         <span className="text-[12px] text-[#64748B] font-['var(--font-tajawal)'] text-right mt-[-8px]">تأكد من إدخال 24 رقم بعد رمز الدولة pal</span>
                     </div>
 
-                  
+
                     <div className="flex flex-col gap-[16px]">
                         <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] block">
                             اسم البنك
