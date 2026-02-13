@@ -4,9 +4,11 @@ import {
   FaHome,
   FaLeaf,
   FaPaw,
+  FaShieldAlt,
   FaTint,
   FaUtensils,
 } from 'react-icons/fa';
+import { MdAccessTime } from 'react-icons/md';
 
 export const CampaignCategorys = [
   {
@@ -113,4 +115,17 @@ export const stepFields = [
   ['file', 'description'] as const,
   ['startDate', 'endDate'] as const,
   ['checkbox'] as const,
+];
+
+export const trackingProgressData = [
+  {
+    id: 1,
+    Icon: FaShieldAlt,
+    text: 'نقوم بمراجعة الحملات للتأكد من وضوح الهدف ومصداقية المحتوى قبل نشرها.',
+  },
+  {
+    id: 2,
+    Icon: MdAccessTime,
+    text: 'تستغرق المراجعة عادة من 24 إلى 48 ساعة.',
+  },
 ];

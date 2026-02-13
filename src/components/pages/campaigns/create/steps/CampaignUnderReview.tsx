@@ -1,21 +1,7 @@
+import { trackingProgressData } from '@/shared/config/CampaignData';
 import AnimatedWrapper from '@/shared/ui/components/FramerMotion/AnimatedWrapper';
 import InfoText from '@/shared/ui/components/InfoText';
 import Image from 'next/image';
-import { FaShieldAlt } from 'react-icons/fa';
-import { MdAccessTime } from 'react-icons/md';
-
-export const trackingProgressData = [
-  {
-    id: 1,
-    Icon: FaShieldAlt,
-    text: 'نقوم بمراجعة الحملات للتأكد من وضوح الهدف ومصداقية المحتوى قبل نشرها.',
-  },
-  {
-    id: 2,
-    Icon: MdAccessTime,
-    text: 'تستغرق المراجعة عادة من 24 إلى 48 ساعة.',
-  },
-];
 
 const CampaignUnderReview = () => {
   return (
