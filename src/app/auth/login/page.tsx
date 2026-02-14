@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { FaEye, FaEyeSlash, FaApple, FaSpinner, FaLock } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { useLogin, LoginResponse } from '@/lib/api/hooks/useAuth';
+import { useAuth } from '@/providers/AuthProvider';
+import { ROUTES } from '@/shared/constants/routes';
 
 const sliderImages = [
   {
@@ -33,6 +35,7 @@ const sliderImages = [
 
 const LoginPage = () => {
   const router = useRouter();
+  const { setAuthData } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -60,9 +63,21 @@ const LoginPage = () => {
       { email, password },
       {
         onSuccess: (response: LoginResponse) => {
-          localStorage.setItem('access_token', response.access_token);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          router.push('/dashboard');
+          // Persist auth data via AuthProvider
+          setAuthData({
+            token: response.token,
+            userId: response.user.id,
+            user: response.user,
+          });
+
+          // Redirect based on role
+          if (response.user.role === 'DONOR') {
+            router.push(ROUTES.DONOR_DASHBOARD);
+          } else if (response.user.role === 'CAMPAIGN_CREATOR') {
+            router.push(ROUTES.CREATOR_DASHBOARD);
+          } else {
+            router.push(ROUTES.HOME);
+          }
         },
         onError: (err: Error) => {
           setError(err.message || 'فشل تسجيل الدخول. يرجى التحقق من البيانات.');

@@ -46,13 +46,25 @@ export interface CreateCreatorResponseWrapper {
   creator: CampaignCreatorResponseDto;
 }
 
-// Hook to create campaign creator profile
+// Hook to create campaign creator profile (JSON body, e.g. for INDIVIDUAL)
 export const useCreateCampaignCreatorProfile = () => {
   return useMutation({
     mutationFn: (data: CreateCampaignCreatorDto) =>
       apiClient.post<CreateCreatorResponseWrapper>(
         API_ENDPOINTS.campaignCreator.create,
         data,
+        true // useAuth
+      ),
+  });
+};
+
+// Hook to create campaign creator profile with file uploads (multipart/form-data, e.g. for INSTITUTION)
+export const useCreateCampaignCreatorProfileFormData = () => {
+  return useMutation({
+    mutationFn: (formData: FormData) =>
+      apiClient.postFormData<CreateCreatorResponseWrapper>(
+        API_ENDPOINTS.campaignCreator.create,
+        formData,
         true // useAuth
       ),
   });
