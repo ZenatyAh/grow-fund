@@ -4,6 +4,7 @@ import './globals.css';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 import ToastsProvider from './providers/ToastsProvider';
 import { ToastContainer } from 'react-toastify';
+import { AuthProvider } from '@/providers/AuthProvider';
 
 const tajawal = Tajawal({
   variable: '--font-tajawal',
@@ -40,9 +41,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${tajawal.variable} antialiased`}
       >
         <ReactQueryProvider>
-          {children}
-          <ToastsProvider />
-          <ToastContainer />
+          <AuthProvider>
+            {children}
+            <ToastsProvider />
+            <ToastContainer />
+          </AuthProvider>
         </ReactQueryProvider>
       </body>
     </html>

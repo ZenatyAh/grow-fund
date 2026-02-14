@@ -359,7 +359,7 @@ export default function ComponentsTestPage() {
         {/* Image Slider Showcase */}
         <div className="bg-white rounded-xl shadow-sm p-12">
           <h2 className="text-2xl font-bold text-slate-800 mb-8">
-            Image Slider 
+            Image Slider
           </h2>
           <div className="flex flex-col lg:flex-row gap-8 items-center justify-center">
             <div className="w-[400px] h-[700px] rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
@@ -387,7 +387,7 @@ export default function ComponentsTestPage() {
               />
             </div>
 
-            
+
           </div>
         </div>
 
@@ -401,7 +401,7 @@ export default function ComponentsTestPage() {
               title="مرحبًا بك في نجومي"
               subtitle="منصة تبرعات شفافة، حيث كل نجمة تمثّل أثرًا حقيقيًا.."
             />
-            
+
             {/* Without stars */}
             <HeaderSubtitle
               title="مرحبًا بك في نجومي"
@@ -464,7 +464,7 @@ export default function ComponentsTestPage() {
         {/* Steps Showcase */}
         <div className="bg-white rounded-xl shadow-sm p-12">
           <h2 className="text-2xl font-bold text-slate-800 mb-8">
-            Steps 
+            Steps
           </h2>
           <div className="flex justify-center">
             <Steps
@@ -544,7 +544,7 @@ export default function ComponentsTestPage() {
           <h2 className="text-2xl font-bold text-slate-800 mb-8">
             Campaign Summary Card
           </h2>
-          
+
           <div className="flex flex-col gap-12 items-center">
             {/* 1. In Progress State */}
             <div className="space-y-4 w-full flex flex-col items-center">

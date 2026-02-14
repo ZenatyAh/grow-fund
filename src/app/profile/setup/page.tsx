@@ -8,7 +8,7 @@ import Logo from '@/shared/ui/components/Logo';
 
 import { FaUser, FaBuilding, FaCheck, FaTint, FaHome, FaHeart, FaLeaf, FaAppleAlt, FaPaw, FaGraduationCap, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
 import { CategoryButton } from '@/components/shared/CategoryButton';
-import { useCreateCampaignCreatorProfile, CreateCampaignCreatorDto } from '@/lib/api';
+import { useCreateCampaignCreatorProfile, useCreateCampaignCreatorProfileFormData, CreateCampaignCreatorDto } from '@/lib/api';
 
 type CreatorType = 'individual' | 'organization' | null;
 type CampaignCategory = 'water' | 'shelter' | 'health' | 'environment' | 'food' | 'animals' | 'education' | null;
@@ -166,8 +166,10 @@ const ProfileSetupPage = () => {
     setError(null);
   }, [currentStep]);
 
-  // API Hook
+  // API Hook: JSON for both individual and institution
   const { mutate: createProfile, isPending } = useCreateCampaignCreatorProfile();
+
+  const isSubmitting = isPending;
 
   // Submit profile to backend
   const handleSubmitProfile = () => {
@@ -176,46 +178,53 @@ const ProfileSetupPage = () => {
       return;
     }
 
-    const payload: CreateCampaignCreatorDto = {
-      userId,
-      type: creatorType === 'organization' ? 'INSTITUTION' : 'INDIVIDUAL',
-      experience: creatorType === 'individual' && experienceLevel ? experienceLevel : undefined,
-      institutionCountry: creatorType === 'organization' ? organizationData.country : undefined,
-      institutionName: creatorType === 'organization' ? organizationData.name : undefined,
-      institutionType: creatorType === 'organization' ? organizationData.type : undefined,
-      institutionDateOfEstablishment: creatorType === 'organization' ? organizationData.establishmentDate : undefined,
-      institutionLegalStatus: creatorType === 'organization' ? organizationData.legalStatus : undefined,
-      institutionTaxIdentificationNumber: creatorType === 'organization' ? organizationData.taxId : undefined,
-      institutionRegistrationNumber: creatorType === 'organization' ? organizationData.registrationNumber : undefined,
-      institutionRepresentativeName: creatorType === 'organization' ? organizationData.representativeName : undefined,
-      institutionRepresentativePosition: creatorType === 'organization' ? organizationData.representativePosition : undefined,
-      institutionRepresentativePhone: creatorType === 'organization' ? organizationData.representativePhone : undefined,
-      institutionRepresentativeEmail: creatorType === 'organization' ? organizationData.representativeEmail : undefined,
-      institutionWebsite: creatorType === 'organization' ? organizationData.website : undefined,
-      institutionRepresentativeSocialMedia: creatorType === 'organization' ? organizationData.socialMedia : undefined,
-      institutionIdPhoto: creatorType === 'organization' ? organizationData.idPhotoFile?.name : undefined,
-      institutionRepresentativePhoto: creatorType === 'organization' ? organizationData.representativePhotoFile?.name : undefined,
-      institutionAuthorizationLetter: creatorType === 'organization' ? organizationData.authorizationLetterFile?.name : undefined,
-      // Individual fields
-      individualName: creatorType === 'individual' ? individualData.name : undefined,
-      individualCountry: creatorType === 'individual' ? individualData.country : undefined,
-      individualContact: creatorType === 'individual' ? individualData.contact : undefined,
-      individualProfileImage: creatorType === 'individual' ? individualData.profileImage?.name : undefined,
-      // Note: File uploads (profile image, docs) would typically be handled via a separate upload endpoint 
-      // or FormData, but for this DTO we are just passing strings as per current setup. 
-      // Real implementation would upload file and get URL.
+    const onSuccess = () => {
+      localStorage.removeItem(WIZARD_STORAGE_KEY);
+      setIsSubmitted(true);
+    };
+    const onError = (err: Error) => {
+      setError(err.message || 'حدث خطأ أثناء حفظ الملف الشخصي');
     };
 
-    createProfile(payload, {
-      onSuccess: () => {
-        // Clear saved state on success
-        localStorage.removeItem(WIZARD_STORAGE_KEY);
-        setIsSubmitted(true);
-      },
-      onError: (err) => {
-        setError(err.message || 'حدث خطأ أثناء حفظ الملف الشخصي');
-      },
-    });
+    if (creatorType === 'organization') {
+      // Institution: send JSON with text fields only. Date as ISO. Omit file fields to avoid 500 (backend may require multipart for files).
+      const establishmentDate = organizationData.establishmentDate
+        ? new Date(organizationData.establishmentDate).toISOString()
+        : undefined;
+
+      const payload: CreateCampaignCreatorDto = {
+        userId,
+        type: 'INSTITUTION',
+        institutionName: organizationData.name || undefined,
+        institutionType: organizationData.type || undefined,
+        institutionCountry: organizationData.country || undefined,
+        institutionDateOfEstablishment: establishmentDate,
+        institutionLegalStatus: organizationData.legalStatus || undefined,
+        institutionTaxIdentificationNumber: organizationData.taxId || undefined,
+        institutionRegistrationNumber: organizationData.registrationNumber || undefined,
+        institutionRepresentativeName: organizationData.representativeName || undefined,
+        institutionRepresentativePosition: organizationData.representativePosition || undefined,
+        institutionRepresentativePhone: organizationData.representativePhone || undefined,
+        institutionRepresentativeEmail: organizationData.representativeEmail || undefined,
+        institutionWebsite: organizationData.website || undefined,
+        institutionRepresentativeSocialMedia: organizationData.socialMedia || undefined,
+      };
+
+      createProfile(payload, { onSuccess, onError });
+    } else {
+      // Individual: send JSON
+      const payload: CreateCampaignCreatorDto = {
+        userId,
+        type: 'INDIVIDUAL',
+        experience: experienceLevel ?? undefined,
+        individualName: individualData.name,
+        individualCountry: individualData.country,
+        individualContact: individualData.contact,
+        individualProfileImage: individualData.profileImage?.name,
+      };
+
+      createProfile(payload, { onSuccess, onError });
+    }
   };
 
   // Different steps based on creator type
@@ -1138,7 +1147,7 @@ const ProfileSetupPage = () => {
                                variant="subtle" 
                                className="!bg-white border border-[#E2E8F0] px-8 !h-11 min-w-[100px]"
                                onClick={() => setCurrentStep(prev => prev - 1)}
-                               disabled={isPending}
+                               disabled={isSubmitting}
                            >
                                الخلف
                            </Button>
@@ -1146,9 +1155,9 @@ const ProfileSetupPage = () => {
                                variant="primary" 
                                className="px-8 !h-11 min-w-[120px]"
                                onClick={handleContinue}
-                               disabled={isPending}
+                               disabled={isSubmitting}
                            >
-                               {isPending ? (
+                               {isSubmitting ? (
                                    <FaSpinner className="animate-spin" size={18} />
                                ) : (
                                    'حفظ وإنهاء'
@@ -1315,7 +1324,7 @@ const ProfileSetupPage = () => {
                                variant="subtle" 
                                className="!bg-white border border-[#E2E8F0] px-8 !h-11 min-w-[100px]"
                                onClick={() => setCurrentStep(prev => prev - 1)}
-                               disabled={isPending}
+                               disabled={isSubmitting}
                            >
                                الخلف
                            </Button>
@@ -1323,9 +1332,9 @@ const ProfileSetupPage = () => {
                                variant="primary" 
                                className="px-8 !h-11 min-w-[150px]"
                                onClick={handleContinue}
-                               disabled={isPending}
+                               disabled={isSubmitting}
                            >
-                               {isPending ? (
+                               {isSubmitting ? (
                                    <FaSpinner className="animate-spin" size={18} />
                                ) : (
                                    'إرسال للمراجعة'

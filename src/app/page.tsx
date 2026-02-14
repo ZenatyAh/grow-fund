@@ -8,5 +8,6 @@ export const metadata: Metadata = {
 };
 
 const RootPage = () => <AuthLandingPage />;
+// const RootPage = () => <Dashboard />;
 
 export default RootPage;

@@ -6,5 +6,7 @@ export const ROUTES = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   DASHBOARD: '/dashboard',
+  DONOR_DASHBOARD: '/dashboard/donor',
+  CREATOR_DASHBOARD: '/dashboard/creator',
   NOTIFICATIONS: '/notifications',
 };
