@@ -4,6 +4,7 @@ import { Button } from '@/components/shared/Button';
 import ImageSlider from '@/components/shared/ImageSlider';
 import HeaderSubtitle from '@/components/shared/HeaderSubtitle';
 import Logo from '@/shared/ui/components/Logo';
+import Link from 'next/link';
 
 const sliderImages = [
   {
@@ -89,19 +90,23 @@ const AuthLandingPage = () => {
                 subtitleClassName="text-sm md:text-base text-[#6B7280] leading-relaxed"
               />
 
-              <div className="flex flex-col gap-3 items-stretch">
+              <Link href="/auth/login" className="w-full">
                 <Button variant="primary" size="lg" fullWidth>
                   تسجيل الدخول
                 </Button>
+              </Link>
 
-                <Button
-                  variant="subtle"
-                  size="lg"
-                  fullWidth
-                  className="!bg-white border border-[#CBD5E1] text-[#0F172A]"
-                >
-                  إنشاء حساب جديد
-                </Button>
+              <div className="flex flex-col gap-3 items-stretch">
+                <Link href="/auth/register" className="w-full">
+                  <Button
+                    variant="subtle"
+                    size="lg"
+                    fullWidth
+                    className="!bg-white border border-[#CBD5E1] text-[#0F172A]"
+                  >
+                    إنشاء حساب جديد
+                  </Button>
+                </Link>
 
                 <div className="flex items-center gap-3 my-2 text-xs text-[#9CA3AF]">
                   <span className="flex-1 h-px bg-[#E5E7EB]" />
@@ -109,9 +114,12 @@ const AuthLandingPage = () => {
                   <span className="flex-1 h-px bg-[#E5E7EB]" />
                 </div>
 
-                <button className="text-sm font-semibold text-[#2563EB] hover:text-[#1D4ED8] underline-offset-4 hover:underline cursor-pointer">
+                <Link
+                  href="/home"
+                  className="text-sm font-semibold text-[#2563EB] hover:text-[#1D4ED8] underline-offset-4 hover:underline cursor-pointer text-center"
+                >
                   تصفح كضيف
-                </button>
+                </Link>
               </div>
             </div>
           </div>

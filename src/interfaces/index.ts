@@ -1,13 +1,14 @@
 import { InputTypes } from '@/utils/types';
-import { UseFormRegister } from 'react-hook-form';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
 import { ActionButtonConfig, DonationRecord, ProfileType } from '@/lib/utils';
+import { UseFormRegister } from 'react-hook-form';
 
 export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   type?: InputTypes | string;
   placeholder?: string;
   variant?: 'primary' | 'secondary';
   otherClassName?: string;
+  inputClassName?: string;
   inputName: any;
   Icon?: React.ElementType;
   iconClassName?: string;
@@ -31,6 +32,7 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   uploadIconWrapperClassName?: string;
   UploadIcon?: React.ElementType;
   uploadIconSize?: number;
+  uploadIconClassName?: string;
   uploadTitle?: string;
   uploadSubTitle?: string;
   RadioIcon?: React.ElementType;
@@ -69,6 +71,7 @@ export interface FileInputProps {
   uploadIconWrapperClassName?: string;
   UploadIcon?: React.ElementType;
   uploadIconSize?: number;
+  uploadIconClassName?: string;
   uploadTitle?: string;
   uploadSubTitle?: string;
   onFileChange?: (files: File[]) => void;
@@ -115,7 +118,7 @@ export interface PasswordStrengthProps {
 export interface ProgressProps extends React.ComponentPropsWithoutRef<
   typeof ProgressPrimitive.Root
 > {
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   trackColor?: string;
   indicatorColor?: string;
   topDisplayValue?: string; // Value displayed at the top
@@ -294,3 +297,47 @@ export interface TwoFactorWizardModalProps {
   onClose: () => void;
   onComplete: () => void;
 }
+export interface ReactHookFormProps {
+  register?: UseFormRegister<any>;
+  setValue?: any;
+  control?: any;
+  errors: any;
+}
+
+export interface BasicCampaignInfoStepProps extends ReactHookFormProps {
+  category: string;
+}
+
+export interface CampaignGoalStepProps extends ReactHookFormProps {
+  startDate: string;
+}
+
+export interface InfoTextProps {
+  Icon?: React.ElementType;
+  text: string;
+  iconSize?: number;
+  className?: string;
+  iconWrapper?: string;
+  iconClassName?: string;
+}
+
+export type StarsOption = {
+  label: string;
+  value: number | 'all';
+};
+export type StatItem = {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+};
+
+export type Status = 'مكتملة' | 'نشطة' | 'معلقة' | 'قيد المعالجة' | 'مرفوضة';
+export type CampaignBalance = {
+  id: string;
+  name: string;
+  stars: number;
+  amount: string;
+  date: string;
+  status: 'نشطة' | 'مكتملة';
+  balanceStatus: 'مكتمل' | 'معلق';
+};
