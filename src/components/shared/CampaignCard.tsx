@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { mergeClasses as cn, type CampaignSummaryCardProps } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import { CampaignSummaryCardProps } from '@/interfaces';
 import { Star, CircleDollarSign } from 'lucide-react';
 
 export const CampaignCard: React.FC<CampaignSummaryCardProps> = ({
@@ -69,14 +70,14 @@ export const CampaignCard: React.FC<CampaignSummaryCardProps> = ({
                 onClick={btn.onClick}
                 className={cn(
                   'flex items-center justify-center h-[48px] px-[32px] py-[16px] gap-[16px] rounded-[8px] transition-all duration-200 cursor-pointer font-tajawal font-[700] text-[18px] leading-[160%] whitespace-nowrap',
-                  isBlue 
-                    ? 'bg-[#2563EB] text-white min-w-[210px]' 
+                  isBlue
+                    ? 'bg-[#2563EB] text-white min-w-[210px]'
                     : 'bg-[#F8FAFC] border-[1.5px] border-[#E2E8F0] text-[#0F172A] min-w-[244.7px]'
                 )}
               >
                 <span className="flex-1 text-center">{btn.label}</span>
                 <span className="flex items-center justify-center w-[24px] h-[24px] flex-shrink-0">
-                    {btn.icon}
+                  {btn.icon}
                 </span>
               </button>
             );
@@ -95,11 +96,11 @@ export const CampaignCard: React.FC<CampaignSummaryCardProps> = ({
             <div className="h-[32px] w-[608px] flex rounded-[25px] overflow-hidden bg-[#E2E8F0] relative">
               <div
                 className="bg-[#2563EB] h-full flex items-center justify-center px-[16px] gap-[8px] text-white rounded-r-[25px] transition-all duration-500 z-10"
-                style={{ 
-                  width: `${progressValue}%`, 
+                style={{
+                  width: `${progressValue}%`,
                   maxWidth: '100%',
-                  borderTopRightRadius: '25px', 
-                  borderBottomRightRadius: '25px' 
+                  borderTopRightRadius: '25px',
+                  borderBottomRightRadius: '25px'
                 }}
               >
                 <span className="font-[700] text-[16px] font-tajawal">

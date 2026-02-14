@@ -49,23 +49,7 @@ export interface MenuItemProps {
 
 export type ProfileType = 'individual' | 'institution';
 
-export interface ProfileCardProps {
-  type?: ProfileType;
-  name?: string;
-  location?: string;
-  typeLabel?: string;
-  profileStrength?: number;
-  imageUrl?: string;
-  activeItemId?: string;
-  onMenuItemClick?: (id: string, label: string) => void;
-  className?: string;
-}
-export interface InfoWarCardProps {
-  variant?: 'info' | 'warning';
-  title?: string;
-  message: string;
-  className?: string;
-}
+
 
 export interface ActionButtonConfig {
   label: string;
@@ -74,21 +58,22 @@ export interface ActionButtonConfig {
   onClick?: () => void;
 }
 
-export interface CampaignSummaryCardProps {
-  amount: number | string;
-  amountIcon?: React.ReactNode;
+
+export interface DonationRecord {
+  id: string;
+  amount: number;
   title: string;
   date: string;
   imageUrl: string;
-  imageAlt?: string;
-  isCompleted?: boolean;
+  isCompleted: boolean;
   progressValue?: number;
   goalLabel?: string;
   indicatorValue?: string | number;
-  indicatorIcon?: React.ReactNode;
   completedMessage?: string;
   completedIcon?: React.ReactNode;
   buttons?: ActionButtonConfig[];
-  className?: string;
 }
+
+
+// End of file
 
