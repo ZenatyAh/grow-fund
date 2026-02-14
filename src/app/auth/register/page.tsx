@@ -8,13 +8,13 @@ import { Button } from '@/components/shared/Button';
 import ImageSlider from '@/components/shared/ImageSlider';
 import Logo from '@/shared/ui/components/Logo';
 import Input from '@/shared/ui/components/Input';
-import { useRegisterCampaignCreator, RegisterCampaignCreatorDto } from '@/lib/api';
-import { toast } from 'sonner';
 import Link from 'next/link';
 import { IconCalendar, IconEye, IconEyeOff } from '@tabler/icons-react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
 
+/** SessionStorage key for basic info collected on register; choose-role reads this and calls the right API. */
+export const PENDING_REGISTRATION_KEY = 'pendingRegistration';
 
 const registerSchema = z.object({
   firstName: z.string().min(2, 'الاسم الأول مطلوب'),
@@ -59,41 +59,25 @@ import { useRouter } from 'next/navigation';
 const RegisterPage = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
-  const { mutate: registerCreator, isPending } = useRegisterCampaignCreator();
 
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<RegisterForminputs>({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = (data: RegisterForminputs) => {
-    const randomPhone = `+97059${Math.floor(100000 + Math.random() * 900000)}`;
-    const dateOfBirthISO = new Date(data.dateOfBirth).toISOString();
-
-    const payload: RegisterCampaignCreatorDto = {
-      ...data,
-      confirmPassword: data.password, 
-      dateOfBirth: dateOfBirthISO,   
-      phoneNumber: randomPhone,      
-      country: 'Palestine',           
-      type: 'INDIVIDUAL',            
-    };
-
-    registerCreator(payload, {
-      onSuccess: () => {
-        toast.success('تم إنشاء الحساب بنجاح');
-        // Redirect to Role Selection with name
-        const fullName = `${payload.firstName} ${payload.lastName}`;
-        router.push(`/auth/choose-role?name=${encodeURIComponent(fullName)}`);
-      },
-      onError: (error: any) => {
-        toast.error(error.message || 'حدث خطأ أثناء إنشاء الحساب');
-      },
-    });
+    if (typeof window === 'undefined') return;
+    sessionStorage.setItem(PENDING_REGISTRATION_KEY, JSON.stringify({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      dateOfBirth: data.dateOfBirth,
+      password: data.password,
+    }));
+    router.push('/auth/choose-role');
   };
 
   return (
@@ -117,7 +101,7 @@ const RegisterPage = () => {
                 <span className="text-2xl">✨</span>
               </div>
               <p className="text-sm md:text-base text-[#6B7280]">
-                أنشئ حسابك للبدء في دعم الحملات أو إنشاء حملتك الخاصة.
+                أدخل بياناتك للبدء في استخدام المنصة، ثم اختر نوع حسابك في الخطوة التالية.
               </p>
             </div>
 
@@ -198,10 +182,9 @@ const RegisterPage = () => {
                 variant="primary"
                 size="lg"
                 fullWidth
-                disabled={isPending}
                 className="mt-2 text-base"
               >
-                {isPending ? 'جاري الإنشاء...' : 'إنشاء الحساب'}
+                متابعة
               </Button>
 
               <div className="text-center mt-2">

@@ -6,9 +6,10 @@ import NavbarLinks from '@/shared/ui/components/NavbarLinks';
 import { ROUTES } from '@/shared/constants/routes';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useAuth } from '@/providers/AuthProvider';
 
 const Header = () => {
-  const [donor] = useState(false);
+  const { isAuthenticated, user, clearAuthData } = useAuth();
 
   // Hook to determine if the device is mobile
   const isMobile = useIsMobile();
@@ -17,8 +18,18 @@ const Header = () => {
     <header className="bg-white rounded-md px-6 py-4.5 flex items-center justify-between gap-5 shadow-md">
       <Logo />
       <NavbarLinks />
-      {donor ? (
-        <DonorActions />
+      {isAuthenticated ? (
+        <div className="flex items-center gap-3 font-bold">
+          <span className="text-sm text-gray-700 hidden md:inline">
+            {user?.firstName} {user?.lastName}
+          </span>
+          <button
+            onClick={clearAuthData}
+            className="text-white bg-(--bg-bold-blue) rounded-lg py-2.5 px-7 cursor-pointer"
+          >
+            تسجيل الخروج
+          </button>
+        </div>
       ) : (
         <div className="flex items-center gap-3 font-bold">
           <Link
