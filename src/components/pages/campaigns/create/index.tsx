@@ -1,6 +1,6 @@
 'use client';
 import { VerticalStepper } from '@/components/shared/VerticalStepper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BasicCampaignInfoStep from './steps/BasicCampaignInfo';
 import CampaignImageStep from './steps/CampaignImage';
 import CampaignGoalStep from './steps/CampaignGoal';
@@ -13,6 +13,12 @@ import CampaignUnderReview from './steps/CampaignUnderReview';
 import useAPI from '@/hooks/useAPI';
 import { FaSpinner } from 'react-icons/fa';
 import { campaignsCreateSchema } from '@/features/auth/schemas';
+import {
+  clearCampaignData,
+  getCampaignData,
+  setCampaignData,
+} from '@/lib/indexedDB';
+import { stepFields, STEPS } from '@/shared/config/CampaignData';
 
 export interface CampaignsCreateData {
   title: string;
@@ -26,22 +32,10 @@ export interface CampaignsCreateData {
   file?: File | Blob | string;
 }
 
-const STEPS = [
-  { id: 'step-1', label: 'معلومات الحملة الأساسية' },
-  { id: 'step-2', label: 'صورة الحملة' },
-  { id: 'step-3', label: 'تفاصيل الهدف والتقدّم' },
-  { id: 'step-4', label: 'مراجعة الحملة قبل النشر' },
-];
-
-const stepFields = [
-  ['title', 'motivationMessage', 'category', 'goal'] as const,
-  ['file', 'description'] as const,
-  ['startDate', 'endDate'] as const,
-  ['checkbox'] as const,
-];
-
 const CampaignsCreatePage = () => {
   const [currentStep, setCurrentStep] = useState(0);
+
+  // API Hook
   const { add, isLoading } = useAPI<FormData, any>('v1/campaign');
 
   const {
@@ -55,22 +49,12 @@ const CampaignsCreatePage = () => {
     formState: { errors },
   } = useForm<any>({
     resolver: yupResolver(campaignsCreateSchema),
-    defaultValues: {
-      title: '',
-      motivationMessage: '',
-      category: '',
-      goal: null,
-      file: undefined,
-      description: '',
-      startDate: '',
-      endDate: '',
-      checkbox: false,
-    },
     mode: 'all',
   });
 
   const category = watch('category');
   const startDate = watch('startDate');
+  const values = watch();
 
   const handleSteps = async () => {
     const valid = await trigger(stepFields[currentStep]);
@@ -79,7 +63,6 @@ const CampaignsCreatePage = () => {
   };
 
   const onSubmit = async (data: any) => {
-    console.log('SUBMIT CALLED');
     const formData = new FormData();
 
     formData.append('title', data.title);
@@ -97,8 +80,9 @@ const CampaignsCreatePage = () => {
     if (isLoading) return;
     try {
       await add(formData);
-      reset();
       setCurrentStep(4);
+      reset();
+      await clearCampaignData();
     } catch (e) {
       // stay on step 3
       setCurrentStep(3);
@@ -112,6 +96,18 @@ const CampaignsCreatePage = () => {
       handleSubmit(onSubmit)(); // Step 3 executes the form manually
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const saved = await getCampaignData();
+      if (saved.values) reset(saved.values);
+      if (saved.currentStep) setCurrentStep(saved.currentStep);
+    })();
+  }, []);
+
+  useEffect(() => {
+    setCampaignData({ values, currentStep });
+  }, [values, currentStep]);
 
   return (
     <div>
@@ -142,6 +138,7 @@ const CampaignsCreatePage = () => {
                 setValue={setValue}
                 register={register}
                 errors={errors}
+                values={values}
               />
             )}
             {currentStep === 2 && (
@@ -153,7 +150,13 @@ const CampaignsCreatePage = () => {
               />
             )}
             {currentStep === 3 && (
-              <CampaignReviewStep control={control} errors={errors} />
+              <CampaignReviewStep
+                setValue={setValue}
+                register={register}
+                control={control}
+                errors={errors}
+                values={values}
+              />
             )}
             {currentStep === 4 && <CampaignUnderReview />}
             <div

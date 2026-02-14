@@ -12,7 +12,7 @@ export const useToast = () => {
     closeOnClick: true,
     pauseOnHover: true,
     className:
-      '!max-w-[90vw] !w-auto !min-w-[250px] sm:!min-w-[300px] !z-[9999]',
+      '!max-w-[90vw] !w-auto !min-w-[250px] sm:!min-w-[300px] !z-[9999] font-bold text-lg',
     style: {
       top: isMobile ? '40px' : undefined,
     },

@@ -4,9 +4,11 @@ import {
   FaHome,
   FaLeaf,
   FaPaw,
+  FaShieldAlt,
   FaTint,
   FaUtensils,
 } from 'react-icons/fa';
+import { MdAccessTime } from 'react-icons/md';
 
 export const CampaignCategorys = [
   {
@@ -98,5 +100,32 @@ export const campaignsDurations = [
   {
     id: 3,
     duration: 90,
+  },
+];
+
+export const STEPS = [
+  { id: 'step-1', label: 'معلومات الحملة الأساسية' },
+  { id: 'step-2', label: 'صورة الحملة' },
+  { id: 'step-3', label: 'تفاصيل الهدف والتقدّم' },
+  { id: 'step-4', label: 'مراجعة الحملة قبل النشر' },
+];
+
+export const stepFields = [
+  ['title', 'motivationMessage', 'category', 'goal'] as const,
+  ['file', 'description'] as const,
+  ['startDate', 'endDate'] as const,
+  ['checkbox'] as const,
+];
+
+export const trackingProgressData = [
+  {
+    id: 1,
+    Icon: FaShieldAlt,
+    text: 'نقوم بمراجعة الحملات للتأكد من وضوح الهدف ومصداقية المحتوى قبل نشرها.',
+  },
+  {
+    id: 2,
+    Icon: MdAccessTime,
+    text: 'تستغرق المراجعة عادة من 24 إلى 48 ساعة.',
   },
 ];
