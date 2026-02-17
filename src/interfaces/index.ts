@@ -112,10 +112,11 @@ export interface ProgressBottomInfoProps {
   value?: number | string;
   displayValue?: string;
   showValue?: boolean;
-  valueLabelClassName?: string;
+  valueSubLabelClassName?: string;
   subLabel?: string;
   SubLabelIcon?: React.ElementType;
   subLabelClassName?: string;
+  subLabelIconClassName?: string;
 }
 
 export interface ProgressValueInsideProp {
@@ -154,6 +155,7 @@ export interface ProgressProps extends React.ComponentPropsWithoutRef<
   SubLabelIcon?: React.ElementType;
   subLabelIconSize?: number;
   subLabelIconClassName?: string;
+  valueSubLabelClassName?: string;
   progressVariant?: 'percentage' | 'custom';
   customDisplay?: React.ReactNode;
 }
@@ -225,6 +227,7 @@ export interface DataTableBodyProps {
 
 export interface TableProps extends DataTableBodyProps {
   title: string;
+  otherClassName?: string;
 }
 
 export interface ReactHookFormValuesProps {
