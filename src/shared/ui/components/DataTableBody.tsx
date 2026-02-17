@@ -3,6 +3,7 @@ import { Edit2, Search, Hash } from 'lucide-react';
 import { DataTableBodyProps } from '@/interfaces';
 import Image from 'next/image';
 import { Button } from '@/components/shared/Button';
+import { StatusBadge } from '@/components/campaign-balances/StatusBadge';
 
 const DataTableBody = ({
   columns,
@@ -25,8 +26,8 @@ const DataTableBody = ({
 
   // === visibleColumns ===
   // The columns that will actually appear in the table after excluding internal and irrelevant columns
-  const visibleColumns = filteredColumns?.reduce<string[]>((acc, col) => {
-    if (col === 'updated_at' || col === 'user_id' || col === 'slug') return acc;
+  const visibleColumns = filteredColumns?.reduce<any[]>((acc, col) => {
+    if (col.key === 'updated_at' || col.key === 'user_id' || col.key === 'slug') return acc;
 
     return [...acc, col];
   }, []);
@@ -38,10 +39,10 @@ const DataTableBody = ({
           <tr className="truncate whitespace-nowrap overflow-hidden text-(--text-slate-400) font-bold text-base">
             {visibleColumns?.map((col) => (
               <th
-                key={String(col)}
+                key={col.key}
                 className="text-base font-bold p-3 text-center align-middle"
               >
-                {String(col)}
+                {col.label}
               </th>
             ))}
             {showActionsColumn && (onEdit || onDelete) && (
@@ -57,34 +58,54 @@ const DataTableBody = ({
               return (
                 <tr
                   key={row.id}
-                  className={`${idx !== data.length - 1 ? 'border-b-2 border-(--bg-slate-200)' : ''}`}
+                  className={idx !== data.length - 1 ? 'border-b-2 border-(--bg-slate-200)' : ''}
                 >
                   {visibleColumns?.map((col) => {
-                    const columnKey = String(col);
+                    const columnKey = String(col.key);
+                    const rawValue = (row as any)[columnKey];
 
                     if (columnKey === 'status') {
                       return (
                         <td
                           key={columnKey}
-                          className="px-6 py-4 max-w-xs truncate whitespace-nowrap overflow-hidden "
+                          className="px-6 py-4 max-w-xs truncate whitespace-nowrap overflow-hidden"
                         >
-                          <div className="flex items-center justify-center gap-1 p-2 rounded-xl">
-                            <span>{String(row[col])}</span>
-                          </div>
+                          <StatusBadge value={String(rawValue)} badgeStatus={String(row[columnKey])} otherClassName='text-base!' showValueIcon />
+                        </td>
+                      );
+                    }
+
+                    if (columnKey === 'donor') {
+                      return (
+                        <td
+                          key={columnKey}
+                          className="py-4 truncate whitespace-nowrap flex items-center justify-center gap-2"
+                        >
+                          <Image
+                            src={
+                              // `${API_URL}${rawValue}` ||
+                              '/images/logo.png'
+                            }
+                            alt={columnKey}
+                            width={40}
+                            height={40}
+                            className="rounded-full"
+                          />
+                          {String(rawValue)}
                         </td>
                       );
                     }
 
                     if (
                       (columnKey === 'image' || columnKey === 'photo') &&
-                      typeof (row as any)[col] === 'string'
+                      typeof rawValue === 'string'
                     ) {
                       return (
                         <td key={columnKey}>
                           <Image
                             src={
-                              // `${API_URL}${(row as any)[col]}` ||
-                              `/assets/products/${(row as any)[col]}.jpg` ||
+                              // `${API_URL}${rawValue}` ||
+                              `/assets/products/${rawValue}.jpg` ||
                               '/assets/no-image-available.webp'
                             }
                             alt={columnKey}
@@ -101,13 +122,10 @@ const DataTableBody = ({
                       );
                     }
 
-                    // === التعديل هنا ===
-                    const rawValue = (row as any)[col];
-
                     const cellValue =
                       rawValue === null ||
-                      rawValue === undefined ||
-                      rawValue === ''
+                        rawValue === undefined ||
+                        rawValue === ''
                         ? 'unavailable'
                         : Array.isArray(rawValue)
                           ? rawValue.join(', ') // لو القيمة مصفوفة، نجمعها كنص
