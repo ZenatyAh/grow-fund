@@ -19,8 +19,8 @@ const Progress = React.forwardRef<
       className,
       size = 'md',
       value,
-      trackColor = 'var(--bg-bold-blue)',
-      indicatorColor = 'var(--bg-blue-gray)',
+      trackColor = 'var(--bg-blue-gray)',
+      indicatorColor = 'var(--bg-green-dark)',
       topDisplayValue,
       bottomDisplayValue,
       showInfo,
@@ -39,6 +39,7 @@ const Progress = React.forwardRef<
       SubLabelIcon,
       subLabelIconSize = 16,
       subLabelIconClassName,
+      valueSubLabelClassName,
       progressVariant = 'percentage',
       customDisplay,
       ...props
@@ -59,7 +60,6 @@ const Progress = React.forwardRef<
         showValueOutside={showValueOutside}
       />
       <ProgressPrimitive.Root
-        dir="rtl"
         ref={ref}
         className={cn(
           'relative w-full! overflow-hidden rounded-full',
@@ -88,10 +88,11 @@ const Progress = React.forwardRef<
         value={value ?? 0}
         displayValue={bottomDisplayValue}
         showValue={showSubValue}
-        valueLabelClassName={valueLabelClassName}
+        valueSubLabelClassName={valueSubLabelClassName}
         subLabel={subLabel}
         SubLabelIcon={SubLabelIcon}
         subLabelClassName={subLabelClassName}
+        subLabelIconClassName={subLabelIconClassName}
       />
     </div>
   )
