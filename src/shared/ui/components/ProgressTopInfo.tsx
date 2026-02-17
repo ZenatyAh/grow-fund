@@ -22,16 +22,6 @@ const ProgressTopInfo: React.FC<ProgressTopInfoProps> = ({
     <div
       className={`${showValueOutside ? 'flex items-center justify-between gap-2' : ''} text-white! text-sm font-normal mb-3`}
     >
-      {showValueOutside && showValue && (
-        <span
-          className={cn(
-            'tabular-nums text-(--primary-cta)',
-            valueLabelClassName
-          )}
-        >
-          {displayValue ?? `${value ?? 0}%`}
-        </span>
-      )}
       {label && (
         <p
           className={cn(
@@ -47,6 +37,16 @@ const ProgressTopInfo: React.FC<ProgressTopInfoProps> = ({
             />
           )}
         </p>
+      )}
+      {showValueOutside && showValue && (
+        <span
+          className={cn(
+            'tabular-nums text-(--primary-cta)',
+            valueLabelClassName
+          )}
+        >
+          {displayValue ?? `${value ?? 0}%`}
+        </span>
       )}
     </div>
   );
