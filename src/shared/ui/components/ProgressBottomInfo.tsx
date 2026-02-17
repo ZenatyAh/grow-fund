@@ -8,10 +8,11 @@ const ProgressBottomInfo: React.FC<ProgressBottomInfoProps> = ({
   value,
   displayValue,
   showValue,
-  valueLabelClassName,
+  valueSubLabelClassName,
   subLabel,
   SubLabelIcon,
   subLabelClassName,
+  subLabelIconClassName,
 }) => {
   if (!showValue && !subLabel) return null;
 
@@ -19,16 +20,6 @@ const ProgressBottomInfo: React.FC<ProgressBottomInfoProps> = ({
     <div
       className={`${showValue ? 'flex items-center justify-between gap-2' : ''} text-white! text-sm font-normal mt-3`}
     >
-      {showValue && (
-        <span
-          className={cn(
-            'tabular-nums text-(--primary-cta)',
-            valueLabelClassName
-          )}
-        >
-          {displayValue ?? `${value ?? 0}%`}
-        </span>
-      )}
       {subLabel && (
         <p
           className={cn(
@@ -36,9 +27,19 @@ const ProgressBottomInfo: React.FC<ProgressBottomInfoProps> = ({
             subLabelClassName
           )}
         >
+          {SubLabelIcon && <SubLabelIcon className={cn('text-(--bg-soft-blue)', subLabelIconClassName)} />}
           {subLabel}
-          {SubLabelIcon && <SubLabelIcon className="text-(--bg-soft-blue)" />}
         </p>
+      )}
+      {showValue && (
+        <span
+          className={cn(
+            'tabular-nums text-(--primary-cta)',
+            valueSubLabelClassName
+          )}
+        >
+          {displayValue ?? `${value ?? 0}%`}
+        </span>
       )}
     </div>
   );
