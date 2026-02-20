@@ -70,13 +70,13 @@ const LoginPage = () => {
             user: response.user,
           });
 
-          // Redirect based on role
+          // Redirect based on role to existing pages
           if (response.user.role === 'DONOR') {
-            router.push(ROUTES.DONOR_DASHBOARD);
+            router.push(`/profile/donor/${response.user.id}`);
           } else if (response.user.role === 'CAMPAIGN_CREATOR') {
-            router.push(ROUTES.CREATOR_DASHBOARD);
+            router.push(`/profile/campaign-creator/${response.user.id}`);
           } else {
-            router.push(ROUTES.HOME);
+            router.push('/home');
           }
         },
         onError: (err: Error) => {

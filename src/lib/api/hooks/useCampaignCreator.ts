@@ -70,13 +70,25 @@ export const useCreateCampaignCreatorProfileFormData = () => {
   });
 };
 
-// Hook to update campaign creator profile
+// Hook to update campaign creator profile (JSON)
 export const useUpdateCampaignCreatorProfile = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<CreateCampaignCreatorDto> }) =>
       apiClient.patch<CampaignCreatorResponseDto>(
         API_ENDPOINTS.campaignCreator.update(id),
         data,
+        true // useAuth
+      ),
+  });
+};
+
+// Hook to update campaign creator profile with file uploads (FormData)
+export const useUpdateCampaignCreatorProfileFormData = () => {
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
+      apiClient.patchFormData<CampaignCreatorResponseDto>(
+        API_ENDPOINTS.campaignCreator.update(id),
+        formData,
         true // useAuth
       ),
   });
