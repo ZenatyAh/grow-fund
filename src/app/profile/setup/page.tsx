@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/shared/Button';
 import Logo from '@/shared/ui/components/Logo';
 
 import { FaUser, FaBuilding, FaCheck, FaTint, FaHome, FaHeart, FaLeaf, FaAppleAlt, FaPaw, FaGraduationCap, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
 import { CategoryButton } from '@/components/shared/CategoryButton';
-import { useCreateCampaignCreatorProfile, useCreateCampaignCreatorProfileFormData, CreateCampaignCreatorDto } from '@/lib/api';
+import { useRegisterCampaignCreator, useRegisterCampaignCreatorFormData } from '@/lib/api/hooks/useAuth';
+import { PENDING_REGISTRATION_KEY } from '@/app/auth/register/page';
+import { useAuth } from '@/providers/AuthProvider';
 
 type CreatorType = 'individual' | 'organization' | null;
 type CampaignCategory = 'water' | 'shelter' | 'health' | 'environment' | 'food' | 'animals' | 'education' | null;
@@ -45,12 +47,11 @@ interface IndividualData {
 const WIZARD_STORAGE_KEY = 'grow-fund-wizard-state';
 
 const ProfileSetupPage = () => {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
   const [creatorType, setCreatorType] = useState<CreatorType>('individual'); 
   const [campaignCategory, setCampaignCategory] = useState<CampaignCategory>('water');
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevel>(null);
-  const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [organizationData, setOrganizationData] = useState<OrganizationData>({
@@ -93,24 +94,30 @@ const ProfileSetupPage = () => {
     setIndividualData(prev => ({ ...prev, [field]: value }));
   };
 
-  // Load saved state from localStorage on mount
+  // Load saved state from localStorage on mount and read type from query params
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        const userData = JSON.parse(storedUser);
-        setUserId(userData.id);
-      } catch {
-        console.error('Failed to parse user data');
-      }
+    // Read type from query params (from choose-role page)
+    const typeParam = searchParams.get('type');
+    const hasTypeParam = !!typeParam;
+    
+    if (typeParam === 'individual') {
+      setCreatorType('individual');
+      setCurrentStep(2); // Skip type selection step (step 1) if type is provided
+    } else if (typeParam === 'organization') {
+      setCreatorType('organization');
+      setCurrentStep(2); // Skip type selection step (step 1) if type is provided
     }
+
+    // No longer need userId - we read from sessionStorage instead
 
     const savedState = localStorage.getItem(WIZARD_STORAGE_KEY);
     if (savedState) {
       try {
         const state = JSON.parse(savedState);
-        if (state.currentStep) setCurrentStep(state.currentStep);
-        if (state.creatorType) setCreatorType(state.creatorType);
+        // Only use saved step if no type param was provided (to avoid overriding step 2)
+        if (!hasTypeParam && state.currentStep) setCurrentStep(state.currentStep);
+        // Only use saved creatorType if no type param was provided
+        if (!hasTypeParam && state.creatorType) setCreatorType(state.creatorType);
         if (state.campaignCategory) setCampaignCategory(state.campaignCategory);
         if (state.experienceLevel) setExperienceLevel(state.experienceLevel);
         if (state.organizationData) {
@@ -135,7 +142,8 @@ const ProfileSetupPage = () => {
         console.error('Failed to parse saved wizard state', e);
       }
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
@@ -166,64 +174,123 @@ const ProfileSetupPage = () => {
     setError(null);
   }, [currentStep]);
 
-  // API Hook: JSON for both individual and institution
-  const { mutate: createProfile, isPending } = useCreateCampaignCreatorProfile();
+  const router = useRouter();
+  const { setAuthData } = useAuth();
 
-  const isSubmitting = isPending;
+  // API Hooks: JSON for individual, FormData for institution (file uploads)
+  const { mutate: registerCreator, isPending } = useRegisterCampaignCreator();
+  const { mutate: registerCreatorFormData, isPending: isPendingFormData } = useRegisterCampaignCreatorFormData();
 
-  // Submit profile to backend
+  const isSubmitting = isPending || isPendingFormData;
+
+  // Submit profile to backend - combines basic registration data with profile data
   const handleSubmitProfile = () => {
-    if (!userId) {
-      setError('لم يتم العثور على بيانات المستخدم. يرجى تسجيل الدخول مجدداً.');
+    // Read pending registration data from sessionStorage
+    if (typeof window === 'undefined') return;
+    
+    const pendingRaw = sessionStorage.getItem(PENDING_REGISTRATION_KEY);
+    if (!pendingRaw) {
+      setError('لم يتم العثور على بيانات التسجيل. يرجى البدء من صفحة التسجيل.');
       return;
     }
 
-    const onSuccess = () => {
+    let pending;
+    try {
+      pending = JSON.parse(pendingRaw);
+    } catch {
+      setError('خطأ في قراءة بيانات التسجيل. يرجى المحاولة مرة أخرى.');
+      return;
+    }
+
+    const onSuccess = (response: any) => {
+      // Clear pending registration and wizard state
+      sessionStorage.removeItem(PENDING_REGISTRATION_KEY);
       localStorage.removeItem(WIZARD_STORAGE_KEY);
+      
+      // Log user in
+      setAuthData({
+        token: response.token,
+        userId: response.userData.id,
+        user: {
+          id: response.userData.id,
+          firstName: response.userData.firstName,
+          lastName: response.userData.lastName,
+          email: response.userData.email,
+          role: 'CAMPAIGN_CREATOR',
+          country: response.userData.country ?? '',
+        },
+      });
+      
       setIsSubmitted(true);
+      // Redirect to creator profile page
+      router.push(`/profile/campaign-creator/${response.userData.id}`);
     };
+    
     const onError = (err: Error) => {
-      setError(err.message || 'حدث خطأ أثناء حفظ الملف الشخصي');
+      setError(err.message || 'حدث خطأ أثناء إنشاء حساب منشئ الحملة');
     };
+
+    // Convert dateOfBirth to ISO string
+    const dateOfBirthISO = new Date(pending.dateOfBirth).toISOString();
 
     if (creatorType === 'organization') {
-      // Institution: send JSON with text fields only. Date as ISO. Omit file fields to avoid 500 (backend may require multipart for files).
-      const establishmentDate = organizationData.establishmentDate
-        ? new Date(organizationData.establishmentDate).toISOString()
-        : undefined;
+      // Institution: send multipart/form-data with all fields (basic + profile + files)
+      const formData = new FormData();
+      
+      // Required fields (from pending registration)
+      formData.append('firstName', pending.firstName);
+      formData.append('lastName', pending.lastName);
+      formData.append('email', pending.email);
+      formData.append('password', pending.password);
+      formData.append('dateOfBirth', dateOfBirthISO);
+      formData.append('type', 'INSTITUTION');
+      
+      // Optional basic fields
+      if (individualData.contact) formData.append('phoneNumber', individualData.contact);
+      if (individualData.country) formData.append('country', individualData.country);
+      
+      // Optional institution text fields (only append if not empty)
+      if (organizationData.name) formData.append('institutionName', organizationData.name);
+      if (organizationData.type) formData.append('institutionType', organizationData.type);
+      if (organizationData.country) formData.append('institutionCountry', organizationData.country);
+      if (organizationData.establishmentDate) {
+        const establishmentDateISO = new Date(organizationData.establishmentDate).toISOString();
+        formData.append('institutionDateOfEstablishment', establishmentDateISO);
+      }
+      if (organizationData.legalStatus) formData.append('institutionLegalStatus', organizationData.legalStatus);
+      if (organizationData.taxId) formData.append('institutionTaxIdentificationNumber', organizationData.taxId);
+      if (organizationData.registrationNumber) formData.append('institutionRegistrationNumber', organizationData.registrationNumber);
+      if (organizationData.representativeName) formData.append('institutionRepresentativeName', organizationData.representativeName);
+      if (organizationData.representativePosition) formData.append('institutionRepresentativePosition', organizationData.representativePosition);
+      if (organizationData.representativePhone) formData.append('institutionRepresentativePhone', organizationData.representativePhone);
+      if (organizationData.representativeEmail) formData.append('institutionRepresentativeEmail', organizationData.representativeEmail);
+      if (organizationData.website) formData.append('institutionWebsite', organizationData.website);
+      if (organizationData.socialMedia) formData.append('institutionRepresentativeSocialMedia', organizationData.socialMedia);
+      
+      // Files with backend's expected field names
+      if (organizationData.registrationFile) formData.append('registrationCertificate', organizationData.registrationFile);
+      if (organizationData.commercialLicenseFile) formData.append('commercialLicense', organizationData.commercialLicenseFile);
+      if (organizationData.idPhotoFile) formData.append('representativeIdPhoto', organizationData.idPhotoFile);
+      if (organizationData.representativePhotoFile) formData.append('commissionerImage', organizationData.representativePhotoFile);
+      if (organizationData.authorizationLetterFile) formData.append('authorizationLetter', organizationData.authorizationLetterFile);
 
-      const payload: CreateCampaignCreatorDto = {
-        userId,
-        type: 'INSTITUTION',
-        institutionName: organizationData.name || undefined,
-        institutionType: organizationData.type || undefined,
-        institutionCountry: organizationData.country || undefined,
-        institutionDateOfEstablishment: establishmentDate,
-        institutionLegalStatus: organizationData.legalStatus || undefined,
-        institutionTaxIdentificationNumber: organizationData.taxId || undefined,
-        institutionRegistrationNumber: organizationData.registrationNumber || undefined,
-        institutionRepresentativeName: organizationData.representativeName || undefined,
-        institutionRepresentativePosition: organizationData.representativePosition || undefined,
-        institutionRepresentativePhone: organizationData.representativePhone || undefined,
-        institutionRepresentativeEmail: organizationData.representativeEmail || undefined,
-        institutionWebsite: organizationData.website || undefined,
-        institutionRepresentativeSocialMedia: organizationData.socialMedia || undefined,
-      };
-
-      createProfile(payload, { onSuccess, onError });
+      registerCreatorFormData(formData, { onSuccess, onError });
     } else {
-      // Individual: send JSON
-      const payload: CreateCampaignCreatorDto = {
-        userId,
-        type: 'INDIVIDUAL',
-        experience: experienceLevel ?? undefined,
-        individualName: individualData.name,
-        individualCountry: individualData.country,
-        individualContact: individualData.contact,
-        individualProfileImage: individualData.profileImage?.name,
+      // Individual: send JSON with all fields (basic + profile)
+      const payload = {
+        firstName: pending.firstName,
+        lastName: pending.lastName,
+        email: pending.email,
+        password: pending.password,
+        dateOfBirth: dateOfBirthISO,
+        type: 'INDIVIDUAL' as const,
+        // Optional fields
+        phoneNumber: individualData.contact || undefined,
+        country: individualData.country || undefined,
+        notes: undefined, // Not collected in UI
       };
 
-      createProfile(payload, { onSuccess, onError });
+      registerCreator(payload, { onSuccess, onError });
     }
   };
 
@@ -1352,4 +1419,12 @@ const ProfileSetupPage = () => {
   );
 };
 
-export default ProfileSetupPage;
+const ProfileSetupPageWrapper = () => {
+  return (
+    <React.Suspense fallback={<div className="flex items-center justify-center min-h-screen">جاري التحميل...</div>}>
+      <ProfileSetupPage />
+    </React.Suspense>
+  );
+};
+
+export default ProfileSetupPageWrapper;

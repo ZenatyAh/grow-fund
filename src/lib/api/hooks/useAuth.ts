@@ -26,7 +26,7 @@ export interface RegisterDonorDto {
   phoneNumber?: string;
   country?: string;
   notes?: string;
-  donorProfile: RegisterDonorProfileDto;
+  donorProfile?: RegisterDonorProfileDto;
 }
 
 export interface RegisterDonorUserResponseDto {
@@ -55,26 +55,25 @@ export interface RegisterCampaignCreatorDto {
   lastName: string;
   email: string;
   password: string;
-  confirmPassword?: string;
-  phoneNumber: string;
-  country: string;
+  dateOfBirth: string;
   type: 'INDIVIDUAL' | 'INSTITUTION' | 'individual' | 'institution';
-  dateOfBirth?: string;
-  notes?: string | null;
-  creatorProfile?: {
-    institutionName: string;
-    institutionType: string;
-    institutionCountry: string;
-    institutionDateOfEstablishment: string;
-    institutionLegalStatus: string;
-    institutionTaxIdentificationNumber: string;
-    institutionRegistrationNumber: string;
-    institutionRepresentativeName: string;
-    institutionRepresentativePosition: string;
-    institutionRepresentativeRegistrationNumber: string;
-    institutionWebsite: string;
-    institutionRepresentativeSocialMedia: string;
-  } | null;
+  phoneNumber?: string;
+  country?: string;
+  notes?: string;
+  institutionName?: string;
+  institutionType?: string;
+  institutionCountry?: string;
+  institutionDateOfEstablishment?: string;
+  institutionLegalStatus?: string;
+  institutionTaxIdentificationNumber?: string;
+  institutionRegistrationNumber?: string;
+  institutionRepresentativeName?: string;
+  institutionRepresentativePosition?: string;
+  institutionRepresentativeRegistrationNumber?: string;
+  institutionWebsite?: string;
+  institutionRepresentativeSocialMedia?: string;
+  // Note: File fields (registrationCertificate, commercialLicense, representativeIdPhoto, commissionerImage, authorizationLetter)
+  // are sent as FormData, not included in JSON DTO
 }
 
 export interface CampaignCreatorUserDataResponseDto {
@@ -157,6 +156,17 @@ export const useRegisterCampaignCreator = () => {
       apiClient.post<RegisterCampaignCreatorResponseDto>(
         API_ENDPOINTS.auth.registerCampaignCreator,
         data
+      ),
+  });
+};
+
+// Hook for registering campaign creator with FormData (for institution with file uploads)
+export const useRegisterCampaignCreatorFormData = () => {
+  return useMutation({
+    mutationFn: (formData: FormData) =>
+      apiClient.postFormData<RegisterCampaignCreatorResponseDto>(
+        API_ENDPOINTS.auth.registerCampaignCreator,
+        formData
       ),
   });
 };

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/shared/Button';
 import ImageSlider from '@/components/shared/ImageSlider';
 import Logo from '@/shared/ui/components/Logo';
-import { FaRocket, FaStar } from 'react-icons/fa';
+import { FaRocket, FaStar, FaUser, FaBuilding } from 'react-icons/fa';
 import { toast } from 'sonner';
 import {
   useRegisterDonor,
@@ -59,10 +59,11 @@ const RoleSelectionPage = () => {
 const RoleSelectionPageContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setAuthData } = useAuth();
+  const { setAuthData, user } = useAuth();
   const [pending, setPending] = useState<PendingRegistration | null>(null);
   const [selectedRole, setSelectedRole] = useState<'donor' | 'creator' | null>(null);
-  const [step, setStep] = useState<'welcome' | 'choice'>('welcome');
+  const [step, setStep] = useState<'welcome' | 'typeSelection' | 'choice'>('welcome');
+  const [selectedCreatorType, setSelectedCreatorType] = useState<'individual' | 'organization' | null>(null);
 
   const { mutate: registerDonor, isPending: isRegisteringDonor } = useRegisterDonor();
   const { mutate: registerCreator, isPending: isRegisteringCreator } = useRegisterCampaignCreator();
@@ -90,26 +91,15 @@ const RoleSelectionPageContent = () => {
   const handleRoleSelect = (role: 'donor' | 'creator') => {
     if (!pending) return;
 
-    const randomPhone = `+97059${Math.floor(100000 + Math.random() * 900000)}`;
-
     if (role === 'donor') {
+      // Donor: register immediately with basic info only
       const payload: RegisterDonorDto = {
         firstName: pending.firstName,
         lastName: pending.lastName,
         email: pending.email,
         password: pending.password,
         dateOfBirth: pending.dateOfBirth,
-        phoneNumber: randomPhone,
-        country: 'Palestine',
-        notes: 'New donor from web app',
-        donorProfile: {
-          areasOfInterest: 'Education and Health',
-          preferredCampaignTypes: 'Charitable and Social',
-          geographicScope: 'local',
-          targetAudience: 'Children and needy families',
-          preferredCampaignSize: 10000,
-          preferredCampaignVisibility: 'Public',
-        },
+        // Optional fields omitted - backend will use defaults
       };
       registerDonor(payload, {
         onSuccess: (response) => {
@@ -135,43 +125,10 @@ const RoleSelectionPageContent = () => {
         },
       });
     } else {
-      const dateOfBirthISO = new Date(pending.dateOfBirth).toISOString();
-      const payload: RegisterCampaignCreatorDto = {
-        firstName: pending.firstName,
-        lastName: pending.lastName,
-        email: pending.email,
-        password: pending.password,
-        confirmPassword: pending.password,
-        phoneNumber: randomPhone,
-        country: 'Palestine',
-        type: 'INDIVIDUAL',
-        dateOfBirth: dateOfBirthISO,
-        notes: 'Campaign creator account',
-      };
-      registerCreator(payload, {
-        onSuccess: (response) => {
-          clearPending();
-          const userForAuth: LoginUserDto = {
-            id: response.userData.id,
-            firstName: response.userData.firstName,
-            lastName: response.userData.lastName,
-            email: response.userData.email,
-            role: 'CAMPAIGN_CREATOR',
-            country: response.userData.country ?? '',
-          };
-          setAuthData({
-            token: response.token,
-            userId: response.userData.id,
-            user: userForAuth,
-          });
-          setSelectedRole('creator');
-          setStep('welcome');
-          toast.success('تم إنشاء حساب منشئ الحملة بنجاح');
-        },
-        onError: (err: Error) => {
-          toast.error(err.message || 'حدث خطأ أثناء إنشاء حساب منشئ الحملة');
-        },
-      });
+      // Creator: DON'T register yet - just proceed to welcome flow
+      // Registration will happen in profile/setup page with all data combined
+      setSelectedRole('creator');
+      setStep('welcome');
     }
   };
 
@@ -199,7 +156,7 @@ const RoleSelectionPageContent = () => {
              </ul>
            </div>
 
-           <Link href={ROUTES.DONOR_DASHBOARD} className="w-full">
+           <Link href={user ? `/profile/donor/${user.id}` : '/home'} className="w-full">
              <Button variant="primary" fullWidth size="lg">
                الانتقال الى لوحة التحكم
              </Button>
@@ -265,7 +222,94 @@ const RoleSelectionPageContent = () => {
             variant="primary" 
             fullWidth 
             size="lg"
-            onClick={() => setStep('choice')}
+            onClick={() => setStep('typeSelection')}
+          >
+            متابعة
+          </Button>
+        </div>
+      );
+    }
+
+    // Step === 'typeSelection' - Individual vs Institution selection (using existing UI from profile/setup)
+    if (step === 'typeSelection') {
+      return (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-xl text-right">
+          <h1 className="text-2xl md:text-[32px] font-bold text-[#0F172A] mb-12 text-center">
+            كيف تود إنشاء الحملات على نجومي؟
+          </h1>
+
+          <div className="flex flex-col gap-4 mb-8">
+            {/* Individual Option */}
+            <div 
+              onClick={() => setSelectedCreatorType('individual')}
+              className={`
+                cursor-pointer flex items-center justify-between p-5 rounded-xl border-2 transition-all duration-200 h-[88px]
+                ${selectedCreatorType === 'individual' 
+                  ? 'bg-[#EFF6FF] border-[#3B82F6]' 
+                  : 'bg-white border-[#E2E8F0] hover:border-[#94A3B8]'}
+              `}
+            >
+              <div className="flex items-center gap-4">
+                <div className={`
+                  w-10 h-10 rounded-full flex items-center justify-center transition-colors
+                  ${selectedCreatorType === 'individual' ? 'bg-[#3B82F6] text-white' : 'bg-[#F1F5F9] text-[#64748B]'}
+                `}>
+                  <FaUser size={18} />
+                </div>
+                <span className={`text-base font-medium ${selectedCreatorType === 'individual' ? 'text-[#1E3A8A]' : 'text-[#475569]'}`}>
+                  فردي
+                </span>
+              </div>
+
+              <div className={`
+                w-5 h-5 rounded-full border-2 flex items-center justify-center
+                ${selectedCreatorType === 'individual' ? 'border-[#3B82F6]' : 'border-[#CBD5E1]'}
+              `}>
+                {selectedCreatorType === 'individual' && <div className="w-2.5 h-2.5 rounded-full bg-[#3B82F6]" />}
+              </div>
+            </div>
+
+            {/* Organization Option */}
+            <div 
+              onClick={() => setSelectedCreatorType('organization')}
+              className={`
+                cursor-pointer flex items-center justify-between p-5 rounded-xl border-2 transition-all duration-200 h-[88px]
+                ${selectedCreatorType === 'organization' 
+                  ? 'bg-[#EFF6FF] border-[#3B82F6]' 
+                  : 'bg-white border-[#E2E8F0] hover:border-[#94A3B8]'}
+              `}
+            >
+              <div className="flex items-center gap-4">
+                <div className={`
+                  w-10 h-10 rounded-full flex items-center justify-center transition-colors
+                  ${selectedCreatorType === 'organization' ? 'bg-[#3B82F6] text-white' : 'bg-[#F1F5F9] text-[#64748B]'}
+                `}>
+                  <FaBuilding size={18} />
+                </div>
+                <span className={`text-base font-medium ${selectedCreatorType === 'organization' ? 'text-[#1E3A8A]' : 'text-[#475569]'}`}>
+                  مؤسسة / جمعية
+                </span>
+              </div>
+
+              <div className={`
+                w-5 h-5 rounded-full border-2 flex items-center justify-center
+                ${selectedCreatorType === 'organization' ? 'border-[#3B82F6]' : 'border-[#CBD5E1]'}
+              `}>
+                {selectedCreatorType === 'organization' && <div className="w-2.5 h-2.5 rounded-full bg-[#3B82F6]" />}
+              </div>
+            </div>
+          </div>
+
+          <Button 
+            variant="primary" 
+            fullWidth 
+            size="lg"
+            onClick={() => {
+              if (selectedCreatorType) {
+                setStep('choice');
+              }
+            }}
+            disabled={!selectedCreatorType}
           >
             متابعة
           </Button>
@@ -294,7 +338,10 @@ const RoleSelectionPageContent = () => {
               <p className="text-sm text-[#6B7280] text-center mb-6">
                 أكمل بياناتك الأساسية.
               </p>
-              <Link href="/profile/setup" className="w-full mt-auto">
+              <Link 
+                href={`/profile/setup${selectedCreatorType ? `?type=${selectedCreatorType}` : ''}`} 
+                className="w-full mt-auto"
+              >
                 <Button variant="primary" fullWidth>
                   إعداد الحساب الان
                 </Button>

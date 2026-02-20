@@ -7,6 +7,7 @@ import { LoginUserDto, useUserById } from '@/lib/api/hooks/useAuth';
 type AuthContextValue = {
   user: LoginUserDto | null;
   token: string | null;
+  userId: string | null;
   isAuthenticated: boolean;
   role: LoginUserDto['role'] | null;
   setAuthData: (params: { token: string; userId: string; user?: LoginUserDto }) => void;
@@ -91,12 +92,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       user: resolvedUser ?? null,
       token,
+      userId,
       isAuthenticated: !!token && !!resolvedUser,
       role: resolvedUser?.role ?? null,
       setAuthData,
       clearAuthData,
     }),
-    [resolvedUser, token]
+    [resolvedUser, token, userId]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
