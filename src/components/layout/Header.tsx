@@ -12,6 +12,13 @@ const Header = () => {
   const { isAuthenticated, user, clearAuthData } = useAuth();
   const pathname = usePathname();
   const donor = pathname.startsWith(ROUTES.DONOR_DASHBOARD);
+  const profileHref =
+    user?.role === 'DONOR'
+      ? `/profile/donor/${user.id}`
+      : user?.role === 'CAMPAIGN_CREATOR'
+        ? `/profile/campaign-creator/${user.id}`
+        : '#';
+  const userName = `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'المستخدم';
 
   return (
     <header className="bg-white rounded-md px-6 py-4.5 flex items-center justify-between gap-5 shadow-md">
@@ -48,21 +55,11 @@ const Header = () => {
       )}
 
       {isAuthenticated ? (
-        donor ? (
-          <DonorActions />
-        ) : (
-          <div className="flex items-center gap-3 font-bold">
-            <span className="text-sm text-gray-700 hidden md:inline">
-              {user?.firstName} {user?.lastName}
-            </span>
-            <button
-              onClick={clearAuthData}
-              className="text-white bg-(--bg-bold-blue) rounded-lg py-2.5 px-7 cursor-pointer"
-            >
-              تسجيل الخروج
-            </button>
-          </div>
-        )
+        <DonorActions
+          userName={userName}
+          profileHref={profileHref}
+          onLogout={clearAuthData}
+        />
       ) : (
         <div className="flex items-center gap-3 font-bold">
           <Link

@@ -1,5 +1,5 @@
 export const ROUTES = {
-  HOME: '/',
+  HOME: '/home',
   CAMPAIGNS: '/campaigns',
   CREATE_CAMPAIGN: '/campaigns/create',
   DONATE: '/donate',
@@ -7,6 +7,6 @@ export const ROUTES = {
   REGISTER: '/auth/register',
   DASHBOARD: '/dashboard',
   DONOR_DASHBOARD: '/home/donor',
-  CREATOR_DASHBOARD: '/dashboard/creator',
+  CREATOR_DASHBOARD: '/home',
   NOTIFICATIONS: '/notifications',
 };

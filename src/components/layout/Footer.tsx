@@ -4,12 +4,13 @@ import { Map } from 'lucide-react';
 import FooterBrand from '../ui/FooterBrand';
 import FooterLinks from '../ui/FooterLinks';
 import FooterContact from '../ui/FooterContact';
+import { ROUTES } from '@/shared/constants/routes';
 
 const Footer = () => {
   const quickLinks = [
-    { href: '#', text: 'الصفحة الرئيسية' },
-    { href: '#', text: 'استكشاف الحملات' },
-    { href: '#', text: 'نبذة عنا' },
+    { href: ROUTES.HOME, text: 'الصفحة الرئيسية' },
+    { href: ROUTES.CAMPAIGNS, text: 'استكشاف الحملات' },
+    { href: `${ROUTES.HOME}#about`, text: 'نبذة عنا' },
   ];
   return (
     <footer className="bg-white py-8 gap-5">

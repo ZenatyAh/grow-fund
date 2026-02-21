@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { CheckCircle2, RotateCcw, Eye, Bell } from 'lucide-react';
-import SharedHeader from '@/components/shared/SharedHeader';
 import ProfileCard from '@/components/shared/ProfileCard';
 import InfoWarCard from '@/components/shared/InfoWarCard';
 import EditProfileForm from '@/components/shared/EditProfileForm';
@@ -14,7 +13,7 @@ import NotificationSettingsSection from '@/components/shared/NotificationSetting
 import AccountVerificationSection from '@/components/shared/AccountVerification';
 import { DonationRecord } from '@/lib/utils';
 
-const DonorProfilePage = ({ params }: { params: { id: string } }) => {
+const DonorProfilePage = ({ params: _params }: { params: { id: string } }) => {
   const [activeSection, setActiveSection] = useState('edit-data');
 
   const sampleDonations: DonationRecord[] = [
@@ -64,16 +63,10 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
   ];
 
   return (
-    <div
-      className="bg-[#F8FAFC] mx-auto overflow-x-hidden w-[1728px]"
-      style={{ width: '1728px', height: '1429px', paddingTop: '40px' }}
-      dir="rtl"
-    >
-      <div className="flex flex-col gap-[24px] w-full px-[120px]" style={{ paddingLeft: '120px', paddingRight: '120px' }}>
-        <SharedHeader />
-
-        <div className="flex flex-row gap-[10px] items-start">
-          <aside className="flex flex-col gap-[24px] w-[372px]">
+    <div className="bg-[#F8FAFC] min-h-screen w-full" dir="rtl">
+      <div className="flex flex-col gap-6 w-full py-2 md:py-4">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-6 items-start">
+          <aside className="flex flex-col gap-6 w-full lg:w-[372px] lg:shrink-0">
             <ProfileCard
               type="individual"
               name="محمد شاهين"
@@ -92,7 +85,7 @@ const DonorProfilePage = ({ params }: { params: { id: string } }) => {
             />
           </aside>
 
-          <main className="flex-1">
+          <main className="flex-1 w-full min-w-0">
             {activeSection === 'edit-data' && <EditProfileForm />}
             {activeSection === 'donation-preferences' && <DonationPreferencesForm />}
             {activeSection === 'change-password' && <ChangePasswordForm />}

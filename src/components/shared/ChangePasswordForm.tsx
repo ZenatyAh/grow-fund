@@ -38,8 +38,7 @@ const PasswordInput = ({ label, placeholder }: { label: string, placeholder: str
 const ChangePasswordForm = () => {
     return (
         <div
-            className="h-[947px] pt-[40px] px-[32px] flex flex-col gap-[24px]"
-            style={{ width: '1106px' }}
+            className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6"
             dir="rtl"
         >
             {/* Title */}
@@ -48,8 +47,8 @@ const ChangePasswordForm = () => {
             </h1>
 
             {/* Form Container */}
-            <div className="w-[1050px] h-[753px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] shadow-sm opacity-100 rotate-0">
-                <form className="flex flex-col gap-[24px] h-full" onSubmit={(e) => e.preventDefault()}>
+            <div className="w-full bg-white border border-[#E2E8F0] rounded-[24px] p-4 md:p-6 shadow-sm">
+                <form className="flex flex-col gap-6 h-full" onSubmit={(e) => e.preventDefault()}>
 
                     {/* Section Header */}
                     <div className="flex items-center justify-start gap-[8px] w-full">
@@ -105,7 +104,7 @@ const ChangePasswordForm = () => {
                     </div>
 
                     {/* Buttons */}
-                    <div className="flex gap-[16px] justify-end mt-auto">
+                    <div className="flex flex-wrap gap-4 justify-end mt-auto">
                         <Button
                             variant="subtle"
                             className="w-[101px] h-[56px] flex items-center justify-center border border-[#E2E8F0] bg-white text-[#334155] rounded-[12px]"

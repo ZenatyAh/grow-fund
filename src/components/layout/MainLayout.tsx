@@ -12,6 +12,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   const noHeaderFooter = pathname.startsWith('/campaigns/create');
+  const isProfilePage = pathname.startsWith('/profile/');
 
   return (
     <div>
@@ -21,14 +22,18 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         </Container>
       )}
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         {isCampaignCreator && (
           <aside className="h-screen sticky top-0 z-50 w-90 pt-6 px-6">
             <Sidebar />
           </aside>
         )}
 
-        <main className="flex-1 overflow-y-auto p-4 pt-16 md:p-6 md:pt-6">
+        <main
+          className={`flex-1 min-w-0 overflow-y-auto p-4 md:p-6 ${
+            isProfilePage ? 'pt-4 md:pt-4' : 'pt-16 md:pt-6'
+          }`}
+        >
           {!noHeaderFooter ? <Container>{children}</Container> : children}
         </main>
       </div>

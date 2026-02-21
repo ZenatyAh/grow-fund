@@ -7,35 +7,52 @@ import { FaAngleDown } from 'react-icons/fa6';
 import { 
   MdPerson, 
   MdSettings, 
-  MdSecurity, 
   MdLogout 
 } from 'react-icons/md';
 import { ROUTES } from '@/shared/constants/routes';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
-const DonorActions = () => {
-  const userName = "أحمد محمد"; // Placeholder name as requested ("السهم الذي بجانب الاسم")
+type DonorActionsProps = {
+  userName?: string;
+  profileHref?: string;
+  onLogout?: () => void;
+};
 
-  const menuItems = [
+type MenuLinkItem = {
+  label: string;
+  icon: React.ReactNode;
+  href: string;
+  isDanger?: boolean;
+};
+
+type MenuActionItem = {
+  label: string;
+  icon: React.ReactNode;
+  action: () => void;
+  isDanger?: boolean;
+};
+
+const DonorActions = ({
+  userName = 'المستخدم',
+  profileHref = '#',
+  onLogout,
+}: DonorActionsProps) => {
+  const menuItems: Array<MenuLinkItem | MenuActionItem> = [
     {
       label: 'الملف الشخصي',
       icon: <MdPerson size={22} />,
-      href: '/profile/donor/1',
+      href: profileHref,
     },
     {
-      label: 'الاعدادت',
+      label: 'الإعدادات',
       icon: <MdSettings size={22} />,
       href: '#',
     },
     {
-      label: 'الخصوصية وتسجيل الخروج',
-      icon: (
-        <div className="flex items-center gap-0.5">
-          <MdSecurity size={18} />
-          <MdLogout size={18} />
-        </div>
-      ),
-      href: '#',
+      label: 'تسجيل الخروج',
+      icon: <MdLogout size={22} />,
+      action: onLogout ?? (() => {}),
+      isDanger: true,
     },
   ];
 
@@ -81,18 +98,52 @@ const DonorActions = () => {
           className="w-72! bg-white p-2 rounded-[24px] border border-slate-100 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
         >
           <div className="flex flex-col gap-1" dir="rtl">
-            {menuItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="flex items-center gap-3 px-4 py-3.5 rounded-2xl hover:bg-blue-50 text-slate-700 hover:text-blue-700 transition-all font-bold font-['var(--font-tajawal)'] group/item"
-              >
-                <span className="text-blue-600 transition-colors group-hover/item:text-blue-700">
-                  {item.icon}
-                </span>
-                <span className="text-[17px]">{item.label}</span>
-              </Link>
-            ))}
+            {menuItems.map((item, index) =>
+              'action' in item ? (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={item.action}
+                  className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-bold font-['var(--font-tajawal)'] group/item w-full text-right ${
+                    item.isDanger
+                      ? 'text-red-600 hover:bg-red-50'
+                      : 'text-slate-700 hover:bg-blue-50 hover:text-blue-700'
+                  }`}
+                >
+                  <span
+                    className={`transition-colors ${
+                      item.isDanger
+                        ? 'text-red-500'
+                        : 'text-blue-600 group-hover/item:text-blue-700'
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="text-[17px]">{item.label}</span>
+                </button>
+              ) : (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-bold font-['var(--font-tajawal)'] group/item ${
+                    item.isDanger
+                      ? 'text-red-600 hover:bg-red-50'
+                      : 'text-slate-700 hover:bg-blue-50 hover:text-blue-700'
+                  }`}
+                >
+                  <span
+                    className={`transition-colors ${
+                      item.isDanger
+                        ? 'text-red-500'
+                        : 'text-blue-600 group-hover/item:text-blue-700'
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="text-[17px]">{item.label}</span>
+                </Link>
+              )
+            )}
           </div>
         </PopoverContent>
       </Popover>

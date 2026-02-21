@@ -50,8 +50,7 @@ const EditProfileForm = () => {
 
   return (
     <div
-      className="h-[947px] pt-[40px] px-[32px] flex flex-col gap-[24px]"
-      style={{ width: '1106px' }}
+      className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6"
       dir="rtl"
     >
       {/* Title */}
@@ -60,8 +59,8 @@ const EditProfileForm = () => {
       </h1>
 
       {/* Form Container */}
-      <div className="w-[1050px] h-[818px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] shadow-sm opacity-100 rotate-0">
-        <form className="flex flex-col gap-[24px]"
+      <div className="w-full bg-white border border-[#E2E8F0] rounded-[24px] p-4 md:p-6 shadow-sm">
+        <form className="flex flex-col gap-6"
           onSubmit={(e) => e.preventDefault()}>
 
           {/* Section Header */}
@@ -73,22 +72,22 @@ const EditProfileForm = () => {
           </div>
 
           {/* Name Row */}
-          <div className="flex gap-[24px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <FormInput
               label="الاسم الأول"
-              containerClassName="w-[485px] h-[86px]"
+              containerClassName="w-full"
               className="w-full"
             />
             <FormInput
               label="الاسم الأخير"
-              containerClassName="w-[485px] h-[86px]"
+              containerClassName="w-full"
               className="w-full"
             />
           </div>
 
           {/* DOB & Gender Row */}
-          <div className="flex gap-[24px]">
-            <div className="w-[485px] h-[86px] flex flex-col gap-[8px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="w-full flex flex-col gap-[8px]">
               <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] leading-[150%]">تاريخ الميلاد</label>
               <div className="relative w-full h-[48px] px-[16px] py-[12px] bg-white border border-[#E2E8F0] rounded-[12px] flex items-center gap-[8px] cursor-pointer">
                 <input
@@ -99,7 +98,7 @@ const EditProfileForm = () => {
               </div>
             </div>
 
-            <div className="w-[485px] h-[86px] flex flex-col gap-[8px]">
+            <div className="w-full flex flex-col gap-[8px]">
               <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] leading-[150%]">الجنس</label>
               <div className="relative w-full h-[48px] bg-white border border-[#E2E8F0] rounded-[12px] flex items-center">
                 <select
@@ -118,7 +117,7 @@ const EditProfileForm = () => {
           </div>
 
           {/* Phone Number */}
-          <div className="w-[986px] h-[86px] flex flex-col gap-[8px]">
+          <div className="w-full flex flex-col gap-[8px]">
             <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] leading-[150%]">رقم الهاتف</label>
             <div className="flex gap-[12px] items-end relative">
               <style>{`
@@ -171,13 +170,13 @@ const EditProfileForm = () => {
           {/* Email */}
           <FormInput
             label="البريد الإلكتروني"
-            containerClassName="w-[986px] h-[86px]"
+            containerClassName="w-full"
             className="w-full text-left"
             dir="ltr"
           />
 
           {/* About Me */}
-          <div className="w-[986px] h-[162px] flex flex-col gap-[8px]">
+          <div className="w-full flex flex-col gap-[8px]">
             <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] leading-[150%]">نبذة عني</label>
             <textarea
               placeholder="اكتب نبذة مختصرة عنك وعن اهتماماتك"
@@ -186,7 +185,7 @@ const EditProfileForm = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-[16px] justify-end mt-auto">
+          <div className="flex flex-wrap gap-4 justify-end mt-auto">
             <Button
               variant="subtle"
               className="w-[101px] h-[56px] flex items-center justify-center border border-[#E2E8F0] bg-white text-[#334155] rounded-[12px]"
