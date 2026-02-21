@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/shared/Button';
 import ImageSlider from '@/components/shared/ImageSlider';
@@ -35,13 +35,29 @@ const sliderImages = [
 
 const LoginPage = () => {
   const router = useRouter();
-  const { setAuthData } = useAuth();
+  const { setAuthData, isAuthenticated, user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { mutate: login, isPending } = useLogin();
+
+  useEffect(() => {
+    if (!isAuthenticated || !user?.role) return;
+
+    if (user.role === 'DONOR') {
+      router.replace(ROUTES.DONOR_DASHBOARD);
+      return;
+    }
+
+    if (user.role === 'CAMPAIGN_CREATOR') {
+      router.replace(ROUTES.CREATOR_DASHBOARD);
+      return;
+    }
+
+    router.replace(ROUTES.HOME);
+  }, [isAuthenticated, router, user?.role]);
 
   const isValidEmail = (emailValue: string) => /\S+@\S+\.\S+/.test(emailValue);
 

@@ -12,8 +12,7 @@ const AccountVerificationSection = () => {
 
     return (
         <div
-            className="pt-[40px] px-[32px] flex flex-col gap-[24px] pb-[60px]"
-            style={{ width: '1106px' }}
+            className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6 pb-6"
             dir="rtl"
         >
 
@@ -22,7 +21,7 @@ const AccountVerificationSection = () => {
             </h1>
 
 
-            <div className="w-[1050px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px] shadow-sm">
+            <div className="w-full bg-white border border-[#E2E8F0] rounded-[24px] p-4 md:p-6 flex flex-col gap-6 shadow-sm">
                 <div className="flex items-center justify-start gap-[12px]">
                     <div className="w-6 h-6 bg-[#2563EB] rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold leading-none">!</span>
@@ -82,7 +81,7 @@ const AccountVerificationSection = () => {
                         <label className="text-[20px] font-bold text-[#0F172A] text-right font-['var(--font-tajawal)'] block">
                             صورة الهوية
                         </label>
-                        <div className="flex gap-[24px]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
                             <div className="flex-1 h-[140px] border-2 border-dashed border-[#E2E8F0] rounded-[24px] flex flex-col items-center justify-center gap-[12px] cursor-pointer hover:bg-gray-50 transition-colors bg-white">
                                 <div className="w-[48px] h-[48px] rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#2563EB]">
@@ -125,7 +124,7 @@ const AccountVerificationSection = () => {
             </div>
 
 
-            <div className="w-[1050px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px] mb-[40px] shadow-sm">
+            <div className="w-full bg-white border border-[#E2E8F0] rounded-[24px] p-4 md:p-6 flex flex-col gap-6 mb-6 shadow-sm">
                 <div className="flex items-center justify-start gap-[12px]">
                     <div className="w-6 h-6 bg-[#2563EB] rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold leading-none">!</span>

@@ -12,8 +12,7 @@ const DonationHistorySection = ({ donations = [], onExploreClick }: DonationHist
     if (isEmpty) {
         return (
             <div
-                className="h-[947px] pt-[40px] px-[32px] flex flex-col gap-[24px]"
-                style={{ width: '1106px' }}
+                className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6"
                 dir="rtl"
             >
                 <h1 className="text-[32px] font-bold text-[#0F172A] text-right leading-[140%] font-['var(--font-tajawal)'] mb-[8px]">
@@ -61,8 +60,7 @@ const DonationHistorySection = ({ donations = [], onExploreClick }: DonationHist
 
     return (
         <div
-            className="h-[947px] pt-[40px] px-[32px] flex flex-col gap-[24px]"
-            style={{ width: '1106px' }}
+            className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6"
             dir="rtl"
         >
 

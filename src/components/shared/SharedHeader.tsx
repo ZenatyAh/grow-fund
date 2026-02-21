@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Bell, ChevronDown, User, Settings, LogOut, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ROUTES } from '@/shared/constants/routes';
 
 const SharedHeader = () => {
   const pathname = usePathname();
@@ -66,13 +67,13 @@ const SharedHeader = () => {
         </div>
 
         <nav className="w-[360px] h-[24px] flex items-center gap-[24px]">
-          <Link href="/" className="font-tajawal font-[400] text-[16px] text-[#0F172A] leading-[150%] whitespace-nowrap cursor-pointer hover:text-blue-600 transition-colors">
+          <Link href={ROUTES.HOME} className="font-tajawal font-[400] text-[16px] text-[#0F172A] leading-[150%] whitespace-nowrap cursor-pointer hover:text-blue-600 transition-colors">
             الصفحة الرئيسية
           </Link>
-          <Link href="/campaigns" className="font-tajawal font-[400] text-[16px] text-[#0F172A] leading-[150%] whitespace-nowrap cursor-pointer hover:text-blue-600 transition-colors">
+          <Link href={ROUTES.CAMPAIGNS} className="font-tajawal font-[400] text-[16px] text-[#0F172A] leading-[150%] whitespace-nowrap cursor-pointer hover:text-blue-600 transition-colors">
             استكشاف الحملات
           </Link>
-          <Link href="/about" className="font-tajawal font-[400] text-[16px] text-[#0F172A] leading-[150%] whitespace-nowrap cursor-pointer hover:text-blue-600 transition-colors">
+          <Link href={`${ROUTES.HOME}#about`} className="font-tajawal font-[400] text-[16px] text-[#0F172A] leading-[150%] whitespace-nowrap cursor-pointer hover:text-blue-600 transition-colors">
             عن المنصة
           </Link>
         </nav>
@@ -140,6 +141,5 @@ const SharedHeader = () => {
 };
 
 export default SharedHeader;
-
 
 

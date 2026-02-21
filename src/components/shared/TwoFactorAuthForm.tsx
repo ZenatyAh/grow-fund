@@ -42,8 +42,7 @@ const TwoFactorAuthForm = () => {
 
     return (
         <div
-            className="h-[947px] pt-[40px] px-[32px] flex flex-col gap-[24px]"
-            style={{ width: '1106px' }}
+            className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6"
             dir="rtl"
         >
 
@@ -62,8 +61,7 @@ const TwoFactorAuthForm = () => {
 
 
             <div
-                className="bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px]"
-                style={{ width: '1050px', height: '719px' }}
+                className="w-full bg-white border border-[#E2E8F0] rounded-[24px] p-4 md:p-6 flex flex-col gap-6"
             >
 
                 <div className="flex items-center gap-[8px]">
@@ -81,12 +79,12 @@ const TwoFactorAuthForm = () => {
                         <div
                             key={method.id}
                             className={cn(
-                                "flex items-center justify-between rounded-[24px] border-2 transition-all",
+                                "flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-[24px] border-2 transition-all",
                                 enabledMethod === method.id
                                     ? "border-[#2563EB] bg-[#EFF6FF]"
                                     : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"
                             )}
-                            style={{ width: '986px', height: '104px', padding: '24px' }}
+                            style={{ padding: '24px' }}
                         >
                             <div className="flex items-start gap-[24px] flex-1">
 
@@ -113,7 +111,7 @@ const TwoFactorAuthForm = () => {
 
                             <Button
                                 variant={enabledMethod === method.id ? "subtle" : "primary"}
-                                className="w-[103px] h-[48px] rounded-[8px] font-['var(--font-tajawal)'] text-[18px] font-bold px-[32px] py-[16px]"
+                                className="w-full md:w-[140px] h-[48px] rounded-[8px] font-['var(--font-tajawal)'] text-[18px] font-bold px-[24px] py-[12px]"
                                 onClick={() => handleEnable(method.id)}
                             >
                                 {enabledMethod === method.id ? "مفعّل" : "تفعيل"}

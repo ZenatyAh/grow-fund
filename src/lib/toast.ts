@@ -1,16 +1,15 @@
 import useIsMobile from '@/hooks/useIsMobile';
-import { toast, ToastOptions } from 'react-toastify';
+import { toast, type ExternalToast } from 'sonner';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 export const useToast = () => {
   const isMobile = useIsMobile();
 
-  const getBaseConfig = (): ToastOptions => ({
+  const getBaseConfig = (): ExternalToast => ({
     position: isMobile ? 'top-center' : 'top-right',
-    autoClose: 2000,
-    closeOnClick: true,
-    pauseOnHover: true,
+    duration: 2000,
+    closeButton: true,
     className:
       '!max-w-[90vw] !w-auto !min-w-[250px] sm:!min-w-[300px] !z-[9999] font-bold text-lg',
     style: {

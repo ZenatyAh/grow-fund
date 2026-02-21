@@ -7,7 +7,7 @@ import { NotificationSettingItemProps, NotificationGroupProps } from '@/interfac
 
 const NotificationItem = ({ id, title, description, isEnabled, onToggle }: NotificationSettingItemProps) => {
     return (
-        <div className="flex items-center justify-between w-[986px] h-[104px] p-[24px] bg-white border-[2px] border-[#E2E8F0] rounded-[24px] gap-[24px]">
+        <div className="flex items-center justify-between w-full min-h-[104px] p-4 md:p-6 bg-white border-[2px] border-[#E2E8F0] rounded-[24px] gap-4 md:gap-6">
 
 
             <div className="flex items-center gap-[24px]">
@@ -36,7 +36,7 @@ const NotificationItem = ({ id, title, description, isEnabled, onToggle }: Notif
                         letterSpacing: '0%',
                         textAlign: 'right',
                         color: '#334155'
-                    }} className="whitespace-nowrap">
+                    }} className="">
                         {description}
                     </p>
                 </div>
@@ -65,7 +65,7 @@ const NotificationItem = ({ id, title, description, isEnabled, onToggle }: Notif
 
 const NotificationGroup = ({ title, items, state, onToggle }: NotificationGroupProps) => {
     return (
-        <div className="w-[1050px] bg-white border border-[#E2E8F0] rounded-[24px] p-[32px] flex flex-col gap-[32px]">
+        <div className="w-full bg-white border border-[#E2E8F0] rounded-[24px] p-4 md:p-6 flex flex-col gap-6">
             <div className="flex items-center justify-start gap-[8px]">
                 <AlertCircle size={24} className="fill-[#2563EB] text-white" />
                 <h3 className="text-[20px] font-bold text-[#0F172A] font-['var(--font-tajawal)'] leading-[150%] text-right">
@@ -155,15 +155,14 @@ const NotificationSettingsSection = () => {
 
     return (
         <div
-            className="pt-[40px] px-[32px] flex flex-col gap-[24px]"
-            style={{ width: '1106px', minHeight: '1068px' }}
+            className="w-full max-w-full pt-2 md:pt-4 flex flex-col gap-6 pb-4"
             dir="rtl"
         >
             <h1 className="text-[32px] font-bold text-[#0F172A] text-right leading-[140%] font-['var(--font-tajawal)'] mb-[8px]">
                 إعدادات الإشعارات
             </h1>
 
-            <div className="flex flex-col gap-[24px] pb-[40px]">
+            <div className="flex flex-col gap-6 pb-4">
                 {notificationGroups.map((group, index) => (
                     <NotificationGroup
                         key={index}
