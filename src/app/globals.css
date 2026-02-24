@@ -114,3 +114,16 @@
     @apply overflow-x-hidden;
   }
 }
+
+/* Print tweaks: ensure colors print properly and set sensible margins */
+@media print {
+  @page {
+    size: auto;
+    margin: 16mm;
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    background: white !important;
+  }
+}

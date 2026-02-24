@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useMemo } from 'react';
 import Link from 'next/link';
@@ -32,6 +32,18 @@ const CampaignCheckoutSuccessPage = () => {
   const totalParam = searchParams?.get('total') ?? '200';
   const amountLabel = `${amountParam} ش`;
   const totalLabel = `${totalParam} ش`;
+
+  const openPrintableInvoice = () => {
+    if (!campaignId) return;
+    const query = new URLSearchParams({
+      amount: amountParam,
+      total: totalParam,
+      trx: transactionParam,
+      date: dateParam,
+    }).toString();
+    const url = `/print-invoice/${encodeURIComponent(campaignId)}?${query}`;
+    window.open(url, '_blank');
+  };
 
   if (!campaign) {
     return (
@@ -72,6 +84,7 @@ const CampaignCheckoutSuccessPage = () => {
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               type="button"
+              onClick={openPrintableInvoice}
               className="inline-flex w-full items-center justify-center gap-2 rounded-[10px] bg-[#2563EB] px-4 py-3 text-[14px] font-bold text-white transition-colors hover:bg-[#1D4ED8] md:text-[20px]"
             >
               <Download className="h-4 w-4 md:h-5 md:w-5" />
