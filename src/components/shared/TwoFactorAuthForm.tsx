@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import InfoWarCard from './InfoWarCard';
 import { Button } from './Button';
 import { IconShield, IconMessage } from '@tabler/icons-react';
-import { AuthMethod, cn } from '@/lib/utils';
+import { AuthMethod } from '@/interfaces';
+import { cn } from '@/lib/utils';
 import TwoFactorWizardModal from './TwoFactorWizardModal';
 
 const TwoFactorAuthForm = () => {
