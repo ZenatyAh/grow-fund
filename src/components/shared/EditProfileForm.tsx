@@ -7,11 +7,16 @@ import {
   IconChevronDown,
   IconEdit
 } from '@tabler/icons-react';
-import { cn, InputProps } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import VerificationModal from './VerificationModal';
 
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  label?: string;
+  icon?: React.ReactNode;
+  containerClassName?: string;
+};
 
 const FormInput = ({ label, icon, className, containerClassName, ...props }: InputProps) => (
   <div className={cn("flex flex-col gap-[8px]", containerClassName)}>

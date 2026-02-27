@@ -12,7 +12,7 @@ type SectionKey =
   | "executor"
   | "scope"
   | "popularity"
-  | "date"
+  | "dateOrder"
   | "progress"
   | "size"
   | "duration"
@@ -23,81 +23,81 @@ const FILTER_SECTIONS: Array<{
   title: string;
   items: Array<{ label: string; value: string }>;
 }> = [
-  {
-    key: "executor",
-    title: "الجهة المنفذة",
-    items: [
-      { label: "جمعية موثوقة", value: "trusted_org" },
-      { label: "مبادرة أهلية", value: "community_initiative" },
-      { label: "مؤسسة رسمية", value: "official_org" },
-      { label: "شريك دولي", value: "international_partner" },
-    ],
-  },
-  {
-    key: "scope",
-    title: "نطاق الحملة",
-    items: [
-      { label: "محلي", value: "local" },
-      { label: "إقليمي", value: "regional" },
-      { label: "دولي", value: "international" },
-    ],
-  },
-  {
-    key: "popularity",
-    title: "حسب الشعبية",
-    items: [
-      { label: "الأكثر تبرعًا", value: "most_donated" },
-      { label: "الأكثر مشاركة", value: "most_shared" },
-      { label: "الأكثر مشاهدة", value: "most_viewed" },
-    ],
-  },
-  {
-    key: "date",
-    title: "حسب تاريخ الإضافة",
-    items: [
-      { label: "الأحدث", value: "newest" },
-      { label: "الأقدم", value: "oldest" },
-    ],
-  },
-  {
-    key: "progress",
-    title: "نسبة الإنجاز",
-    items: [
-      { label: "أقل من 25%", value: "lt_25" },
-      { label: "25% - 50%", value: "25_50" },
-      { label: "50% - 75%", value: "50_75" },
-      { label: "أكثر من 75%", value: "gt_75" },
-    ],
-  },
-  {
-    key: "size",
-    title: "حجم الحملة",
-    items: [
-      { label: "صغيرة", value: "small" },
-      { label: "متوسطة", value: "medium" },
-      { label: "كبيرة", value: "large" },
-    ],
-  },
-  {
-    key: "duration",
-    title: "مدة الحملة",
-    items: [
-      { label: "أسبوع", value: "week" },
-      { label: "شهر", value: "month" },
-      { label: "3 أشهر", value: "three_months" },
-      { label: "أكثر من 3 أشهر", value: "over_three_months" },
-    ],
-  },
-  {
-    key: "status",
-    title: "حالة الحملة",
-    items: [
-      { label: "عاجلة جدًا", value: "very_urgent" },
-      { label: "عاجلة", value: "urgent" },
-      { label: "غير عاجلة", value: "not_urgent" },
-    ],
-  },
-];
+    {
+      key: "executor",
+      title: "الجهة المنفذة",
+      items: [
+        { label: "جمعية موثوقة", value: "trusted_org" },
+        { label: "مبادرة أهلية", value: "community_initiative" },
+        { label: "مؤسسة رسمية", value: "official_org" },
+        { label: "شريك دولي", value: "international_partner" },
+      ],
+    },
+    {
+      key: "scope",
+      title: "نطاق الحملة",
+      items: [
+        { label: "محلي", value: "local" },
+        { label: "إقليمي", value: "regional" },
+        { label: "دولي", value: "international" },
+      ],
+    },
+    {
+      key: "popularity",
+      title: "حسب الشعبية",
+      items: [
+        { label: "الأكثر تبرعًا", value: "most_donated" },
+        { label: "الأكثر مشاركة", value: "most_shared" },
+        { label: "الأكثر مشاهدة", value: "most_viewed" },
+      ],
+    },
+    {
+      key: "dateOrder",
+      title: "حسب تاريخ الإضافة",
+      items: [
+        { label: "الأحدث", value: "newest" },
+        { label: "الأقدم", value: "oldest" },
+      ],
+    },
+    {
+      key: "progress",
+      title: "نسبة الإنجاز",
+      items: [
+        { label: "أقل من 25%", value: "lt_25" },
+        { label: "25% - 50%", value: "25_50" },
+        { label: "50% - 75%", value: "50_75" },
+        { label: "أكثر من 75%", value: "gt_75" },
+      ],
+    },
+    {
+      key: "size",
+      title: "حجم الحملة",
+      items: [
+        { label: "صغيرة", value: "small" },
+        { label: "متوسطة", value: "medium" },
+        { label: "كبيرة", value: "large" },
+      ],
+    },
+    {
+      key: "duration",
+      title: "مدة الحملة",
+      items: [
+        { label: "أسبوع", value: "week" },
+        { label: "شهر", value: "month" },
+        { label: "3 أشهر", value: "three_months" },
+        { label: "أكثر من 3 أشهر", value: "over_three_months" },
+      ],
+    },
+    {
+      key: "status",
+      title: "حالة الحملة",
+      items: [
+        { label: "عاجلة جدًا", value: "very_urgent" },
+        { label: "عاجلة", value: "urgent" },
+        { label: "غير عاجلة", value: "not_urgent" },
+      ],
+    },
+  ];
 
 type CampaignsFiltersSidebarProps = {
   filters: CampaignsFilters;

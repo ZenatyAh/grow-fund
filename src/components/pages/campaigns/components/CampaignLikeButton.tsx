@@ -5,7 +5,7 @@ import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CampaignLikeButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "onClick"> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "onClick" | "onToggle"> {
   campaignId: string | number;
   iconClassName?: string;
   onToggle?: (nextLiked: boolean) => void;
