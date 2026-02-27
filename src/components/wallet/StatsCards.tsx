@@ -1,4 +1,4 @@
-import { StatItem } from './types';
+import { StatItem } from '@/interfaces';
 
 const stats: StatItem[] = [
   { label: 'إجمالي النجوم', value: '5,000 نجمة', icon: '⭐' },
