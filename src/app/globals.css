@@ -8,6 +8,7 @@
   --bg-blue-gray: #f1f5f9;
   --bg-slate-100: #e2e8f0;
   --bg-slate-200: #cbd5e1;
+  --bg-slate-600: #475569;
   --slate-700: #334155;
   --bg-section: #252525;
   --bg-green-light: #34c759;
@@ -107,6 +108,22 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-(--Light-grayish-blue) text-foreground;
+    @apply bg-(--Light-grayish-blue) text-foreground overflow-x-hidden;
+  }
+  html {
+    @apply overflow-x-hidden;
+  }
+}
+
+/* Print tweaks: ensure colors print properly and set sensible margins */
+@media print {
+  @page {
+    size: auto;
+    margin: 16mm;
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    background: white !important;
   }
 }

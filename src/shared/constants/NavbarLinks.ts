@@ -9,11 +9,11 @@ export const navbarLinks = [
   {
     id: 2,
     name: 'استشكاف الحملات',
-    href: '#',
+    href: ROUTES.CAMPAIGNS,
   },
   {
     id: 3,
     name: 'عن المنصة',
-    href: '#',
+    href: `${ROUTES.HOME}#about`,
   },
 ];

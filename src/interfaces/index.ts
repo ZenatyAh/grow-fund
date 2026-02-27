@@ -1,12 +1,16 @@
 import { InputTypes } from '@/utils/types';
-import { UseFormRegister } from 'react-hook-form';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
+import { Variants } from 'framer-motion';
+import { ReactNode } from 'react';
+import { ActionButtonConfig, DonationRecord, ProfileType } from '@/lib/utils';
+import { UseFormRegister } from 'react-hook-form';
 
 export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   type?: InputTypes | string;
   placeholder?: string;
   variant?: 'primary' | 'secondary';
   otherClassName?: string;
+  inputClassName?: string;
   inputName: any;
   Icon?: React.ElementType;
   iconClassName?: string;
@@ -30,6 +34,7 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   uploadIconWrapperClassName?: string;
   UploadIcon?: React.ElementType;
   uploadIconSize?: number;
+  uploadIconClassName?: string;
   uploadTitle?: string;
   uploadSubTitle?: string;
   RadioIcon?: React.ElementType;
@@ -38,10 +43,11 @@ export interface InputProps extends React.HTMLAttributes<HTMLElement> {
   isRequired?: boolean;
   textareaClassName?: string;
   showPassStrength?: boolean;
-  passwordStrengthLevel: number;
+  passwordStrengthLevel?: number;
   bars?: number;
   onChange?: (e: React.ChangeEvent<any>) => void;
   onFileChange?: (files: File[]) => void;
+  file?: File | Blob | null;
 }
 
 export interface MultiSelectProps {
@@ -68,12 +74,25 @@ export interface FileInputProps {
   uploadIconWrapperClassName?: string;
   UploadIcon?: React.ElementType;
   uploadIconSize?: number;
+  uploadIconClassName?: string;
   uploadTitle?: string;
   uploadSubTitle?: string;
   onFileChange?: (files: File[]) => void;
   accept?: string | any;
   maxSize?: number;
   disabled?: boolean;
+  file: any;
+}
+
+export interface FileUploadProps {
+  onChange?: (files: File[]) => void;
+  children: React.ReactNode;
+  uploadClassName: string;
+  emptyStateClassName: string;
+  accept?: string | any;
+  maxSize?: number;
+  disabled?: boolean;
+  file: any;
 }
 
 export interface ProgressTopInfoProps {
@@ -114,7 +133,7 @@ export interface PasswordStrengthProps {
 export interface ProgressProps extends React.ComponentPropsWithoutRef<
   typeof ProgressPrimitive.Root
 > {
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   trackColor?: string;
   indicatorColor?: string;
   topDisplayValue?: string; // Value displayed at the top
@@ -179,7 +198,7 @@ export interface CampaignStatisticsCardProps {
   label: string;
 }
 
-export interface TitleWithIconProps {
+export interface TitleWithIconProps extends ReactHookFormProps {
   otherClassName?: string;
   title: string;
   description?: React.ReactNode;
@@ -188,6 +207,8 @@ export interface TitleWithIconProps {
   iconSize?: number;
   iconClassName?: string;
   handleClick?: () => void;
+  inputType: string;
+  inputName: string;
 }
 
 export interface DataTableBodyProps {
@@ -205,3 +226,156 @@ export interface DataTableBodyProps {
 export interface TableProps extends DataTableBodyProps {
   title: string;
 }
+
+export interface ReactHookFormValuesProps {
+  title: string;
+  motivationMessage: string;
+  category: string;
+  goal: number;
+  description: string;
+  file: any;
+  startDate: string;
+  endDate: string;
+  checkbox: string;
+}
+
+export interface CampaignSummaryCardProps {
+  amount: number | string;
+  amountIcon?: React.ReactNode;
+  title: string;
+  date: string;
+  imageUrl: string;
+  imageAlt?: string;
+  isCompleted?: boolean;
+  progressValue?: number;
+  goalLabel?: string;
+  indicatorValue?: string | number;
+  indicatorIcon?: React.ReactNode;
+  completedMessage?: string;
+  completedIcon?: React.ReactNode;
+  buttons?: ActionButtonConfig[];
+  className?: string;
+}
+
+export interface ProfileCardProps {
+  type?: ProfileType;
+  name?: string;
+  location?: string;
+  typeLabel?: string;
+  profileStrength?: number;
+  imageUrl?: string;
+  isDonor?: boolean;
+  activeItemId?: string;
+  onMenuItemClick?: (id: string, label: string) => void;
+  className?: string;
+}
+
+export interface InfoWarCardProps {
+  variant?: 'info' | 'warning';
+  title?: string;
+  message: string;
+  isCompact?: boolean;
+  className?: string;
+}
+
+export interface DonationHistoryProps {
+  donations?: DonationRecord[];
+  onExploreClick?: () => void;
+}
+
+export interface NotificationSettingItemProps {
+  id: string;
+  title: string;
+  description: string;
+  isEnabled: boolean;
+  onToggle: (id: string) => void;
+}
+
+export interface NotificationGroupProps {
+  title: string;
+  items: Array<{
+    id: string;
+    title: string;
+    description: string;
+  }>;
+  state: Record<string, boolean>;
+  onToggle: (id: string) => void;
+}
+
+export interface VerificationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (method: 'phone' | 'email') => void;
+}
+
+export interface VerificationCodeInputProps {
+  method: 'phone' | 'email';
+  onVerify: () => void;
+  onCancel: () => void;
+}
+
+export interface AuthMethod {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+export interface TwoFactorWizardModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onComplete: () => void;
+}
+export interface ReactHookFormProps {
+  register?: UseFormRegister<any>;
+  setValue?: any;
+  control?: any;
+  errors?: any;
+  values?: ReactHookFormValuesProps | any;
+}
+
+export interface BasicCampaignInfoStepProps extends ReactHookFormProps {
+  category: string;
+}
+
+export interface CampaignGoalStepProps extends ReactHookFormProps {
+  startDate: string;
+}
+
+export interface InfoTextProps {
+  Icon?: React.ElementType;
+  text: string;
+  iconSize?: number;
+  className?: string;
+  iconWrapper?: string;
+  iconClassName?: string;
+}
+
+export interface AnimatedWrapperProps {
+  children: ReactNode;
+  custom?: number;
+  variants?: Variants;
+  direction?: 'x' | 'y';
+  distance?: number;
+  duration?: number;
+}
+export type StarsOption = {
+  label: string;
+  value: number | 'all';
+};
+export type StatItem = {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+};
+
+export type Status = 'مكتملة' | 'نشطة' | 'معلقة' | 'قيد المعالجة' | 'مرفوضة';
+export type CampaignBalance = {
+  id: string;
+  name: string;
+  stars: number;
+  amount: string;
+  date: string;
+  status: 'نشطة' | 'مكتملة';
+  balanceStatus: 'مكتمل' | 'معلق';
+};

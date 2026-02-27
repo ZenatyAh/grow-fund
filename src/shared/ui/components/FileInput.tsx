@@ -10,17 +10,20 @@ const FileInput = ({
   uploadIconWrapperClassName,
   UploadIcon,
   uploadIconSize = 24,
+  uploadIconClassName,
   uploadTitle,
   uploadSubTitle,
   onFileChange,
   accept,
   maxSize,
   disabled,
+  file,
 }: FileInputProps) => {
   const isStacked = uploadVariant === 'stacked';
 
   return (
     <FileUpload
+      file={file}
       onChange={onFileChange}
       uploadClassName={uploadClassName}
       emptyStateClassName={emptyStateClassName}
@@ -36,7 +39,7 @@ const FileInput = ({
       >
         <div
           className={cn(
-            'flex items-center justify-center rounded-full bg-(--bg-slate-100) dark:bg-(--neutral-dark)',
+            'flex items-center justify-center rounded-full bg-(--bg-slate-100)',
             uploadIconWrapperClassName
           )}
           style={{
@@ -47,11 +50,11 @@ const FileInput = ({
           {UploadIcon && (
             <UploadIcon
               size={uploadIconSize}
-              className="text-(--text-primary) dark:text-(--bg-slate-100)"
+              className={`text-(--text-primary) ${uploadIconClassName}`}
             />
           )}
         </div>
-        <div className="text-(--text-secondary) dark:text-(--gray-medium) space-y-2">
+        <div className="text-(--text-secondary) space-y-2">
           {uploadTitle && <p className="font-medium">{uploadTitle}</p>}
           {uploadSubTitle && <p className="text-sm">{uploadSubTitle}</p>}
         </div>

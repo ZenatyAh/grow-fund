@@ -15,7 +15,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref
     ) => {
-        const baseStyles = "inline-flex items-center justify-center gap-2 rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95 h-12 text-center font-tajawal font-bold text-[18px] leading-[1.6]";
+        const baseStyles = "inline-flex items-center justify-center gap-2 rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95 h-12 text-center font-tajawal font-bold text-[18px] leading-[1.6] cursor-pointer";
 
         const variants: Record<ButtonVariant, string> = {
             primary: "bg-[var(--default,#2563EB)] text-white hover:bg-blue-700 shadow-sm",

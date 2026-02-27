@@ -11,12 +11,14 @@ import MultiSelect from './MultiSelect';
 import SingleSelect from './SingleSelect';
 import PasswordStrength from './PasswordStrength';
 import { handleKeyboardClick } from '@/utils/handleKeyboardClick';
+import { FaCheck } from 'react-icons/fa';
 
 const Input = ({
   type = 'text',
   variant = 'primary',
   placeholder,
   otherClassName,
+  inputClassName,
   inputName,
   register,
   error,
@@ -43,6 +45,7 @@ const Input = ({
   UploadIcon,
   uploadIconSize,
   uploadTitle,
+  uploadIconClassName,
   uploadSubTitle,
   RadioIcon,
   radioValue,
@@ -52,13 +55,17 @@ const Input = ({
   passwordStrengthLevel,
   bars,
   onFileChange,
+  file,
   ...props
 }: React.PropsWithChildren<InputProps>) => {
-  const inputClasses = `w-full h-13 bg-transparent outline-none transition-all duration-300`;
+  const inputClasses = `w-full h-13 bg-transparent outline-none transition-all duration-300 ${inputClassName}`;
   const StyledInput = cn(
     `w-[400px] text-base ${type === 'search' ? 'pl-5 pr-0' : 'px-5'} outline-none transition-all duration-300`,
-    variant === 'primary' &&
-      `bg-(--bg-soft-blue) dark:bg-(--bg-section) text-(--text-secondary) dark:text-(--gray-medium) ${type === 'search' ? 'rounded-full' : 'rounded-2xl'}`,
+    variant === 'primary'
+      ? `bg-(--bg-soft-blue) text-(--text-secondary) ${type === 'search' ? 'rounded-full' : 'rounded-2xl'}`
+      : variant === 'secondary'
+        ? 'border border-(--bg-slate-200)'
+        : '',
     otherClassName
   );
 
@@ -68,7 +75,7 @@ const Input = ({
     <div>
       {label && (
         <label
-          className={`block text-base font-bold text-(--text-primary) dark:text-white mb-2 ${labelClassName}`}
+          className={`block text-base font-bold text-(--text-primary) mb-2 ${labelClassName}`}
         >
           {label}
           {isRequired && <span className="text-red-500"> *</span>}
@@ -83,6 +90,7 @@ const Input = ({
         />
       ) : type === 'file' ? (
         <FileInput
+          file={file}
           uploadVariant={uploadVariant}
           uploadClassName={uploadClassName}
           emptyStateClassName={emptyStateClassName}
@@ -90,6 +98,7 @@ const Input = ({
           uploadIconWrapperClassName={uploadIconWrapperClassName}
           UploadIcon={UploadIcon}
           uploadIconSize={uploadIconSize}
+          uploadIconClassName={uploadIconClassName}
           uploadTitle={uploadTitle}
           uploadSubTitle={uploadSubTitle}
           onFileChange={onFileChange}
@@ -121,6 +130,26 @@ const Input = ({
           placeholder={SelectValuePlaceholder}
           disabled={disabled}
         />
+      ) : type === 'checkbox' && control ? (
+        <Controller
+          name={inputName}
+          control={control}
+          defaultValue={false}
+          render={({ field }) => (
+            <label className="flex items-center cursor-pointer select-none gap-3">
+              <input
+                type="checkbox"
+                checked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
+                className="peer sr-only"
+              />
+              <div className="w-6 h-6 rounded-sm border border-gray-300 peer-checked:bg-(--bg-bold-blue) flex items-center justify-center transition-colors">
+                {field.value && <FaCheck className="w-3 h-3 text-white" />}
+              </div>
+              <span className="text-base">{placeholder}</span>
+            </label>
+          )}
+        />
       ) : (
         <div>
           <div className={`flex items-center gap-1 px-3 ${StyledInput}`}>
@@ -149,9 +178,9 @@ const Input = ({
                 placeholder={placeholder}
                 aria-label={ariaLabel}
                 className={inputClasses}
-                {...(typeof register === 'function' ? register(inputName) : {})}
-                onChange={onChange}
-                value={value}
+                {...(typeof register === 'function'
+                  ? register(inputName)
+                  : { value, onChange })}
                 {...props}
               />
             )}
@@ -180,13 +209,15 @@ const Input = ({
               )
             )}
           </div>
-          {type === 'password' && showPassStrength && (
+          {type === 'password' && showPassStrength && passwordStrengthLevel && (
             <PasswordStrength level={passwordStrengthLevel} bars={bars} />
           )}
         </div>
       )}
       {error && error[inputName] && (
-        <p className="text-sm text-red-500 mt-1">{error[inputName].message}</p>
+        <p className="text-base text-red-500 mt-1">
+          {error[inputName].message}
+        </p>
       )}
     </div>
   );
