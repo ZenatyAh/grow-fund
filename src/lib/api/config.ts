@@ -1,10 +1,11 @@
 
 
+// On the client, we use an empty string so requests go to `/api/...` and hit Next.js rewrites (bypassing CORS).
+// On the server, we need the absolute URL because Node.js fetch doesn't support relative URLs.
 export const API_BASE_URL =
-  process.env.NODE_ENV === 'development'
-    ? 'https://gsg-project-group-2-production.up.railway.app'
-    : process.env.NEXT_PUBLIC_API_BASE_URL ||
-      'https://gsg-project-group-2-production.up.railway.app';
+  typeof window === 'undefined'
+    ? process.env.NEXT_PUBLIC_API_BASE_URL || 'https://gsg-project-group-2-production.up.railway.app'
+    : '';
 
 export const API_ENDPOINTS = {
   auth: {
